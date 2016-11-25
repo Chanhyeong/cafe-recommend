@@ -56,7 +56,9 @@ public class DBManager extends SQLiteOpenHelper {
         //select * from 테이블명;
         //select 속성,속성...from 테이블명;
         Cursor cursor = db.rawQuery("select * from "+"테이블 이름", null);
-        while (cursor.moveToNext()) ;
+        while (cursor.moveToNext()) {
+            str="출력";
+        }
         return str;
     }
 }

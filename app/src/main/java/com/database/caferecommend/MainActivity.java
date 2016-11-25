@@ -3,7 +3,10 @@ package com.database.caferecommend;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Spinner;
+import java.util.ArrayList;
+
 /*
 Select
  - select * from 테이블명;
@@ -29,6 +32,10 @@ Update
 
  */
 public class MainActivity extends AppCompatActivity {
+    ArrayList<cafeData>arrData;
+    MyAdapter myadapter;
+    ListView list;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
         Spinner spin = (Spinner) findViewById(R.id.spinner);
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.content, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.arrays.content, android.R.layout.simple_spinner_item);
 
 
         DBManager dbManager1=new DBManager(getApplicationContext(),"테이블 이름",null,1);
@@ -48,5 +55,14 @@ public class MainActivity extends AppCompatActivity {
         DBManager dbManager5=new DBManager(getApplicationContext(),"테이블 이름",null,1);
         DBManager dbManager6=new DBManager(getApplicationContext(),"테이블 이름",null,1);
 
+
+        setData();
+        list=(ListView)findViewById(R.id.list);
+        myadapter=new MyAdapter(this,arrData);
+        list.setAdapter(myadapter);
+    }
+    private void setData(){
+        arrData=new ArrayList<cafeData>();
+        arrData.add(new cafeData(R.mipmap.ic_launcher,"엔젤리너스","010-1111-2222",0));
     }
 }
