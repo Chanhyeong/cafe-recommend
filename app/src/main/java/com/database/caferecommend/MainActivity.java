@@ -3,6 +3,8 @@ package com.database.caferecommend;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import java.util.ArrayList;
+
 
 /*
 Select
@@ -29,7 +31,7 @@ Update
 
  */
 public class MainActivity extends AppCompatActivity {
-
+    ArrayList<cafeData>arrData;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,5 +44,11 @@ public class MainActivity extends AppCompatActivity {
         DBManager dbManager5=new DBManager(getApplicationContext(),"테이블 이름",null,1);
         DBManager dbManager6=new DBManager(getApplicationContext(),"테이블 이름",null,1);
 
+
+        setData();
+    }
+    private void setData(){
+        arrData=new ArrayList<cafeData>();
+        arrData.add(new cafeData(R.mipmap.ic_launcher,"엔젤리너스","010-1111-2222",0));
     }
 }
