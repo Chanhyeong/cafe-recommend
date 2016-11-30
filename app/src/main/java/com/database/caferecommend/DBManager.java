@@ -67,7 +67,7 @@ public class DBManager extends SQLiteOpenHelper {
                 "foreign key (CAFE_ID) references CAFE(CAFE_ID) on delete SET NULL on update CASCADE)");
 
         for(String[] s: cafeData){
-            String query = "CAFE (NAME, PHONE, OPEN_TIME, END_TIME, LOCATE, DETAIL_LOCATE, CATEGORY)" + convertString(s);
+            String query = "CAFE (NAME, PHONE, OPEN_TIME, END_TIME, LOCATE, DETAIL_LOCATE, CATEGORY) " + convertString(s);
             insert(query);
         }
     }
