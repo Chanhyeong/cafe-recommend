@@ -38,7 +38,7 @@ public class DBManager extends SQLiteOpenHelper {
     }
 
     public String convertString(String[] input){
-        String output = "values {";
+        String output = "values (";
 
         for(String s: input){
             try{
@@ -48,7 +48,7 @@ public class DBManager extends SQLiteOpenHelper {
                 output += "'" + s + "', ";
             }
         }
-        output += "}";
+        output += ")";
 
         return output;
     }
@@ -67,7 +67,8 @@ public class DBManager extends SQLiteOpenHelper {
                 "foreign key (CAFE_ID) references CAFE(CAFE_ID) on delete SET NULL on update CASCADE)");
 
         for(String[] s: cafeData){
-            String query = "CAFE {NAME, PHONE, OPEN_TIME, END_TIME, LOCATE, DETAIL_LOCATE, CATEGORY}" + convertString(s);
+            String query = "CAFE (NAME, PHONE, OPEN_TIME, END_TIME, LOCATE, DETAIL_LOCATE, CATEGORY)" + convertString(s);
+            insert(query);
         }
     }
 
