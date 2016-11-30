@@ -149,12 +149,12 @@ public class DBManager extends SQLiteOpenHelper {
         db.close();
     }
 
-    public String PrintData() {
+    public String PrintData(String input) {
         SQLiteDatabase db = getReadableDatabase();
         String str = "";
         //select * from 테이블명;
         //select 속성,속성...from 테이블명;
-        Cursor cursor = db.rawQuery("select * from "+"테이블 이름", null);
+        Cursor cursor = db.rawQuery("select * from "+ input, null);
         while (cursor.moveToNext()) {
             str="출력";
         }
