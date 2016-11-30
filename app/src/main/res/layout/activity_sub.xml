@@ -37,13 +37,15 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:id="@+id/call"
                     android:text="전화번호 "/>
+
                 <TextView
+                    android:id="@+id/call"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="여기다 전화 번호"/>
             </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -51,13 +53,13 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="주소"
-                android:id="@+id/address" />
+                android:text="주소" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="여기다 주소" />
+                android:text="여기다 주소"
+                android:id="@+id/address" />
         </LinearLayout>
 
 
@@ -81,13 +83,13 @@
             android:layout_width="59dp"
             android:layout_height="wrap_content"
             android:text="평점"
-            android:id="@+id/button" />
+            android:id="@+id/avgBtn" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="후기보기"
-            android:id="@+id/button2" />
+            android:id="@+id/revBtn"/>
     </LinearLayout>
 
 </LinearLayout>
