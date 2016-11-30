@@ -90,7 +90,7 @@ public class DBManager extends SQLiteOpenHelper {
             }catch (Exception e) {
                 output += "'" + s + "'";
             }
-            if(s.equals(input[input.length - 1]))
+            if(!s.equals(input[input.length - 1]))
                 output += ", ";
         }
         output += ")";
