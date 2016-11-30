@@ -56,7 +56,7 @@ public class DBManager extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE IF NOT EXISTS CAFE(CAFE_ID integer primary key autoincrement, NAME text not null, PHONE text, OPEN_TIME integer, END_TIME integer, LOCATE text not null, DETAIL_LOCATE text not null, CATEGORY text not null)");
-        db.execSQL("CREATE TABLE IF NOT EXISTS FRANCHISE(CAFE_NAME text not null, BRAND_IMAGE blob");
+        db.execSQL("CREATE TABLE IF NOT EXISTS FRANCHISE(CAFE_NAME text not null, BRAND_IMAGE blob)");
         db.execSQL("CREATE TABLE IF NOT EXISTS MENU(MENU_ID integer primary key autoincrement, MENU_NAME text not null, PRICE integer, IMAGE blob, CAFE_NAME text not null," +
                 "foreign key (CAFE_NAME) references FRANCHISE(CAFE_NAME) on delete SET NULL on update CASCADE)");
         db.execSQL("CREATE TABLE IF NOT EXISTS PICTURE(IMAGE_ID integer primary key autoincrement, IMAGE_ADDR text not null, CAFE_ID integer not null, " +
@@ -95,12 +95,12 @@ public class DBManager extends SQLiteOpenHelper {
         db.close();
     }
 
-    public String PrintData() {
+    public String PrintData(String input) {
         SQLiteDatabase db = getReadableDatabase();
         String str = "";
         //select * from 테이블명;
         //select 속성,속성...from 테이블명;
-        Cursor cursor = db.rawQuery("select * from "+"테이블 이름", null);
+        Cursor cursor = db.rawQuery("select * from "+ input, null);
         while (cursor.moveToNext()) {
             str="출력";
         }

@@ -1,14 +1,19 @@
 package com.database.caferecommend;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -40,14 +45,17 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<cafeData>arrData;
     MyAdapter myadapter;
     ListView list;
+    DBManager dbManager;
+    Button plus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Spinner spin = (Spinner) findViewById(R.id.spinner);
+        dbManager=new DBManager(getApplicationContext(),"cafe",null,1);
 
+        Spinner spin = (Spinner) findViewById(R.id.spinner);
         spin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id){
@@ -57,7 +65,41 @@ public class MainActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent){}
         });
 
-        DBManager dbManager=new DBManager(getApplicationContext(),"cafe",null,1);
+        plus = (Button) findViewById(R.id.plus);
+        plus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                LayoutInflater inflater = (LayoutInflater)getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+                View view = inflater.inflate(R.layout.custom_alert_layout, null);
+
+         //여기에 dialog에 들어갈 애들 추가
+                TextView customTitle = (TextView)view.findViewById(R.id.customtitle);
+                customTitle.setText("종료하시겠습니까?");
+                customTitle.setTextColor(Color.BLACK);
+                ImageView customIcon = (ImageView)view.findViewById(R.id.customdialogicon);
+
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setView(view);
+                builder.setPositiveButton("네", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                builder.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+
+
+            }
+        });
 
         setData();
         list=(ListView)findViewById(R.id.list);
@@ -76,6 +118,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setData(){
+
+//        String get = dbManager.PrintData("cafe");
+//        System.out.println(get);
+
+
         arrData=new ArrayList<cafeData>();
         arrData.add(new cafeData(R.mipmap.ic_launcher,"엔젤리너스","010-1111-2222",0));
     }
