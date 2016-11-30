@@ -33,6 +33,49 @@ public class DBManager extends SQLiteOpenHelper {
             {"이디야커피", "053-734-4415", "9", "24", "대구", "대구광역시 중구 중앙대로 400-1", "일반"}
     };
 
+    private final String[] brandData = {
+        "탐앤탐스", "카페베네", "이디야커피", "스타벅스", "할리스", "엔젤리너스", "봄봄", "빽다방",  "쥬씨",
+                "커피나무", "나인어클락", "커피만", "봄봄", "커피볶는수"
+    };
+
+    private final String[][] menuData = {
+            {"아메리카노", "9900", "스타벅스"}, {"카푸치노", "9900", "스타벅스"},
+            {"카페모카", "9900", "스타벅스"},  {"프라푸치노", "9900", "스타벅스"},
+            {"블루베리베이글", "9900", "스타벅스"},
+            {"아메리카노", "6000", "빽다방"}, {"카푸치노", "6000", "빽다방"},
+            {"카페모카", "6000", "빽다방"}, {"프라푸치노", "6000", "빽다방"},
+            {"치즈베이글", "6000", "빽다방"},
+            {"아메리카노", "5500", "이디야커피"}, {"카푸치노", "5500", "이디야커피"},
+            {"플레인베이글", "5500", "이디야커피"}, {"프라푸치노", "5500", "이디야커피"},
+            {"카페모카", "5500", "이디야커피"},
+            {"아메리카노", "5000", "탐앤탐스"},  {"카페모카", "5000", "탐앤탐스"},
+            {"프라푸치노", "5000", "탐앤탐스"}, {"블루베리베이글", "5000", "탐앤탐스"},
+            {"카푸치노", "5000", "탐앤탐스"},
+            {"아메리카노", "5000", "엔젤리너스"}, {"카푸치노", "5000", "엔젤리너스"},
+            {"카페모카", "5000", "엔젤리너스"}, {"프라푸치노", "5000", "엔젤리너스"},
+            {"치즈베이글", "5000", "엔젤리너스"},
+            {"아메리카노", "5000", "봄봄"},  {"카페모카", "5000", "봄봄"},
+            {"프라푸치노", "5000", "봄봄"},  {"플레인베이글", "5000", "봄봄"},
+            {"카푸치노", "5000", "봄봄"},
+            {"아메리카노", "6000", "카페베네"}, {"카페모카", "6000", "카페베네"},
+            {"프라푸치노", "6000", "카페베네"}, {"카푸치노", "6000", "카페베네"},
+            {"크림베이글", "6000", "카페베네"},
+            {"아메리카노", "3200", "나인어클락"}, {"코코아", "3500", "나인어클락"},
+            {"카페모카", "3500", "나인어클락"}, {"프라푸치노", "4000", "나인어클락"},
+            {"카푸치노", "4000", "나인어클락"}, {"크림베이글", "1200", "나인어클락"},
+            {"아메리카노", "5000", "할리스커피"}, {"카페모카", "5500", "할리스커피"},
+            {"프라푸치노", "5700", "할리스커피"}, {"블루베리베이글", "3500", "할리스커피"},
+            {"카푸치노", "5500", "할리스커피"},
+            {"아메리카노", "2500", "커피나무"}, {"카푸치노", "2800", "커피나무"},
+            {"플레인베이글", "1900", "커피나무"}, {"프라푸치노", "3000", "커피나무"},
+            {"카페모카", "2900", "커피나무"},
+            {"아메리카노", "3000", "커피볶는수"}, {"카푸치노", "3500", "커피볶는수"},
+            {"카페모카", "3700", "커피볶는수"}, {"프라푸치노", "4000", "커피볶는수"},
+            {"블루베리베이글", "2800", "커피볶는수"},
+            {"아메리카노", "900", "커피만"}, {"카푸치노", "1500", "커피만"},
+            {"카페모카", "1600", "커피만"}, {"프라푸치노", "1800", "커피만"}
+    };
+
     public DBManager(Context context, String name, CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
@@ -56,7 +99,7 @@ public class DBManager extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE IF NOT EXISTS CAFE(CAFE_ID integer primary key autoincrement, NAME text not null, PHONE text, OPEN_TIME integer, END_TIME integer, LOCATE text not null, DETAIL_LOCATE text not null, CATEGORY text not null)");
-        db.execSQL("CREATE TABLE IF NOT EXISTS FRANCHISE(CAFE_NAME text not null, BRAND_IMAGE blob");
+        db.execSQL("CREATE TABLE IF NOT EXISTS FRANCHISE(CAFE_NAME text not null, BRAND_IMAGE blob)");
         db.execSQL("CREATE TABLE IF NOT EXISTS MENU(MENU_ID integer primary key autoincrement, MENU_NAME text not null, PRICE integer, IMAGE blob, CAFE_NAME text not null," +
                 "foreign key (CAFE_NAME) references FRANCHISE(CAFE_NAME) on delete SET NULL on update CASCADE)");
         db.execSQL("CREATE TABLE IF NOT EXISTS PICTURE(IMAGE_ID integer primary key autoincrement, IMAGE_ADDR text not null, CAFE_ID integer not null, " +
@@ -70,6 +113,11 @@ public class DBManager extends SQLiteOpenHelper {
             String query = "CAFE (NAME, PHONE, OPEN_TIME, END_TIME, LOCATE, DETAIL_LOCATE, CATEGORY) " + convertString(s);
             insert(query);
         }
+        for(String s: brandData){
+            String query = "FRANCHISE (CAFE_NAME) " + "value (" + s + ")";
+            insert(query);
+        }
+
     }
 
     @Override
@@ -80,7 +128,8 @@ public class DBManager extends SQLiteOpenHelper {
     public void insert(String _query) {
         SQLiteDatabase db = getWritableDatabase();
         //insert into 테이블명 values(속성, 속성)
-        db.execSQL(_query);
+        db.execSQL("insert into " + _query);
+
         db.close();
     }
 
