@@ -17,8 +17,8 @@ public class SubActivity extends AppCompatActivity {
         findViewById(R.id.revBtn).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(getApplicationContext(),Review.class);
-                startActivity(intent);
+               // Intent intent=new Intent(getApplicationContext(),Review.class);
+               // startActivity(intent);
             }
         });
     }
