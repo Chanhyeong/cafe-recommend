@@ -21,35 +21,74 @@
                 />
 
             <RatingBar
-                android:id="@+id/ratingBar"
+                android:id="@+id/ratingBar1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:numStars="5"
-                android:stepSize="0.5"
-                android:layout_marginEnd="11dp"
-                android:layout_marginTop="26dp" />
+                android:stepSize="0.5" />
 
     </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:id="@+id/call"
+                    android:text="전화번호 "/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="여기다 전화 번호"/>
+            </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="주소"
-                    android:id="@+id/address"
-                    android:layout_marginStart="20dp"
-                    android:layout_weight="1" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/call"
-                    android:text="전화번호"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="여기다 주소"
-                    android:layout_toStartOf="@+id/call" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="주소"
+                android:id="@+id/address" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="여기다 주소" />
         </LinearLayout>
+
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"><!--메뉴-->
+    </ListView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RatingBar
+            android:id="@+id/ratingBar2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:numStars="5"
+            android:stepSize="0.5" />
+
+        <Button
+            android:layout_width="59dp"
+            android:layout_height="wrap_content"
+            android:text="평점"
+            android:id="@+id/button" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="후기보기"
+            android:id="@+id/button2" />
+    </LinearLayout>
+
+
 
 </LinearLayout>
