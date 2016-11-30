@@ -13,21 +13,17 @@ import java.util.ArrayList;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class MyAdapter extends BaseAdapter {
 
     private Context context;
-    private ArrayList<cafeData> arrData;
+    private ArrayList<CafeData> arrData;
     private LayoutInflater inflater;
 
-    public MyAdapter(Context c, ArrayList<cafeData> arr) {
+    public MyAdapter(Context c, ArrayList<CafeData> arr) {
         this.context = c;
         this.arrData = arr;
         inflater = (LayoutInflater)c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
