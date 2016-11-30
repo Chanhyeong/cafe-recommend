@@ -45,16 +45,8 @@ public class MainActivity extends AppCompatActivity {
 
         Spinner spin = (Spinner) findViewById(R.id.spinner);
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.arrays.content, android.R.layout.simple_spinner_item);
 
-
-        DBManager dbManager1=new DBManager(getApplicationContext(),"테이블 이름",null,1);
-        DBManager dbManager2=new DBManager(getApplicationContext(),"테이블 이름",null,1);
-        DBManager dbManager3=new DBManager(getApplicationContext(),"테이블 이름",null,1);
-        DBManager dbManager4=new DBManager(getApplicationContext(),"테이블 이름",null,1);
-        DBManager dbManager5=new DBManager(getApplicationContext(),"테이블 이름",null,1);
-        DBManager dbManager6=new DBManager(getApplicationContext(),"테이블 이름",null,1);
-
+        DBManager dbManager=new DBManager(getApplicationContext(),"cafe",null,1);
 
         setData();
         list=(ListView)findViewById(R.id.list);
