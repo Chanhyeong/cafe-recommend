@@ -1,5 +1,6 @@
 package com.database.caferecommend;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -40,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
     MyAdapter myadapter;
     ListView list;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +48,14 @@ public class MainActivity extends AppCompatActivity {
 
         Spinner spin = (Spinner) findViewById(R.id.spinner);
 
+        spin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id){
+
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent){}
+        });
 
         DBManager dbManager=new DBManager(getApplicationContext(),"cafe",null,1);
 
@@ -59,8 +67,12 @@ public class MainActivity extends AppCompatActivity {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                Intent intent=new Intent(getApplicationContext(),SubActivity.class);
+
             }
         });
+
+
     }
 
     private void setData(){
