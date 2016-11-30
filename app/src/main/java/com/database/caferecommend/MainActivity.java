@@ -2,6 +2,8 @@ package com.database.caferecommend;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -45,7 +47,14 @@ public class MainActivity extends AppCompatActivity {
 
         Spinner spin = (Spinner) findViewById(R.id.spinner);
 
- //       ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.arrays.content, android.R.layout.simple_spinner_item);
+        spin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id){
+
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent){}
+        });
 
 
         DBManager dbManager1=new DBManager(getApplicationContext(),"테이블 이름",null,1);

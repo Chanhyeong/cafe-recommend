@@ -1,9 +1,3 @@
 <resources>
     <string name="app_name">CafeRecommend</string>
-
-    <string-array name="spinner_list">
-        <item>이름</item>
-        <item>지역</item>
-    </string-array>
-
 </resources>
