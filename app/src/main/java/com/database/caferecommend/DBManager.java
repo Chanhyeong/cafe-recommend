@@ -86,12 +86,16 @@ public class DBManager extends SQLiteOpenHelper {
         for(String s: input){
             try{
                 Double.parseDouble(s);
-                output += ", " + s;
+                output += s;
             }catch (Exception e) {
-                output += ", '" + s + "'";
+                output += "'" + s + "'";
             }
+            if(!s.equals(input[input.length - 1]))
+                output += ", ";
         }
         output += ")";
+
+        System.out.println(output);
 
         return output;
     }
@@ -115,6 +119,10 @@ public class DBManager extends SQLiteOpenHelper {
         }
         for(String s: brandData){
             String query = "FRANCHISE (CAFE_NAME) " + "value (" + s + ")";
+            insert(query);
+        }
+        for(String[] s: menuData){
+            String query = "CAFE () " + convertString(s);
             insert(query);
         }
 
