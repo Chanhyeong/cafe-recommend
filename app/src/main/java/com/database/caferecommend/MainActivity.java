@@ -41,18 +41,23 @@ public class MainActivity extends AppCompatActivity {
     MyAdapter myadapter;
     ListView list;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         Spinner spin = (Spinner) findViewById(R.id.spinner);
 
+        spin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id){
+
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent){}
+        });
 
         DBManager dbManager=new DBManager(getApplicationContext(),"cafe",null,1);
-
 
         setData();
         list=(ListView)findViewById(R.id.list);
