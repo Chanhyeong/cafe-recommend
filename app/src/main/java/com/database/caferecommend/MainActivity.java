@@ -2,9 +2,13 @@ package com.database.caferecommend;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 
 /*
@@ -45,16 +49,25 @@ public class MainActivity extends AppCompatActivity {
 
         Spinner spin = (Spinner) findViewById(R.id.spinner);
 
-
         DBManager dbManager=new DBManager(getApplicationContext(),"cafe",null,1);
 
         setData();
         list=(ListView)findViewById(R.id.list);
         myadapter=new MyAdapter(this,arrData);
         list.setAdapter(myadapter);
+
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+            }
+        });
     }
+
     private void setData(){
         arrData=new ArrayList<cafeData>();
         arrData.add(new cafeData(R.mipmap.ic_launcher,"엔젤리너스","010-1111-2222",0));
     }
+
+
+
 }
