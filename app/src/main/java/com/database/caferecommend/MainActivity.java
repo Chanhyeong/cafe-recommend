@@ -112,13 +112,12 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
-
     }
 
     private void setData(){
-//        String get = dbManager.PrintData("cafe");
-//        System.out.println(get);
+        String get = dbManager.PrintData("cafe");
+        System.out.print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+        System.out.println(get);
 
         arrData=new ArrayList<CafeData>();
         arrData.add(new CafeData(R.mipmap.ic_launcher,"엔젤리너스","010-1111-2222",0));
