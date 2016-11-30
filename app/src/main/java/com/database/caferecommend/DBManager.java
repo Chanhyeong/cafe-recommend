@@ -86,9 +86,15 @@ public class DBManager extends SQLiteOpenHelper {
         for(String s: input){
             try{
                 Double.parseDouble(s);
+<<<<<<< HEAD
                 output += s;
             }catch (Exception e) {
                 output += "'" + s + "'";
+=======
+                output += ", " + s;
+            }catch (Exception e) {
+                output += ", '" + s + "'";
+>>>>>>> f96d4ff97968ff28f4381450f54c37079f0ad71d
             }
             if(!s.equals(input[input.length - 1]))
                 output += ", ";
