@@ -1,5 +1,6 @@
 package com.database.caferecommend;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -61,8 +62,12 @@ public class MainActivity extends AppCompatActivity {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                Intent intent=new Intent(getApplicationContext(),SubActivity.class);
+
             }
         });
+
+
     }
 
     private void setData(){
