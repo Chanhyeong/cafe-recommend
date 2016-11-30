@@ -38,11 +38,19 @@ public class DBManager extends SQLiteOpenHelper {
     }
 
     public String convertString(String[] input){
-        String output;
+        String output = "values {";
 
         for(String s: input){
-
+            try{
+                Double.parseDouble(s);
+                output += s + ", ";
+            }catch (Exception e) {
+                output += "'" + s + "', ";
+            }
         }
+        output += "}";
+
+        return output;
     }
 
     @Override
@@ -59,7 +67,7 @@ public class DBManager extends SQLiteOpenHelper {
                 "foreign key (CAFE_ID) references CAFE(CAFE_ID) on delete SET NULL on update CASCADE)");
 
         for(String[] s: cafeData){
-            String query = "CAFE {NAME, PHONE, OPEN_TIME, END_TIME, LOCATE, DETAIL_LOCATE, CATEGORY}" + s;
+            String query = "CAFE {NAME, PHONE, OPEN_TIME, END_TIME, LOCATE, DETAIL_LOCATE, CATEGORY}" + convertString(s);
         }
     }
 
