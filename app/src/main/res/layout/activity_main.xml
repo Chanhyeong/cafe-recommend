@@ -19,20 +19,26 @@
         android:orientation="horizontal">
 
         <Spinner
-            android:layout_width="96dp"
+            android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:entries="@array/spinner_list"
             android:id="@+id/spinner" />
 
 
         <EditText
-            android:layout_width="180dp"
+            android:layout_width="130dp"
             android:layout_height="wrap_content" />
 
         <Button
             android:text="검색"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+
+        <Button
+            android:text="+"
+            android:id="@+id/plus"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content" />
 
     </LinearLayout><!-- 첫줄 뷰 -->
     <ListView
