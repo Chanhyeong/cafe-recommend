@@ -1,11 +1,13 @@
 package com.database.caferecommend;
 
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
+import android.database.sqlite.SQLiteDatabase.CursorFactory;
+import android.database.sqlite.SQLiteOpenHelper;
 
 public class SubActivity extends AppCompatActivity {
 
@@ -13,6 +15,12 @@ public class SubActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sub);
+
+        TextView call=(TextView)findViewById(R.id.call);
+        TextView address=(TextView)findViewById(R.id.address);
+
+        //call.setText();
+        //address.setText();
 
         findViewById(R.id.revBtn).setOnClickListener(new OnClickListener() {
             @Override
