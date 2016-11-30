@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
         Spinner spin = (Spinner) findViewById(R.id.spinner);
 
+
         DBManager dbManager=new DBManager(getApplicationContext(),"cafe",null,1);
 
 
