@@ -4,14 +4,14 @@ package com.database.caferecommend;
  * Created by Administrator on 2016-11-25.
  */
 
-public class cafeData {
+public class CafeData {
 
     private int image;
     private String name;
     private String tel;
     private int avg;
 
-    public cafeData(int image, String name, String tel, int avg){
+    public CafeData(int image, String name, String tel, int avg){
         this.image = image;
         this.name = name;
         this.tel = tel;

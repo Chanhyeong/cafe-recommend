@@ -14,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
-
 import java.util.ArrayList;
 
 /*
@@ -42,7 +41,7 @@ Update
 
  */
 public class MainActivity extends AppCompatActivity {
-    ArrayList<cafeData>arrData;
+    ArrayList<CafeData>arrData;
     MyAdapter myadapter;
     ListView list;
     DBManager dbManager;
@@ -118,15 +117,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setData(){
-
 //        String get = dbManager.PrintData("cafe");
 //        System.out.println(get);
 
-
-        arrData=new ArrayList<cafeData>();
-        arrData.add(new cafeData(R.mipmap.ic_launcher,"엔젤리너스","010-1111-2222",0));
+        arrData=new ArrayList<CafeData>();
+        arrData.add(new CafeData(R.mipmap.ic_launcher,"엔젤리너스","010-1111-2222",0));
     }
-
-
-
 }
