@@ -91,7 +91,7 @@ public class DBManager extends SQLiteOpenHelper {
                 output += "'" + s + "'";
             }
             if(!s.equals(input[input.length - 1]))
-                output += ", ";
+                output += ",";
         }
         output += ")";
 
@@ -114,18 +114,19 @@ public class DBManager extends SQLiteOpenHelper {
                 "foreign key (CAFE_ID) references CAFE(CAFE_ID) on delete SET NULL on update CASCADE)");
 
         for(String[] s: cafeData){
-            String query = "CAFE (NAME, PHONE, OPEN_TIME, END_TIME, LOCATE, DETAIL_LOCATE, CATEGORY) " + convertString(s);
-            insert(query);
+            String query = "CAFE (NAME,PHONE,OPEN_TIME,END_TIME,LOCATE,DETAIL_LOCATE,CATEGORY) " + convertString(s);
+            System.out.println(query);
+            insert(query, db);
         }
-        for(String s: brandData){
-            String query = "FRANCHISE (CAFE_NAME) " + "value (" + s + ")";
-            insert(query);
-        }
-        for(String[] s: menuData){
-            String query = "CAFE () " + convertString(s);
-            insert(query);
-        }
-
+//        for(String s: brandData){
+//            String query = "FRANCHISE (CAFE_NAME) " + "value (" + s + ")";
+//            insert(query, db);
+//        }
+//        for(String[] s: menuData){
+//            String query = "CAFE () " + convertString(s);
+//            insert(query, db);
+//        }
+        db.close();
     }
 
     @Override
@@ -133,12 +134,9 @@ public class DBManager extends SQLiteOpenHelper {
 
     }
 
-    public void insert(String _query) {
-        SQLiteDatabase db = getWritableDatabase();
+    public void insert(String _query, SQLiteDatabase db) {
         //insert into 테이블명 values(속성, 속성)
         db.execSQL("insert into " + _query);
-
-        db.close();
     }
 
     public void update(String _query) {
