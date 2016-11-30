@@ -79,7 +79,7 @@ public class DBManager extends SQLiteOpenHelper {
     public void insert(String _query) {
         SQLiteDatabase db = getWritableDatabase();
         //insert into 테이블명 values(속성, 속성)
-        db.execSQL("insert into" + _query);
+        db.execSQL(_query);
         db.close();
     }
 
