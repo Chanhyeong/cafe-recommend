@@ -117,6 +117,10 @@ public class DBManager extends SQLiteOpenHelper {
             String query = "FRANCHISE (CAFE_NAME) " + "value (" + s + ")";
             insert(query);
         }
+        for(String[] s: menuData){
+            String query = "CAFE () " + convertString(s);
+            insert(query);
+        }
 
     }
 
