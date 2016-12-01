@@ -82,13 +82,13 @@
         <Button
             android:layout_width="59dp"
             android:layout_height="wrap_content"
-            android:text="평점"
+            android:text="평점등록"
             android:id="@+id/avgBtn" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="후기보기"
+            android:text="후기"
             android:id="@+id/revBtn"/>
     </LinearLayout>
 
