@@ -161,6 +161,7 @@ public class DBManager extends SQLiteOpenHelper {
         //select 속성,속성...from 테이블명;
         Cursor cursor = db.rawQuery("select * from "+ input, null);
         while (cursor.moveToNext()) {
+            // 파일전송 포맷 json
             str += "{"
                     +"'number':'"
                 + cursor.getInt(0)         //카페번호
