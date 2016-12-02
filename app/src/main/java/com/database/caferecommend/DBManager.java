@@ -6,6 +6,8 @@ import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 
 /**
  * Created by Administrator on 2016-11-25.
@@ -87,7 +89,8 @@ public class DBManager extends SQLiteOpenHelper {
             try{
                 Double.parseDouble(s);
                 output += s;
-            }catch (Exception e) {
+            }
+            catch (Exception e) {
                 output += "'" + s + "'";
             }
             if(!s.equals(input[input.length - 1]))
