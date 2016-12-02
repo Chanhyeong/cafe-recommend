@@ -91,7 +91,7 @@ public class DBManager extends SQLiteOpenHelper {
                 output += "'" + s + "'";
             }
             if(!s.equals(input[input.length - 1]))
-                output += ", ";
+                output += ",";
         }
         output += ")";
 
@@ -114,18 +114,19 @@ public class DBManager extends SQLiteOpenHelper {
                 "foreign key (CAFE_ID) references CAFE(CAFE_ID) on delete SET NULL on update CASCADE)");
 
         for(String[] s: cafeData){
-            String query = "CAFE (NAME, PHONE, OPEN_TIME, END_TIME, LOCATE, DETAIL_LOCATE, CATEGORY) " + convertString(s);
-            insert(query);
-        }
-        for(String s: brandData){
-            String query = "FRANCHISE (CAFE_NAME) " + "value (" + s + ")";
-            insert(query);
-        }
-        for(String[] s: menuData){
-            String query = "CAFE () " + convertString(s);
-            insert(query);
+            String query = "CAFE (NAME,PHONE,OPEN_TIME,END_TIME,LOCATE,DETAIL_LOCATE,CATEGORY) " + convertString(s);
+            System.out.println(query);
+            insert(query, db);
         }
 
+//        for(String s: brandData){
+//            String query = "FRANCHISE (CAFE_NAME) " + "value (" + s + ")";
+//            insert(query, db);
+//        }
+//        for(String[] s: menuData){
+//            String query = "CAFE () " + convertString(s);
+//            insert(query, db);
+//        }
     }
 
     @Override
@@ -133,12 +134,9 @@ public class DBManager extends SQLiteOpenHelper {
 
     }
 
-    public void insert(String _query) {
-        SQLiteDatabase db = getWritableDatabase();
+    public void insert(String _query, SQLiteDatabase db) {
         //insert into 테이블명 values(속성, 속성)
         db.execSQL("insert into " + _query);
-
-        db.close();
     }
 
     public void update(String _query) {
@@ -155,13 +153,36 @@ public class DBManager extends SQLiteOpenHelper {
 
     public String PrintData(String input) {
         SQLiteDatabase db = getReadableDatabase();
-        String str = "";
+        String str = "[";
         //select * from 테이블명;
         //select 속성,속성...from 테이블명;
         Cursor cursor = db.rawQuery("select * from "+ input, null);
         while (cursor.moveToNext()) {
-            str="출력";
+            str += "{"
+                    +"'number':'"
+                + cursor.getInt(0)         //카페번호
+                    +"','name':'"
+                + cursor.getString(1)       //카페이름
+                    +"','phone':'"
+                + cursor.getString(2)       //전화번호
+                    +"','open':'"
+                + cursor.getInt(3)         //오픈시간
+                    +"','close':'"
+                + cursor.getInt(4)           //마감시간
+                    +"','location':'"
+                + cursor.getString(5)         //지역
+                    +"','address':'"
+                + cursor.getString(6)         //상세주소
+                    +"','category':'"
+                + cursor.getString(7)         //카테고리
+                + "'}";
+            if(cursor.isLast())
+                ;
+            else
+                str += " ,";
         }
+        str += "]";
+
         return str;
     }
 }
