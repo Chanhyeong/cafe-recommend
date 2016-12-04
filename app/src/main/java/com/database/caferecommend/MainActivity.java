@@ -3,18 +3,34 @@ package com.database.caferecommend;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
+
+import static android.content.Context.LAYOUT_INFLATER_SERVICE;
+import static java.sql.DriverManager.println;
 
 /*
 Select
@@ -46,9 +62,25 @@ public class MainActivity extends AppCompatActivity {
     ListView list;
     DBManager dbManager;
     Button plus;
+    EditText texxxt;
+    Button search;
+    int whatSpin;   //  0 = 이름, 1 = 지역.
+    HashMap<String, Integer> imageNumber = new HashMap<String, Integer>();
+
+    Class c = R.drawable.class;
+    Field[] f = c.getFields();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        for (Field d : f) {
+            try {
+                if(d.get("R.drawable." + d.getName()) != null) {
+                    imageNumber.put(d.getName(), Integer.valueOf(d.get("R.drawable." + d.getName()).toString()));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -58,10 +90,26 @@ public class MainActivity extends AppCompatActivity {
         spin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id){
-
+                whatSpin = position;
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent){}
+        });
+
+        texxxt = (EditText) findViewById(R.id.texxxt);
+
+        /*
+        검색 버튼.
+        검색 버튼을 눌렀을 경우, 해당하는 것들을 가져오도록 하는 문.
+         */
+        search = (Button) findViewById(R.id.search);
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //whatSpin 0- 이름. 1-지역
+                String string = texxxt.getText().toString();
+            }
         });
 
         plus = (Button) findViewById(R.id.plus);
@@ -110,16 +158,42 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 Intent intent=new Intent(getApplicationContext(),SubActivity.class);
 
+                adapterView.getItemAtPosition(position).toString();
+              //  intent.putExtra("cafeTell")
+                //intent.putExtra("cafeName",)
+
+                startActivity(intent);
+
             }
         });
     }
 
     private void setData(){
         String get = dbManager.PrintData("cafe");
-        System.out.print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
-        System.out.println(get);
+        //System.out.println(get);    // for log.
 
         arrData=new ArrayList<CafeData>();
-        arrData.add(new CafeData(R.mipmap.ic_launcher,"엔젤리너스","010-1111-2222",0));
+     // 코드 확인용 예제문
+     // arrData.add(new CafeData(R.mipmap.ic_launcher,"엔젤리너스","010-1111-2222",0));
+
+        Log.d("mk", "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+
+        try{
+            JSONArray jarray = new JSONArray(get);
+            for(int i=0; i < jarray.length(); i++)
+            {
+                JSONObject jObject = jarray.getJSONObject(i);
+                String name = jObject.getString("name");
+                String phone = jObject.getString("phone");
+
+                Log.d("mk",i + ": " + name + phone);
+                arrData.add(new CafeData(R.drawable.angel_a ,name,phone,0));
+            }
+        }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
+
     }
 }

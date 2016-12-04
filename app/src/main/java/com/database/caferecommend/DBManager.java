@@ -8,12 +8,17 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
-
 import java.io.ByteArrayOutputStream;
+
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.util.Log;
+
 
 /**
  * Created by Administrator on 2016-11-25.
@@ -41,9 +46,10 @@ public class DBManager extends SQLiteOpenHelper {
             {"이디야커피", "053-734-4415", "9", "24", "대구", "대구광역시 중구 중앙대로 400-1", "일반"}
     };
 
-    private final String[] brandData = {
-        "탐앤탐스", "카페베네", "이디야커피", "스타벅스", "할리스", "엔젤리너스", "봄봄", "빽다방",  "쥬씨",
-                "커피나무", "나인어클락", "커피만", "봄봄", "커피볶는수"
+    private final String[][] brandData = {
+            {"탐앤탐스", "tom_icon"}, {"카페베네", "cafe_icon"}, {"이디야커피", "ediya_icon"},
+            {"스타벅스", "star_icon"}, {"할리스", "hollys_icon"}, {"엔젤리너스", "angel_icon"},
+            {"봄봄"}, {"빽다방"},  {"쥬씨"}, {"커피나무"}, {"나인어클락"}, {"커피만"}, {"커피볶는수"}
     };
 
     private final String[][] menuData = {
@@ -95,7 +101,8 @@ public class DBManager extends SQLiteOpenHelper {
             try{
                 Double.parseDouble(s);
                 output += s;
-            }catch (Exception e) {
+            }
+            catch (Exception e) {
                 output += "'" + s + "'";
             }
             if(!s.equals(input[input.length - 1]))
@@ -111,8 +118,8 @@ public class DBManager extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE IF NOT EXISTS CAFE(CAFE_ID integer primary key autoincrement, NAME text not null, PHONE text, OPEN_TIME integer, END_TIME integer, LOCATE text not null, DETAIL_LOCATE text not null, CATEGORY text not null);");
-        db.execSQL("CREATE TABLE IF NOT EXISTS FRANCHISE(CAFE_NAME text not null, BRAND_IMAGE blob);");
-        db.execSQL("CREATE TABLE IF NOT EXISTS MENU(MENU_ID integer primary key autoincrement, MENU_NAME text not null, PRICE integer, IMAGE blob, CAFE_NAME text not null," +
+        db.execSQL("CREATE TABLE IF NOT EXISTS FRANCHISE(CAFE_NAME text not null, BRAND_IMAGE TEXT);");
+        db.execSQL("CREATE TABLE IF NOT EXISTS MENU(MENU_ID integer primary key autoincrement, MENU_NAME text not null, PRICE integer, IMAGE TEXT, CAFE_NAME text not null," +
                 "foreign key (CAFE_NAME) references FRANCHISE(CAFE_NAME) on delete SET NULL on update CASCADE);");
         db.execSQL("CREATE TABLE IF NOT EXISTS PICTURE(IMAGE_ID integer primary key autoincrement, IMAGE_ADDR text not null, CAFE_ID integer not null, " +
                 "foreign key (CAFE_ID) references CAFE(CAFE_ID) on delete SET NULL on update CASCADE);");
@@ -123,11 +130,15 @@ public class DBManager extends SQLiteOpenHelper {
 
         for(String[] s: cafeData){
             String query = "CAFE (NAME,PHONE,OPEN_TIME,END_TIME,LOCATE,DETAIL_LOCATE,CATEGORY) " + convertString(s) + ";";
-            System.out.println(query);
+            //System.out.println(query);
             insert(query, db);
         }
-        Uri path = Uri.parse("android.resource://com.database.caferecommend/drawable/angel_a.png");
-        insertWidthImage("할리스커피", getByteImage(path.toString()),db);
+
+        for(String[] s: brandData){
+            String query = "FRANCHISE (CAFE_NAME,BRAND_IMAGE) " + convertString(s) + ";";
+            insert(query, db);
+        }
+
 //        for(String s: brandData){
 //            String query = "FRANCHISE (CAFE_NAME) " + "value (" + s + ")";
 //            insert(query, db);
@@ -136,7 +147,6 @@ public class DBManager extends SQLiteOpenHelper {
 //            String query = "CAFE () " + convertString(s);
 //            insert(query, db);
 //        }
-        db.close();
     }
 
     @Override
@@ -147,15 +157,6 @@ public class DBManager extends SQLiteOpenHelper {
     public void insert(String _query, SQLiteDatabase db) {
         //insert into 테이블명 values(속성, 속성)
         db.execSQL("insert into " + _query);
-    }
-
-    public void insertWidthImage(String name, byte[] image, SQLiteDatabase db) throws SQLiteException{
-        ContentValues cv = new ContentValues();
-        System.out.println("before insert");
-        cv.put("CAFE_NAME", name);
-        cv.put("BRAND_IMAGE", image);
-        db.insert("FRANCHISE", null, cv);
-        System.out.println("after insert");
     }
 
     public void update(String _query) {
@@ -180,13 +181,37 @@ public class DBManager extends SQLiteOpenHelper {
 
     public String PrintData(String input) {
         SQLiteDatabase db = getReadableDatabase();
-        String str = "";
+        String str = "[";
         //select * from 테이블명;
         //select 속성,속성...from 테이블명;
         Cursor cursor = db.rawQuery("select * from "+ input, null);
         while (cursor.moveToNext()) {
-            str="출력";
+            // 파일전송 포맷 json
+            str += "{"
+                    +"'number':'"
+                + cursor.getInt(0)         //카페번호
+                    +"','name':'"
+                + cursor.getString(1)       //카페이름
+                    +"','phone':'"
+                + cursor.getString(2)       //전화번호
+                    +"','open':'"
+                + cursor.getInt(3)         //오픈시간
+                    +"','close':'"
+                + cursor.getInt(4)           //마감시간
+                    +"','location':'"
+                + cursor.getString(5)         //지역
+                    +"','address':'"
+                + cursor.getString(6)         //상세주소
+                    +"','category':'"
+                + cursor.getString(7)         //카테고리
+                + "'}";
+            if(cursor.isLast())
+                ;
+            else
+                str += " ,";
         }
+        str += "]";
+
         return str;
     }
 }
