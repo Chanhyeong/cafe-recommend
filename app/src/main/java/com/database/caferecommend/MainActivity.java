@@ -104,17 +104,25 @@ public class MainActivity extends AppCompatActivity {
                 View view = inflater.inflate(R.layout.custom_alert_layout, null);
 
          //여기에 dialog에 들어갈 애들 추가
-                TextView customTitle = (TextView)view.findViewById(R.id.customtitle);
-                customTitle.setText("종료하시겠습니까?");
-                customTitle.setTextColor(Color.BLACK);
+                //TextView customTitle = (TextView)view.findViewById(R.id.customtitle);
+                //customTitle.setText("종료하시겠습니까?");
+                //customTitle.setTextColor(Color.BLACK);
                 ImageView customIcon = (ImageView)view.findViewById(R.id.customdialogicon);
 
+                TextView dialog_name = (TextView)view.findViewById(R.id.dialog_name);
+                TextView dialog_number = (TextView)view.findViewById(R.id.dialog_number);
+                TextView dialog_open = (TextView)view.findViewById(R.id.dialog_open);
+                TextView dialog_close = (TextView)view.findViewById(R.id.dialog_close);
+                TextView dialog_loc = (TextView)view.findViewById(R.id.dialog_location);
+                TextView dialog_addr = (TextView)view.findViewById(R.id.dialog_address);
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setView(view);
                 builder.setPositiveButton("네", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+
+                        // 여기에 추가하는 문장!
 
                     }
                 });
