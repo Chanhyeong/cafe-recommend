@@ -1,7 +1,6 @@
 package com.database.caferecommend;
 
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -11,21 +10,15 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.content.Context;
-import android.database.Cursor;
-import android.database.DatabaseErrorHandler;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteDatabase.CursorFactory;
-import android.database.sqlite.SQLiteOpenHelper;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 
+import static com.database.caferecommend.R.drawable.angel_a;
+
 public class SubActivity extends AppCompatActivity {
-    ArrayList<MenuData> menuList; //menu 정보를 받음
+    ArrayList<MenuData> menuList; //menu 정보 받음
     DBManager db=new DBManager(SubActivity.this,"menu",null,1);
     TextView call;
     TextView name;
@@ -34,6 +27,7 @@ public class SubActivity extends AppCompatActivity {
     TextView close;
     ImageView image;
     RatingBar ratingBar1;
+    String cafeName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +42,28 @@ public class SubActivity extends AppCompatActivity {
         image=(ImageView)findViewById(R.id.cafeImage);
         ratingBar1=(RatingBar)findViewById(R.id.ratingBar1);
 
-        MyThread myThread = new MyThread();  //thread로 해당 카페의 정보를 얻는다.
+        //카페 넘버 받아오기
+        Intent intent = getIntent();
+        int cafe_num = (int)intent.getIntExtra("value", 1);
+        ArrayList<CafeData> arr=(ArrayList<CafeData>) intent.getSerializableExtra("CafeData");
+        for(int i=0; i<arr.size(); i++) {
+            if (arr.get(i).getCafe_num() == cafe_num) {
+                call.setText(arr.get(i).getTel());
+
+                cafeName = arr.get(i).getName();
+                image.setImageResource(arr.get(i).getImage());
+
+                name.setText(cafeName);
+                address.setText(arr.get(i).getAddress());
+                open.setText(Integer.toString(arr.get(i).getOpen()));
+                close.setText(Integer.toString(arr.get(i).getClose()));
+                ratingBar1.setRating(2);
+                // arr.get(i).getAvg();
+                //arr.get(i).getImage();
+                break;
+            }
+        }
+
         setMenuData();// 메뉴 정보를 setting!
         ListView menu= (ListView)findViewById(R.id.menuList);
         MenuAdapter menuAdapter=new MenuAdapter(SubActivity.this,menuList);
@@ -61,29 +76,6 @@ public class SubActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-    }
-    private class MyThread extends Thread {
-        @Override
-        public void run() {
-            //카페 넘버 받아오기
-            Intent intent = getIntent();
-            int cafe_num = (int)intent.getIntExtra("value", 1);
-            ArrayList<CafeData> arr=(ArrayList<CafeData>) intent.getSerializableExtra("CafeData");
-            for(int i=0; i<arr.size(); i++) {
-                if (arr.get(i).getCafe_num() == cafe_num) {
-                    call.setText(arr.get(i).getTel());
-                    name.setText(arr.get(i).getAddress());
-                    address.setText(arr.get(i).getName());
-                    open.setText(arr.get(i).getClose());
-                    close.setText(arr.get(i).getOpen());
-                    ratingBar1.setRating(2);
-                    // arr.get(i).getAvg();
-                    //arr.get(i).getImage();
-                    break;
-                }
-            }
-
-        }
     }
 
     private void setMenuData(){
@@ -102,13 +94,16 @@ public class SubActivity extends AppCompatActivity {
                 String name = jObject.getString("name");
                 String price = jObject.getString("price");
                 String image = jObject.getString("image");
+                String instantCafeName = jObject.getString("cafename");
 
                 Log.d("mk",i + ": " + name + price);
 
-                if(MainActivity.imageNumber.get(image) != null)
-                    menuList.add(new MenuData(MainActivity.imageNumber.get(image),name,price));
-                else
-                    menuList.add(new MenuData(R.mipmap.ic_launcher,name,price));
+                if(cafeName.equals(instantCafeName)) {
+                    if (MainActivity.imageNumber.get(image) != null)
+                        menuList.add(new MenuData(MainActivity.imageNumber.get(image), name, price));
+                    else
+                        menuList.add(new MenuData(R.mipmap.ic_launcher, name, price));
+                }
             }
         }
         catch (JSONException e)
