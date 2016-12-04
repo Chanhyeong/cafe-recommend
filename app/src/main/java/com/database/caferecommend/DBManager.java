@@ -1,11 +1,19 @@
 package com.database.caferecommend;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Environment;
+
+import java.io.ByteArrayOutputStream;
 
 /**
  * Created by Administrator on 2016-11-25.
@@ -102,22 +110,24 @@ public class DBManager extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE IF NOT EXISTS CAFE(CAFE_ID integer primary key autoincrement, NAME text not null, PHONE text, OPEN_TIME integer, END_TIME integer, LOCATE text not null, DETAIL_LOCATE text not null, CATEGORY text not null)");
-        db.execSQL("CREATE TABLE IF NOT EXISTS FRANCHISE(CAFE_NAME text not null, BRAND_IMAGE blob)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS CAFE(CAFE_ID integer primary key autoincrement, NAME text not null, PHONE text, OPEN_TIME integer, END_TIME integer, LOCATE text not null, DETAIL_LOCATE text not null, CATEGORY text not null);");
+        db.execSQL("CREATE TABLE IF NOT EXISTS FRANCHISE(CAFE_NAME text not null, BRAND_IMAGE blob);");
         db.execSQL("CREATE TABLE IF NOT EXISTS MENU(MENU_ID integer primary key autoincrement, MENU_NAME text not null, PRICE integer, IMAGE blob, CAFE_NAME text not null," +
-                "foreign key (CAFE_NAME) references FRANCHISE(CAFE_NAME) on delete SET NULL on update CASCADE)");
+                "foreign key (CAFE_NAME) references FRANCHISE(CAFE_NAME) on delete SET NULL on update CASCADE);");
         db.execSQL("CREATE TABLE IF NOT EXISTS PICTURE(IMAGE_ID integer primary key autoincrement, IMAGE_ADDR text not null, CAFE_ID integer not null, " +
-                "foreign key (CAFE_ID) references CAFE(CAFE_ID) on delete SET NULL on update CASCADE)");
+                "foreign key (CAFE_ID) references CAFE(CAFE_ID) on delete SET NULL on update CASCADE);");
         db.execSQL("CREATE TABLE IF NOT EXISTS EVENT(EVENT_ID integer primary key autoincrement, CAFE_NAME text not null, EVENT_DETAIL text not null, " +
-                "foreign key (CAFE_NAME) references FRANCHISE(CAFE_NAME) on delete SET NULL on update CASCADE)");
+                "foreign key (CAFE_NAME) references FRANCHISE(CAFE_NAME) on delete SET NULL on update CASCADE);");
         db.execSQL("CREATE TABLE IF NOT EXISTS REVIEW(REVIEW_ID integer primary key autoincrement, SCORE integer, CAFE_ID integer, REVIEW_TEXT text not null," +
-                "foreign key (CAFE_ID) references CAFE(CAFE_ID) on delete SET NULL on update CASCADE)");
+                "foreign key (CAFE_ID) references CAFE(CAFE_ID) on delete SET NULL on update CASCADE);");
 
         for(String[] s: cafeData){
-            String query = "CAFE (NAME,PHONE,OPEN_TIME,END_TIME,LOCATE,DETAIL_LOCATE,CATEGORY) " + convertString(s);
+            String query = "CAFE (NAME,PHONE,OPEN_TIME,END_TIME,LOCATE,DETAIL_LOCATE,CATEGORY) " + convertString(s) + ";";
             System.out.println(query);
             insert(query, db);
         }
+        Uri path = Uri.parse("android.resource://com.database.caferecommend/drawable/angel_a.png");
+        insertWidthImage("할리스커피", getByteImage(path.toString()),db);
 //        for(String s: brandData){
 //            String query = "FRANCHISE (CAFE_NAME) " + "value (" + s + ")";
 //            insert(query, db);
@@ -139,6 +149,15 @@ public class DBManager extends SQLiteOpenHelper {
         db.execSQL("insert into " + _query);
     }
 
+    public void insertWidthImage(String name, byte[] image, SQLiteDatabase db) throws SQLiteException{
+        ContentValues cv = new ContentValues();
+        System.out.println("before insert");
+        cv.put("CAFE_NAME", name);
+        cv.put("BRAND_IMAGE", image);
+        db.insert("FRANCHISE", null, cv);
+        System.out.println("after insert");
+    }
+
     public void update(String _query) {
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL(_query);
@@ -149,6 +168,14 @@ public class DBManager extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL(_query);
         db.close();
+
+    }
+
+    public byte[] getByteImage(String path){
+        Bitmap src= BitmapFactory.decodeFile(path);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        src.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        return baos.toByteArray();
     }
 
     public String PrintData(String input) {
