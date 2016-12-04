@@ -40,6 +40,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="카페 이름"
+        android:textColor="#000"
         android:id="@+id/cafeName"
         android:textSize="20pt"/>
             <LinearLayout
@@ -49,11 +50,13 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:textSize="9pt"
+                    android:textColor="#000"
                     android:layout_height="wrap_content"
                     android:text="전화번호 "/>
 
                 <TextView
                     android:id="@+id/call"
+                    android:textColor="#000"
                     android:layout_width="wrap_content"
                     android:textSize="9pt"
                     android:layout_height="wrap_content"
@@ -67,6 +70,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:textSize="9pt"
+            android:textColor="#000"
             android:layout_height="wrap_content"
             android:text="주소"/>
 
@@ -75,6 +79,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="43pt"
+            android:textColor="#000"
             android:textSize="9pt"
             android:text="여기다 주소"/>
     </LinearLayout>
@@ -85,6 +90,7 @@
         android:orientation="horizontal">
         <TextView
             android:layout_width="wrap_content"
+            android:textColor="#000"
             android:textSize="9pt"
             android:layout_height="wrap_content"
             android:text="오픈시간 "/>
@@ -95,6 +101,7 @@
             android:layout_height="wrap_content"
             android:textSize="9pt"
             android:layout_marginLeft="30pt"
+            android:textColor="#000"
             android:text="여기다 오픈시간"/>
     </LinearLayout>
 
@@ -105,6 +112,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:textSize="9pt"
+            android:textColor="#000"
             android:layout_height="wrap_content"
             android:text="마감시간 "/>
 
@@ -112,18 +120,16 @@
             android:id="@+id/close"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="#000"
             android:textSize="9pt"
             android:layout_marginLeft="30pt"
             android:text="여기다 마감시간"/>
     </LinearLayout>
 
-
-
-
     <ListView
         android:layout_marginTop="15pt"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="200dp"
         android:id="@+id/menuList"><!--메뉴-->
     </ListView>
 
