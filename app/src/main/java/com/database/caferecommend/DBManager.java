@@ -9,6 +9,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import static com.database.caferecommend.R.id.open;
+
 /**
  * Created by Administrator on 2016-11-25.
  */
@@ -154,17 +156,17 @@ public class DBManager extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void InsertData(String name, String number, String open, String close, String loc, String addr, String charac)
+    public void InsertData(String name, String number, int open, int close, String loc, String addr, String charac)
     {
         SQLiteDatabase db = getWritableDatabase();
-        db.execSQL("insert into CAFE (" +
-                name + "," +
-                number + "," +
+        db.execSQL("insert into CAFE (NAME,PHONE,OPEN_TIME,END_TIME,LOCATE,DETAIL_LOCATE,CATEGORY) values ('" +
+                name + "','" +
+                number + "'," +
                 open + "," +
-                close + "," +
-                loc + "," +
-                addr + ","+
-                charac + ")");
+                close + ",'" +
+                loc + "','" +
+                addr + "','"+
+                charac + "');");
     }
 
 
