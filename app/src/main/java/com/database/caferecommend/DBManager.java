@@ -187,6 +187,8 @@ public class DBManager extends SQLiteOpenHelper {
             select = "NAME";
         else if (whatNum ==1)
             select = "LOCATE";
+        else if (whatNum == 2)
+            select = "CATEGORY";
 
         Cursor cursor = db.rawQuery("select * from cafe where " + select + " LIKE " + "'%"+ input +"%'", null);
 

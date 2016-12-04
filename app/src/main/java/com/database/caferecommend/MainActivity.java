@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
     Button plus;
     EditText texxxt;
     Button search;
-    int whatSpin;   //  0 = 이름, 1 = 지역.
+    int whatSpin;   //  0 = 이름, 1 = 지역, 2 = 특성
     public static HashMap<String, Integer> imageNumber = new HashMap<String, Integer>();
 
     Class c = R.drawable.class;
@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                //whatSpin 0- 이름. 1-지역
+                //whatSpin 0- 이름. 1-지역. 2= 특성
                 String string = texxxt.getText().toString();
 
                 String part = dbManager.getPart(whatSpin, string);
