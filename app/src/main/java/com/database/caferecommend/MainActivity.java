@@ -73,6 +73,10 @@ public class MainActivity extends AppCompatActivity {
 
         dbManager=new DBManager(getApplicationContext(),"cafe",null,1);
 
+        /*
+        spinner - 검색할 애들에 대해...
+        여기서 어떤 걸 검색할지 값을 받아옴
+         */
         Spinner spin = (Spinner) findViewById(R.id.spinner);
         spin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
             @Override
@@ -96,6 +100,8 @@ public class MainActivity extends AppCompatActivity {
 
                 //whatSpin 0- 이름. 1-지역
                 String string = texxxt.getText().toString();
+
+                dbManager.getPart(whatSpin, string);
             }
         });
 
@@ -108,8 +114,6 @@ public class MainActivity extends AppCompatActivity {
                 View view = inflater.inflate(R.layout.custom_alert_layout, null);
 
          //여기에 dialog에 들어갈 애들 추가
-                //TextView customTitle = (TextView)view.findViewById(R.id.customtitle);
-                //customTitle.setText("종료하시겠습니까?");
                 //customTitle.setTextColor(Color.BLACK);
                 ImageView customIcon = (ImageView)view.findViewById(R.id.customdialogicon);
 
@@ -120,14 +124,6 @@ public class MainActivity extends AppCompatActivity {
                 final EditText dialog_loc = (EditText)view.findViewById(R.id.dialog_location);
                 final EditText dialog_addr = (EditText)view.findViewById(R.id.dialog_address);
                 final EditText dialog_char = (EditText)view.findViewById(R.id.dialog_char);
-
-                dialog_name.setImeOptions(EditorInfo.IME_ACTION_NEXT);
-                dialog_number.setImeOptions(EditorInfo.IME_ACTION_NEXT);
-                dialog_open.setImeOptions(EditorInfo.IME_ACTION_NEXT);
-                dialog_close.setImeOptions(EditorInfo.IME_ACTION_NEXT);
-                dialog_loc.setImeOptions(EditorInfo.IME_ACTION_NEXT);
-                dialog_addr.setImeOptions(EditorInfo.IME_ACTION_NEXT);
-                dialog_char.setImeOptions(EditorInfo.IME_ACTION_NEXT);
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setView(view);
@@ -149,6 +145,9 @@ public class MainActivity extends AppCompatActivity {
                         {
                             dbManager.InsertData(str_name, str_number, str_open, str_close, str_loc, str_addr, str_char);
                             Log.d("mks...", str_name + str_number);
+
+                            //다시 업로드 하도록 하는 코드 필요!!!!
+                            setData();
                         }
                     }
                 });

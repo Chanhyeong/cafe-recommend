@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import static android.R.id.input;
 import static com.database.caferecommend.R.id.open;
 
 /**
@@ -154,6 +155,53 @@ public class DBManager extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL(_query);
         db.close();
+    }
+
+    //부분적으로 가져오는 것
+    public String getPart(int whatNum, String input){
+        SQLiteDatabase db = getReadableDatabase();
+        String str = "[";
+        //select * from 테이블명;
+        //select 속성,속성...from 테이블명;
+        //whatSpin 0- 이름. 1-지역
+
+        String select = "";  //어디에서 가져올 것인가
+
+        if(whatNum ==0)
+            select = "NAME";
+        else if (whatNum ==1)
+            select = "LOCATE";
+
+        Cursor cursor = db.rawQuery("select * from cafe where" + select + "=" + input, null);
+
+            while (cursor.moveToNext()) {
+                // 파일전송 포맷 json
+                str += "{"
+                        + "'number':'"
+                        + cursor.getInt(0)         //카페번호
+                        + "','name':'"
+                        + cursor.getString(1)       //카페이름
+                        + "','phone':'"
+                        + cursor.getString(2)       //전화번호
+                        + "','open':'"
+                        + cursor.getInt(3)         //오픈시간
+                        + "','close':'"
+                        + cursor.getInt(4)           //마감시간
+                        + "','location':'"
+                        + cursor.getString(5)         //지역
+                        + "','address':'"
+                        + cursor.getString(6)         //상세주소
+                        + "','category':'"
+                        + cursor.getString(7)         //카테고리
+                        + "'}";
+                if (cursor.isLast())
+                    ;
+                else
+                    str += " ,";
+            }
+            str += "]";
+
+        return str;
     }
 
     //카페에 값 추가하는 것
