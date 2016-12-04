@@ -30,8 +30,6 @@ public class SubActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sub);
 
-        TextView call=(TextView)findViewById(R.id.call);
-        TextView address=(TextView)findViewById(R.id.address);
         DBManager db=new DBManager(getApplicationContext(),"cafe",null,1);
         //call.setText();
         //address.setText();
@@ -53,6 +51,9 @@ public class SubActivity extends AppCompatActivity {
     }
 
     private void setData(){
+        TextView call=(TextView)findViewById(R.id.call);
+        TextView address=(TextView)findViewById(R.id.address);
+
         String get = db.PrintData("menu");
         //System.out.println(get);    // for log.
 

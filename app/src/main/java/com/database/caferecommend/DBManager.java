@@ -154,39 +154,65 @@ public class DBManager extends SQLiteOpenHelper {
         db.close();
     }
 
+
     public String PrintData(String input) {
         SQLiteDatabase db = getReadableDatabase();
         String str = "[";
         //select * from 테이블명;
         //select 속성,속성...from 테이블명;
         Cursor cursor = db.rawQuery("select * from "+ input, null);
-        while (cursor.moveToNext()) {
-            // 파일전송 포맷 json
-            str += "{"
-                    +"'number':'"
-                + cursor.getInt(0)         //카페번호
-                    +"','name':'"
-                + cursor.getString(1)       //카페이름
-                    +"','phone':'"
-                + cursor.getString(2)       //전화번호
-                    +"','open':'"
-                + cursor.getInt(3)         //오픈시간
-                    +"','close':'"
-                + cursor.getInt(4)           //마감시간
-                    +"','location':'"
-                + cursor.getString(5)         //지역
-                    +"','address':'"
-                + cursor.getString(6)         //상세주소
-                    +"','category':'"
-                + cursor.getString(7)         //카테고리
-                + "'}";
-            if(cursor.isLast())
-                ;
-            else
-                str += " ,";
+        if(input.equals("cafe")) {
+                while (cursor.moveToNext()) {
+                    // 파일전송 포맷 json
+                    str += "{"
+                            + "'number':'"
+                            + cursor.getInt(0)         //카페번호
+                            + "','name':'"
+                            + cursor.getString(1)       //카페이름
+                            + "','phone':'"
+                            + cursor.getString(2)       //전화번호
+                            + "','open':'"
+                            + cursor.getInt(3)         //오픈시간
+                            + "','close':'"
+                            + cursor.getInt(4)           //마감시간
+                            + "','location':'"
+                            + cursor.getString(5)         //지역
+                            + "','address':'"
+                            + cursor.getString(6)         //상세주소
+                            + "','category':'"
+                            + cursor.getString(7)         //카테고리
+                            + "'}";
+                if (cursor.isLast())
+                    ;
+                else
+                    str += " ,";
+            }
+            str += "]";
         }
-        str += "]";
+        else if(input.equals("menu")) {
+            while (cursor.moveToNext()) {
+                // 파일전송 포맷 json
+                str += "{"
+                        + "','name':'"
+                        + cursor.getString(0)       //메뉴이름
+                        + "','price':'"
+                        + cursor.getString(1)       //메뉴가격
+                        + "','image':'"
+                        + cursor.getString(2)         //이미지
+                        + "','cafename':'"
+                        + cursor.getString(3)        //카페이름
+                        + "','number':'"
+                        + cursor.getInt(4)         //메뉴 번호
+                        + "'}";
+                if (cursor.isLast())
+                    ;
+                else
+                    str += " ,";
+            }
+            str += "]";
+        }
 
         return str;
     }
+
 }
