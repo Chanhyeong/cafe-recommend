@@ -93,6 +93,69 @@ public class DBManager extends SQLiteOpenHelper {
             {"카페모카", "1600", "커피만", ""}, {"프라푸치노", "1800", "커피만", ""}
     };
 
+    private final String[][] pictureData = {
+            {"angel_in", "17"}, {"angel_in", "18"},
+            {"star_in", "9"}, {"star_in", "10"}, {"star_in", "11"},
+            {"cafe_in", "14"}, {"cafe_in", "15"}, {"cafe_in", "16"},
+            {"ediya_in", "19"}, {"hollys_in", "1"}, {"hollys_in", "13"},
+            {"tom_in", "3"}, {"tom_in", "12"}
+    };
+
+    private final String[][] eventData = {
+            {"스타벅스", "아메리카노 1+1"}, {"엔젤리너스	", "KT 멤버십 전품목 30%"},
+            {"탐앤탐스", "1회 4인 이상 주문시 1잔 무료"}, {"나인어클락", "10잔 구매 시 1잔 무료(쿠폰)"},
+            {"봄봄", "~11/30일까지 아메리카노 500원"}, {"할리스커피", "노래부르면 아메리카노 무료"}
+    };
+
+    private final String[][] reviewData = {
+            {"4", "좌석이 매우 편해요", "1"},  {"2", "좌석이 너무 불편해요", "4"},
+            {"5", "커피 탄 냄새도 없고 좋아요", "7"}, {"4", "팀프하기 좋음	", "2"}
+    };
+
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        db.execSQL("CREATE TABLE IF NOT EXISTS CAFE(CAFE_ID integer primary key autoincrement, NAME text not null, PHONE text, OPEN_TIME integer, END_TIME integer, LOCATE text not null, DETAIL_LOCATE text not null, CATEGORY text not null);");
+        db.execSQL("CREATE TABLE IF NOT EXISTS FRANCHISE(CAFE_NAME text not null, BRAND_IMAGE text);");
+        db.execSQL("CREATE TABLE IF NOT EXISTS MENU(MENU_ID integer primary key autoincrement, MENU_NAME text not null, PRICE integer, CAFE_NAME text not null, IMAGE text, " +
+                "foreign key (CAFE_NAME) references FRANCHISE(CAFE_NAME) on delete SET NULL on update CASCADE);");
+        db.execSQL("CREATE TABLE IF NOT EXISTS PICTURE(IMAGE_ID integer primary key autoincrement, IMAGE_NAME text not null, CAFE_ID integer not null, " +
+                "foreign key (CAFE_ID) references CAFE(CAFE_ID) on delete SET NULL on update CASCADE);");
+        db.execSQL("CREATE TABLE IF NOT EXISTS EVENT(EVENT_ID integer primary key autoincrement, CAFE_NAME text not null, EVENT_DETAIL text not null, " +
+                "foreign key (CAFE_NAME) references FRANCHISE(CAFE_NAME) on delete SET NULL on update CASCADE);");
+        db.execSQL("CREATE TABLE IF NOT EXISTS REVIEW(REVIEW_ID integer primary key autoincrement, SCORE integer, REVIEW_TEXT text not null, CAFE_ID integer not null, " +
+                "foreign key (CAFE_ID) references CAFE(CAFE_ID) on delete SET NULL on update CASCADE);");
+
+        for(String[] s: cafeData){
+            String query = "CAFE (NAME,PHONE,OPEN_TIME,END_TIME,LOCATE,DETAIL_LOCATE,CATEGORY) " + convertString(s);
+            insert(query, db);
+        }
+
+        for(String[] s: brandData){
+            String query = "FRANCHISE (CAFE_NAME,BRAND_IMAGE) " + convertString(s);
+            insert(query, db);
+        }
+
+        for(String[] s: menuData){
+            String query = "MENU (MENU_NAME, PRICE, CAFE_NAME, IMAGE) " + convertString(s);
+            insert(query, db);
+        }
+
+        for(String[] s: pictureData){
+            String query = "PICTURE (IMAGE_NAME, CAFE_ID) " + convertString(s);
+            insert(query, db);
+        }
+
+        for(String[] s: eventData){
+            String query = "EVENT (CAFE_NAME, EVENT_DETAIL) " + convertString(s);
+            insert(query, db);
+        }
+
+        for(String[] s: reviewData){
+            String query = "REVIEW (SCORE, REVIEW_TEXT, CAFE_ID) " + convertString(s);
+            insert(query, db);
+        }
+    }
+
     public DBManager(Context context, String name, CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
@@ -111,40 +174,11 @@ public class DBManager extends SQLiteOpenHelper {
             if(!s.equals(input[input.length - 1]))
                 output += ",";
         }
-        output += ")";
+        output += ");";
 
         System.out.println(output);
 
         return output;
-    }
-
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE IF NOT EXISTS CAFE(CAFE_ID integer primary key autoincrement, NAME text not null, PHONE text, OPEN_TIME integer, END_TIME integer, LOCATE text not null, DETAIL_LOCATE text not null, CATEGORY text not null);");
-        db.execSQL("CREATE TABLE IF NOT EXISTS FRANCHISE(CAFE_NAME text not null, BRAND_IMAGE text);");
-        db.execSQL("CREATE TABLE IF NOT EXISTS MENU(MENU_ID integer primary key autoincrement, MENU_NAME text not null, PRICE integer, CAFE_NAME text not null, IMAGE text, " +
-                "foreign key (CAFE_NAME) references FRANCHISE(CAFE_NAME) on delete SET NULL on update CASCADE);");
-        db.execSQL("CREATE TABLE IF NOT EXISTS PICTURE(IMAGE_ID integer primary key autoincrement, IMAGE_ADDR text not null, CAFE_ID integer not null, " +
-                "foreign key (CAFE_ID) references CAFE(CAFE_ID) on delete SET NULL on update CASCADE);");
-        db.execSQL("CREATE TABLE IF NOT EXISTS EVENT(EVENT_ID integer primary key autoincrement, CAFE_NAME text not null, EVENT_DETAIL text not null, " +
-                "foreign key (CAFE_NAME) references FRANCHISE(CAFE_NAME) on delete SET NULL on update CASCADE);");
-        db.execSQL("CREATE TABLE IF NOT EXISTS REVIEW(REVIEW_ID integer primary key autoincrement, SCORE integer, CAFE_ID integer, REVIEW_TEXT text not null," +
-                "foreign key (CAFE_ID) references CAFE(CAFE_ID) on delete SET NULL on update CASCADE);");
-
-        for(String[] s: cafeData){
-            String query = "CAFE (NAME,PHONE,OPEN_TIME,END_TIME,LOCATE,DETAIL_LOCATE,CATEGORY) " + convertString(s) + ";";
-            insert(query, db);
-        }
-
-        for(String[] s: brandData){
-            String query = "FRANCHISE (CAFE_NAME,BRAND_IMAGE) " + convertString(s) + ";";
-            insert(query, db);
-        }
-
-        for(String[] s: menuData){
-            String query = "MENU (MENU_NAME, PRICE, CAFE_NAME, IMAGE) " + convertString(s);
-            insert(query, db);
-        }
     }
 
     @Override
@@ -156,6 +190,14 @@ public class DBManager extends SQLiteOpenHelper {
         //insert into 테이블명 values(속성, 속성)
         System.out.println(_query);
         db.execSQL("insert into " + _query);
+    }
+
+    public void insert(String _query) {
+        SQLiteDatabase db = getWritableDatabase();
+        //insert into 테이블명 values(속성, 속성)
+        System.out.println(_query);
+        db.execSQL("insert into " + _query);
+        db.close();
     }
 
     public void update(String _query) {
