@@ -163,8 +163,9 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 int push = arrData.get(position).getCafe_num();
 
+
                 Intent intent=new Intent(getApplicationContext(),SubActivity.class);
-                intent.putExtra("value", "push");
+                intent.putExtra("value", push);
 
                 startActivity(intent);
 

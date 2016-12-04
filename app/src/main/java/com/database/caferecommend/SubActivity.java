@@ -1,5 +1,6 @@
 package com.database.caferecommend;
 
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -29,6 +30,10 @@ public class SubActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sub);
+
+        //카페 넘버 받아오기
+        Intent intent = getIntent();
+        int cafe_num = intent.getIntExtra("value", 1);
 
         DBManager db=new DBManager(getApplicationContext(),"cafe",null,1);
         //call.setText();
