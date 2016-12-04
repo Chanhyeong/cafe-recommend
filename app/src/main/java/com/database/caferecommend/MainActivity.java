@@ -55,9 +55,9 @@ Update
 
  */
 public class MainActivity extends AppCompatActivity {
-    ArrayList<CafeData>arrData;
-    MyAdapter myadapter;
-    ListView list;
+    ArrayList<CafeData>arrData;  //각 카페별 데이터를 저장한다.
+    MyAdapter myadapter;         //ListView의 어댑터
+    ListView list;               //각 카페데이터를 보여줌
     DBManager dbManager;
     Button plus;
     EditText texxxt;
@@ -166,7 +166,6 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("CafeData",arrData);
                 intent.putExtra("value", push);
                 startActivity(intent);
-
             }
         });
     }
@@ -202,6 +201,5 @@ public class MainActivity extends AppCompatActivity {
         {
             e.printStackTrace();
         }
-
     }
 }

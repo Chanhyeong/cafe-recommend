@@ -25,27 +25,35 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class SubActivity extends AppCompatActivity {
-    ArrayList<MenuData> menuList;
+    ArrayList<MenuData> menuList; //menu 정보를 받음
     DBManager db=new DBManager(SubActivity.this,"menu",null,1);
-    TextView call=(TextView)findViewById(R.id.call);
-    TextView name=(TextView)findViewById(R.id.cafeName);
-    TextView address=(TextView)findViewById(R.id.address);
-    TextView open=(TextView)findViewById(R.id.open);
-    TextView close=(TextView)findViewById(R.id.close);
-    ImageView image=(ImageView)findViewById(R.id.cafeImage);
-    RatingBar ratingBar1=(RatingBar)findViewById(R.id.ratingBar1);
+    TextView call;
+    TextView name;
+    TextView address;
+    TextView open;
+    TextView close;
+    ImageView image;
+    RatingBar ratingBar1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sub);
 
-        MyThread myThread=new MyThread();
-        setMenuData();
+        call=(TextView)findViewById(R.id.call);
+        name=(TextView)findViewById(R.id.cafeName);
+        address=(TextView)findViewById(R.id.address);
+        open=(TextView)findViewById(R.id.open);
+        close=(TextView)findViewById(R.id.close);
+        image=(ImageView)findViewById(R.id.cafeImage);
+        ratingBar1=(RatingBar)findViewById(R.id.ratingBar1);
 
+        MyThread myThread=new MyThread();  //thread로 해당 카페의 정보를 얻는다.
+        setMenuData();// 메뉴 정보를 setting!
         ListView menu= (ListView)findViewById(R.id.menuList);
         MenuAdapter menuAdapter=new MenuAdapter(SubActivity.this,menuList);
         menu.setAdapter(menuAdapter);
+
         findViewById(R.id.revBtn).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,7 +69,6 @@ public class SubActivity extends AppCompatActivity {
             Intent intent = getIntent();
             int cafe_num = (int)intent.getIntExtra("value", 1);
             ArrayList<CafeData> arr=(ArrayList<CafeData>) intent.getSerializableExtra("CafeData");
-
             for(int i=0; i<arr.size(); i++) {
                 if (arr.get(i).getCafe_num() == cafe_num) {
                     call.setText(arr.get(i).getTel());
@@ -106,6 +113,5 @@ public class SubActivity extends AppCompatActivity {
         {
             e.printStackTrace();
         }
-
     }
 }
