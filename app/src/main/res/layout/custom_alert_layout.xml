@@ -1,19 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/customdialogicon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@mipmap/ic_launcher"/>
-    <TextView
-        android:id="@+id/customtitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/customdialogicon"
-        android:padding="10dp"
-        android:text="Hello World!"/>
+    <TableRow>
+        <ImageView
+            android:id="@+id/customdialogicon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_launcher"/>
 
-</LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="카페번호를 저장하실건가요?"/>
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="카페이름: "/>
+
+        <EditText
+            android:id="@+id/dialog_name"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"/>
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="전화번호: "/>
+
+        <EditText
+            android:id="@+id/dialog_number"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"/>
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="오픈시간: "/>
+
+        <EditText
+            android:id="@+id/dialog_open"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"/>
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="마감시간: "/>
+
+        <EditText
+            android:id="@+id/dialog_close"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"/>
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="지   역: "/>
+
+        <EditText
+            android:id="@+id/dialog_location"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"/>
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="상세주소: "/>
+
+        <EditText
+            android:id="@+id/dialog_address"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"/>
+    </TableRow>
+
+</TableLayout>
