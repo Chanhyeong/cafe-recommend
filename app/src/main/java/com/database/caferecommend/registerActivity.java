@@ -16,13 +16,6 @@ public class registerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_review);
 
-        findViewById(R.id.ratingBar2).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
 
         findViewById(R.id.regBtn).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -30,8 +23,12 @@ public class registerActivity extends AppCompatActivity {
 
             }
         });
-
-        EditText editText=(EditText) findViewById(R.id.revEdit);
-        String review=editText.getText().toString();
+        findViewById(R.id.regRev).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditText editText=(EditText) findViewById(R.id.revEdit);
+                String review=editText.getText().toString();
+            }
+        });
     }
 }

@@ -4,23 +4,30 @@
     android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10pt">
+
         <RatingBar
             android:id="@+id/ratingBar2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="4pt"
             android:numStars="5"
             android:stepSize="0.5" />
 
         <Button
             android:layout_width="59dp"
             android:layout_height="wrap_content"
-            android:text="평점등록"
-            android:id="@+id/regBtn" />
+            android:layout_marginLeft="6pt"
+            android:text="후기등록"
+            android:id="@+id/regRev" />
+
+
     </LinearLayout>
     <EditText
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="20pt"
         android:id="@+id/revEdit"
         android:text="후기 쓰는 곳"/>
 

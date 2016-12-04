@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_marginTop="10pt"
     android:layout_height="match_parent">
 
     <LinearLayout
@@ -16,15 +18,17 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20pt"
-            android:layout_marginLeft="10pt"
-            android:text="후기 쓰기"
+            android:textSize="15pt"
+            android:layout_marginLeft="17pt"
+            android:text="후기쓰기"
             android:id="@+id/revWrite" />
     </LinearLayout>
 
     <ListView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15pt"
+        android:id="@+id/revList">
 
     </ListView>
 
