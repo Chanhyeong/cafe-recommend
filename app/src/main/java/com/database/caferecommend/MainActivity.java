@@ -68,7 +68,11 @@ public class MainActivity extends AppCompatActivity {
     Button plus;
     EditText texxxt;
     Button search;
-    int whatSpin;   //  0 = 이름, 1 = 지역.
+    int whatSpin;   //  0 = 이름, 1 = 지역, 2 = 특성
+    /*
+    현재는 public static형태로 다른 class에서 사용이 가능하지만,
+    새로운 클래스를 만들어 범용으로 사용하는 것에 대한 정의를 새로 해줄 필요가 있어보임
+    */
     public static HashMap<String, Integer> imageNumber = new HashMap<String, Integer>();
 
     Class c = R.drawable.class;
@@ -76,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        /*-- Drawable 폴더의 이미지를 Filename과 int의 HashMap형태로 저장하여 reference를 쉽게함 --*/
         for (Field d : f) {
             try {
                 if(d.get("R.drawable." + d.getName()) != null) {
@@ -115,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                //whatSpin 0- 이름. 1-지역
+                //whatSpin 0- 이름. 1-지역. 2= 특성
                 String string = texxxt.getText().toString();
 
                 String part = dbManager.getPart(whatSpin, string);
@@ -136,17 +141,18 @@ public class MainActivity extends AppCompatActivity {
                         int cafe_num = jObject.getInt("number");
                         String name = jObject.getString("name");
                         String phone = jObject.getString("phone");
+                        String location=jObject.getString("location");
                         int open = jObject.getInt("open");
                         int close = jObject.getInt("close");
                         String address=jObject.getString("address");
 
                         Log.d("mk",i + ": " + name + phone + cafeToImage.get(name) + imageNumber.get(cafeToImage.get(name)));
 
-                        //이미지  이름     전화번호     주소      오픈시간    마감시간    평균    카페번호
+                        //이미지  이름     전화번호     주소   지역   오픈시간    마감시간    평균    카페번호
                         if(imageNumber.get(cafeToImage.get(name)) != null)
-                            arrData.add(new CafeData(imageNumber.get(cafeToImage.get(name)),name,phone,address,open,close,0,cafe_num));
+                            arrData.add(new CafeData(imageNumber.get(cafeToImage.get(name)),location,name,phone,address,open,close,0,cafe_num));
                         else
-                            arrData.add(new CafeData(R.mipmap.ic_launcher,name,phone,address,open,close,0,cafe_num));
+                            arrData.add(new CafeData(R.mipmap.ic_launcher,name,location,phone,address,open,close,0,cafe_num));
                     }
                 }
                 catch (JSONException e)
@@ -197,7 +203,10 @@ public class MainActivity extends AppCompatActivity {
                         // 옵션 - && str_number != null && str_loc != null && str_addr != null && str_char != null
                         if(str_name != null) // 카페이름을 입력하지 않으면, 추가되지 않도록
                         {
-                            dbManager.InsertData(str_name, str_number, str_open, str_close, str_loc, str_addr, str_char);
+                            String[] values = {str_name, str_number, Integer.toString(str_open), Integer.toString(str_close), str_loc, str_addr, str_char};
+                            String query = "CAFE (NAME,PHONE,OPEN_TIME,END_TIME,LOCATE,DETAIL_LOCATE,CATEGORY)" + dbManager.convertString(values);
+
+                            dbManager.insert(query);
                             Log.d("mks...", str_name + str_number);
 
                             //다시 업로드 하도록 하는 코드 필요!!!!
@@ -270,17 +279,18 @@ public class MainActivity extends AppCompatActivity {
                 int cafe_num = jObject.getInt("number");
                 String name = jObject.getString("name");
                 String phone = jObject.getString("phone");
+                String location=jObject.getString("location");
                 int open = jObject.getInt("open");
                 int close = jObject.getInt("close");
                 String address=jObject.getString("address");
 
                 Log.d("mk",i + ": " + name + phone + cafeToImage.get(name) + imageNumber.get(cafeToImage.get(name)));
 
-                //이미지  이름     전화번호     주소      오픈시간    마감시간    평균    카페번호
+                //이미지  이름     전화번호     주소   지역     오픈시간    마감시간    평균    카페번호
                 if(imageNumber.get(cafeToImage.get(name)) != null)
-                    arrData.add(new CafeData(imageNumber.get(cafeToImage.get(name)),name,phone,address,open,close,0,cafe_num));
+                    arrData.add(new CafeData(imageNumber.get(cafeToImage.get(name)),name,phone,address,location,open,close,4,cafe_num));
                 else
-                    arrData.add(new CafeData(R.mipmap.ic_launcher,name,phone,address,open,close,0,cafe_num));
+                    arrData.add(new CafeData(R.mipmap.ic_launcher,name,phone,address,location,open,close,5,cafe_num));
             }
         }
         catch (JSONException e)

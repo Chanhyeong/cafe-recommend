@@ -3,5 +3,6 @@
     <string-array name="spinner_list">
         <item>이름</item>
         <item>지역</item>
+        <item>특성</item>
     </string-array>
 </resources>

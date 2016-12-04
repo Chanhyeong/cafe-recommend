@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 public class MyAdapter extends BaseAdapter {
@@ -56,8 +57,12 @@ public class MyAdapter extends BaseAdapter {
         TextView tel = (TextView)convertView.findViewById(R.id.tel);
         tel.setText(arrData.get(position).getTel());
 
-        ImageView avg = (ImageView) convertView.findViewById(R.id.avg);
-        avg.setImageResource(arrData.get(position).getAvg());
+        TextView location = (TextView)convertView.findViewById(R.id.location);
+        location.setText(arrData.get(position).getLocation());
+
+
+        RatingBar avg = (RatingBar) convertView.findViewById(R.id.avg);
+        avg.setRating(arrData.get(position).getAvg());
 
         return convertView;
     }
