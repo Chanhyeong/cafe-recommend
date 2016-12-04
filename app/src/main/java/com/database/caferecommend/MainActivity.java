@@ -118,9 +118,46 @@ public class MainActivity extends AppCompatActivity {
                 //whatSpin 0- 이름. 1-지역
                 String string = texxxt.getText().toString();
 
-                dbManager.getPart(whatSpin, string);
+                String part = dbManager.getPart(whatSpin, string);
+
+                //선택한거 보여주기
+
+                arrData=new ArrayList<CafeData>();
+                // 코드 확인용 예제문
+                // arrData.add(new CafeData(R.mipmap.ic_launcher,"엔젤리너스","010-1111-2222",0));
+
+                try{
+                    JSONArray jarray = new JSONArray(part);
+                    HashMap<String, String> cafeToImage = new HashMap<String, String>();
+
+                    for(int i=0; i < jarray.length(); i++)
+                    {
+                        JSONObject jObject = jarray.getJSONObject(i);
+                        int cafe_num = jObject.getInt("number");
+                        String name = jObject.getString("name");
+                        String phone = jObject.getString("phone");
+                        int open = jObject.getInt("open");
+                        int close = jObject.getInt("close");
+                        String address=jObject.getString("address");
+
+                        Log.d("mk",i + ": " + name + phone + cafeToImage.get(name) + imageNumber.get(cafeToImage.get(name)));
+
+                        //이미지  이름     전화번호     주소      오픈시간    마감시간    평균    카페번호
+                        if(imageNumber.get(cafeToImage.get(name)) != null)
+                            arrData.add(new CafeData(imageNumber.get(cafeToImage.get(name)),name,phone,address,open,close,0,cafe_num));
+                        else
+                            arrData.add(new CafeData(R.mipmap.ic_launcher,name,phone,address,open,close,0,cafe_num));
+                    }
+                }
+                catch (JSONException e)
+                {
+                    e.printStackTrace();
+                }
+
+                listMake();
             }
-        });
+        });//----------------------------------------spinner search end
+
 
         plus = (Button) findViewById(R.id.plus);
         plus.setOnClickListener(new View.OnClickListener() {
@@ -165,6 +202,7 @@ public class MainActivity extends AppCompatActivity {
 
                             //다시 업로드 하도록 하는 코드 필요!!!!
                             setData();
+                            listMake();
                         }
                     }
                 });
@@ -183,6 +221,11 @@ public class MainActivity extends AppCompatActivity {
 
         setData();
         list=(ListView)findViewById(R.id.list);
+        listMake();
+    }
+
+    public void listMake()
+    {
         myadapter=new MyAdapter(this,arrData);
         list.setAdapter(myadapter);
 
