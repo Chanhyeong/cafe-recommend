@@ -121,6 +121,7 @@ public class DBManager extends SQLiteOpenHelper {
             System.out.println(query);
             insert(query, db);
         }
+
 //        for(String s: brandData){
 //            String query = "FRANCHISE (CAFE_NAME) " + "value (" + s + ")";
 //            insert(query, db);
@@ -129,7 +130,6 @@ public class DBManager extends SQLiteOpenHelper {
 //            String query = "CAFE () " + convertString(s);
 //            insert(query, db);
 //        }
-        db.close();
     }
 
     @Override
@@ -156,13 +156,37 @@ public class DBManager extends SQLiteOpenHelper {
 
     public String PrintData(String input) {
         SQLiteDatabase db = getReadableDatabase();
-        String str = "";
+        String str = "[";
         //select * from 테이블명;
         //select 속성,속성...from 테이블명;
         Cursor cursor = db.rawQuery("select * from "+ input, null);
         while (cursor.moveToNext()) {
-            str="출력";
+            // 파일전송 포맷 json
+            str += "{"
+                    +"'number':'"
+                + cursor.getInt(0)         //카페번호
+                    +"','name':'"
+                + cursor.getString(1)       //카페이름
+                    +"','phone':'"
+                + cursor.getString(2)       //전화번호
+                    +"','open':'"
+                + cursor.getInt(3)         //오픈시간
+                    +"','close':'"
+                + cursor.getInt(4)           //마감시간
+                    +"','location':'"
+                + cursor.getString(5)         //지역
+                    +"','address':'"
+                + cursor.getString(6)         //상세주소
+                    +"','category':'"
+                + cursor.getString(7)         //카테고리
+                + "'}";
+            if(cursor.isLast())
+                ;
+            else
+                str += " ,";
         }
+        str += "]";
+
         return str;
     }
 }

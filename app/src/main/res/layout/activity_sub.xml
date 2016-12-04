@@ -65,10 +65,11 @@
 
     <ListView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"><!--메뉴-->
+        android:layout_height="wrap_content"
+        android:id="@+id/menuList"><!--메뉴-->
     </ListView>
 
-        <Button
+    <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Cafe Review"
