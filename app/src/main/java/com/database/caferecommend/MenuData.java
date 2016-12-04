@@ -5,9 +5,9 @@ package com.database.caferecommend;
  */
 
 public class MenuData {
-    private int image;
-    private String name;
-    private String price;
+    private int image;  //메뉴 이미지
+    private String name; //메뉴이름
+    private String price; //메뉴가격
 
     public MenuData(int image, String name, String price){
         this.image = image;

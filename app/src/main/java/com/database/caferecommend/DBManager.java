@@ -251,7 +251,6 @@ public class DBManager extends SQLiteOpenHelper {
                 else
                     str += " ,";
             }
-            str += "]";
         }
         else if(input.equals("menu")) {
             while (cursor.moveToNext()) {
@@ -273,9 +272,8 @@ public class DBManager extends SQLiteOpenHelper {
                 else
                     str += " ,";
             }
-            str += "]";
         }
-
+        str += "]";
         return str;
     }
 
