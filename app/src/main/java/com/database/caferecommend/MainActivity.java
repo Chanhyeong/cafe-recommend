@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
     EditText texxxt;
     Button search;
     int whatSpin;   //  0 = 이름, 1 = 지역.
-    HashMap<String, Integer> imageNumber = new HashMap<String, Integer>();
+    public static HashMap<String, Integer> imageNumber = new HashMap<String, Integer>();
 
     Class c = R.drawable.class;
     Field[] f = c.getFields();

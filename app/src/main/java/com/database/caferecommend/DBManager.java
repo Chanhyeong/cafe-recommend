@@ -68,18 +68,18 @@ public class DBManager extends SQLiteOpenHelper {
             {"아메리카노", "5000", "탐앤탐스", "tom_a"},  {"카페모카", "5000", "탐앤탐스", "tom_moca"},
             {"프라푸치노", "5000", "탐앤탐스", "tom_cino"}, {"블루베리베이글", "5000", "탐앤탐스", ""},
             {"카푸치노", "5000", "탐앤탐스", "tom_cino"},
-            {"아메리카노", "5000", "엔젤리너스"}, {"카푸치노", "5000", "엔젤리너스"},
-            {"카페모카", "5000", "엔젤리너스"}, {"프라푸치노", "5000", "엔젤리너스"},
-            {"치즈베이글", "5000", "엔젤리너스"},
-            {"아메리카노", "5000", "봄봄"},  {"카페모카", "5000", "봄봄"},
-            {"프라푸치노", "5000", "봄봄"},  {"플레인베이글", "5000", "봄봄"},
-            {"카푸치노", "5000", "봄봄"},
-            {"아메리카노", "6000", "카페베네"}, {"카페모카", "6000", "카페베네"},
-            {"프라푸치노", "6000", "카페베네"}, {"카푸치노", "6000", "카페베네"},
-            {"크림베이글", "6000", "카페베네"},
-            {"아메리카노", "3200", "나인어클락"}, {"코코아", "3500", "나인어클락"},
-            {"카페모카", "3500", "나인어클락"}, {"프라푸치노", "4000", "나인어클락"},
-            {"카푸치노", "4000", "나인어클락"}, {"크림베이글", "1200", "나인어클락"},
+            {"아메리카노", "5000", "엔젤리너스", "angel_a"}, {"카푸치노", "5000", "엔젤리너스", ""},
+            {"카페모카", "5000", "엔젤리너스", ""}, {"프라푸치노", "5000", "엔젤리너스", ""},
+            {"치즈베이글", "5000", "엔젤리너스", "angel_a"},
+            {"아메리카노", "5000", "봄봄", ""},  {"카페모카", "5000", "봄봄", ""},
+            {"프라푸치노", "5000", "봄봄", ""},  {"플레인베이글", "5000", "봄봄", ""},
+            {"카푸치노", "5000", "봄봄", ""},
+            {"아메리카노", "6000", "카페베네", "cafe_a"}, {"카페모카", "6000", "카페베네", "cafe_moca"},
+            {"프라푸치노", "6000", "카페베네", ""}, {"카푸치노", "6000", "카페베네", ""},
+            {"크림베이글", "6000", "카페베네", ""},
+            {"아메리카노", "3200", "나인어클락", ""}, {"코코아", "3500", "나인어클락", ""},
+            {"카페모카", "3500", "나인어클락", ""}, {"프라푸치노", "4000", "나인어클락", ""},
+            {"카푸치노", "4000", "나인어클락", ""}, {"크림베이글", "1200", "나인어클락", ""},
             {"아메리카노", "5000", "할리스커피", "hollys_a"}, {"카페모카", "5500", "할리스커피", "hollys_moca"},
             {"프라푸치노", "5700", "할리스커피", "hollys_cino"}, {"블루베리베이글", "3500", "할리스커피", ""},
             {"카푸치노", "5500", "할리스커피", "hollys_cino"},
@@ -122,7 +122,7 @@ public class DBManager extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE IF NOT EXISTS CAFE(CAFE_ID integer primary key autoincrement, NAME text not null, PHONE text, OPEN_TIME integer, END_TIME integer, LOCATE text not null, DETAIL_LOCATE text not null, CATEGORY text not null);");
         db.execSQL("CREATE TABLE IF NOT EXISTS FRANCHISE(CAFE_NAME text not null, BRAND_IMAGE text);");
-        db.execSQL("CREATE TABLE IF NOT EXISTS MENU(MENU_ID integer primary key autoincrement, MENU_NAME text not null, PRICE integer, IMAGE text, CAFE_NAME text not null," +
+        db.execSQL("CREATE TABLE IF NOT EXISTS MENU(MENU_ID integer primary key autoincrement, MENU_NAME text not null, PRICE integer, CAFE_NAME text not null, IMAGE text, " +
                 "foreign key (CAFE_NAME) references FRANCHISE(CAFE_NAME) on delete SET NULL on update CASCADE);");
         db.execSQL("CREATE TABLE IF NOT EXISTS PICTURE(IMAGE_ID integer primary key autoincrement, IMAGE_ADDR text not null, CAFE_ID integer not null, " +
                 "foreign key (CAFE_ID) references CAFE(CAFE_ID) on delete SET NULL on update CASCADE);");
@@ -141,14 +141,10 @@ public class DBManager extends SQLiteOpenHelper {
             insert(query, db);
         }
 
-//        for(String s: brandData){
-//            String query = "FRANCHISE (CAFE_NAME) " + "value (" + s + ")";
-//            insert(query, db);
-//        }
-//        for(String[] s: menuData){
-//            String query = "CAFE () " + convertString(s);
-//            insert(query, db);
-//        }
+        for(String[] s: menuData){
+            String query = "MENU (MENU_NAME, PRICE, CAFE_NAME, IMAGE) " + convertString(s);
+            insert(query, db);
+        }
     }
 
     @Override
@@ -292,16 +288,16 @@ public class DBManager extends SQLiteOpenHelper {
             while (cursor.moveToNext()) {
                 // 파일전송 포맷 json
                 str += "{"
+                        + "'number':'"
+                        + cursor.getInt(0)         //메뉴 번호
                         + "','name':'"
-                        + cursor.getString(0)       //메뉴이름
+                        + cursor.getString(1)       //메뉴이름
                         + "','price':'"
-                        + cursor.getString(1)       //메뉴가격
-                        + "','image':'"
-                        + cursor.getString(2)         //이미지
+                        + cursor.getString(2)       //메뉴가격
                         + "','cafename':'"
                         + cursor.getString(3)        //카페이름
-                        + "','number':'"
-                        + cursor.getInt(4)         //메뉴 번호
+                        + "','image':'"
+                        + cursor.getString(4)         //이미지
                         + "'}";
                 if (cursor.isLast())
                     ;
