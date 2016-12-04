@@ -188,7 +188,7 @@ public class DBManager extends SQLiteOpenHelper {
         else if (whatNum ==1)
             select = "LOCATE";
 
-        Cursor cursor = db.rawQuery("select * from cafe where" + select + "=" + input, null);
+        Cursor cursor = db.rawQuery("select * from cafe where " + select + " LIKE " + "'%"+ input +"%'", null);
 
             while (cursor.moveToNext()) {
                 // 파일전송 포맷 json

@@ -107,7 +107,7 @@ public class SubActivity extends AppCompatActivity {
 
                 Log.d("mk",i + ": " + name + price);
 
-                if(MainActivity.imageNumber.get(image) != null)g
+                if(MainActivity.imageNumber.get(image) != null)
                     menuList.add(new MenuData(MainActivity.imageNumber.get(image),name,price));
                 else
                     menuList.add(new MenuData(R.mipmap.ic_launcher,name,price));
