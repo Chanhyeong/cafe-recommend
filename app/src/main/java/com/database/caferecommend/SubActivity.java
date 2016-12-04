@@ -18,7 +18,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class SubActivity extends AppCompatActivity {
-    ArrayList<MenuData> menuList; //menu 정보를 받음
+    ArrayList<MenuData> menuList; //menu 정보 받음
     DBManager db=new DBManager(SubActivity.this,"menu",null,1);
     TextView call;
     TextView name;
