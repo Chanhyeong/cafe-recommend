@@ -24,7 +24,7 @@ public class registerActivity extends AppCompatActivity {
         });
 
 
-        findViewById(R.id.avgBtn).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.regBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
