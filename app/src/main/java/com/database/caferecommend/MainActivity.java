@@ -30,6 +30,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
+import static android.media.CamcorderProfile.get;
+import static android.os.Build.VERSION_CODES.N;
 import static java.sql.DriverManager.println;
 
 /*
@@ -121,11 +123,26 @@ public class MainActivity extends AppCompatActivity {
                 View view = inflater.inflate(R.layout.custom_alert_layout, null);
 
          //여기에 dialog에 들어갈 애들 추가
-                TextView customTitle = (TextView)view.findViewById(R.id.customtitle);
-                customTitle.setText("종료하시겠습니까?");
-                customTitle.setTextColor(Color.BLACK);
+                //TextView customTitle = (TextView)view.findViewById(R.id.customtitle);
+                //customTitle.setText("종료하시겠습니까?");
+                //customTitle.setTextColor(Color.BLACK);
                 ImageView customIcon = (ImageView)view.findViewById(R.id.customdialogicon);
 
+                TextView dialog_name = (TextView)view.findViewById(R.id.dialog_name);
+                TextView dialog_number = (TextView)view.findViewById(R.id.dialog_number);
+                TextView dialog_open = (TextView)view.findViewById(R.id.dialog_open);
+                TextView dialog_close = (TextView)view.findViewById(R.id.dialog_close);
+                TextView dialog_loc = (TextView)view.findViewById(R.id.dialog_location);
+                TextView dialog_addr = (TextView)view.findViewById(R.id.dialog_address);
+                TextView dialog_char = (TextView)view.findViewById(R.id.dialog_char);
+
+                final String str_name = dialog_name.getText().toString();
+                final String str_number = dialog_number.getText().toString();
+                final String str_open = dialog_open.getText().toString();
+                final String str_close = dialog_close.getText().toString();
+                final String str_loc = dialog_loc.getText().toString();
+                final String str_addr = dialog_addr.getText().toString();
+                final String str_char = dialog_char.getText().toString();
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setView(view);
@@ -133,6 +150,11 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
+                        // 추가하는 문장
+                        if(str_name != null) // 카페이름을 입력하지 않으면, 추가되지 않도록
+                        {
+                            dbManager.InsertData(str_name, str_number, str_open, str_close, str_loc, str_addr, str_char);
+                        }
                     }
                 });
                 builder.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
@@ -156,11 +178,11 @@ public class MainActivity extends AppCompatActivity {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                Intent intent=new Intent(getApplicationContext(),SubActivity.class);
+                int push = arrData.get(position).getCafe_num();
 
-                adapterView.getItemAtPosition(position).toString();
-              //  intent.putExtra("cafeTell")
-                //intent.putExtra("cafeName",)
+
+                Intent intent=new Intent(getApplicationContext(),SubActivity.class);
+                intent.putExtra("value", push);
 
                 startActivity(intent);
 
@@ -185,9 +207,11 @@ public class MainActivity extends AppCompatActivity {
                 JSONObject jObject = jarray.getJSONObject(i);
                 String name = jObject.getString("name");
                 String phone = jObject.getString("phone");
+                int cafe_num =  jObject.getInt("number");
 
                 Log.d("mk",i + ": " + name + phone);
-                arrData.add(new CafeData(R.drawable.angel_a ,name,phone,0));
+
+                arrData.add(new CafeData(R.mipmap.ic_launcher,name,phone,0, cafe_num));
             }
         }
         catch (JSONException e)

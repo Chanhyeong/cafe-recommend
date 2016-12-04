@@ -13,62 +13,118 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:weightSum="1">
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="63dp"
+                android:layout_height="141dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/angel_icon"
                 android:id="@+id/image"
-                />
+                android:layout_weight="0.71" />
 
             <RatingBar
                 android:id="@+id/ratingBar1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="13pt"
+                android:layout_marginLeft="10pt"
                 android:numStars="5"
                 android:stepSize="0.5"
                 android:isIndicator="true"/>
 
     </LinearLayout>
-
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="카페 이름"
+        android:id="@+id/cafeName"
+        android:textSize="20pt"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="horizontal">
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:textSize="9pt"
+                    android:layout_height="wrap_content"
                     android:text="전화번호 "/>
 
                 <TextView
                     android:id="@+id/call"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
+                    android:textSize="9pt"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="30pt"
                     android:text="여기다 전화 번호"/>
             </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:textSize="9pt"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="주소" />
+            android:text="주소"/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="여기다 주소"
-                android:id="@+id/address" />
-        </LinearLayout>
+        <TextView
+            android:id="@+id/address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40pt"
+            android:textSize="9pt"
+            android:text="여기다 주소"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:textSize="9pt"
+            android:layout_height="wrap_content"
+            android:text="오픈시간 "/>
+
+        <TextView
+            android:id="@+id/open"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="9pt"
+            android:layout_marginLeft="30pt"
+            android:text="여기다 오픈시간"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:textSize="9pt"
+            android:layout_height="wrap_content"
+            android:text="마감시간 "/>
+
+        <TextView
+            android:id="@+id/close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="9pt"
+            android:layout_marginLeft="30pt"
+            android:text="여기다 마감시간"/>
+    </LinearLayout>
+
+
 
 
     <ListView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"><!--메뉴-->
+        android:layout_height="wrap_content"
+        android:id="@+id/menuList"><!--메뉴-->
     </ListView>
 
-        <Button
+    <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Cafe Review"
