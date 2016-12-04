@@ -20,7 +20,7 @@
                 android:layout_height="141dp"
                 android:scaleType="centerInside"
                 android:src="@drawable/angel_icon"
-                android:id="@+id/image"
+                android:id="@+id/cafeImage"
                 android:layout_weight="0.71" />
 
             <RatingBar

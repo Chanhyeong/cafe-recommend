@@ -16,7 +16,7 @@
             android:layout_width="59dp"
             android:layout_height="wrap_content"
             android:text="평점등록"
-            android:id="@+id/avgBtn" />
+            android:id="@+id/regBtn" />
     </LinearLayout>
     <EditText
         android:layout_width="match_parent"

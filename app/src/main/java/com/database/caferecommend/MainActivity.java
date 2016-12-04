@@ -174,11 +174,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 int push = arrData.get(position).getCafe_num();
-
-
-                Intent intent=new Intent(getApplicationContext(),SubActivity.class);
+                Intent intent=new Intent(MainActivity.this,SubActivity.class);
+                intent.putExtra("CafeData",arrData);
                 intent.putExtra("value", push);
-
                 startActivity(intent);
 
             }
@@ -200,13 +198,16 @@ public class MainActivity extends AppCompatActivity {
             for(int i=0; i < jarray.length(); i++)
             {
                 JSONObject jObject = jarray.getJSONObject(i);
+                int cafe_num = jObject.getInt("number");
                 String name = jObject.getString("name");
                 String phone = jObject.getString("phone");
-                int cafe_num =  jObject.getInt("number");
+                int open = jObject.getInt("open");
+                int close = jObject.getInt("close");
+                String address=jObject.getString("address");
 
                 Log.d("mk",i + ": " + name + phone);
-
-                arrData.add(new CafeData(R.mipmap.ic_launcher,name,phone,0, cafe_num));
+                //이미지  이름     전화번호     주소      오픈시간    마감시간    평균    카페번호
+                arrData.add(new CafeData(R.mipmap.ic_launcher,name,phone,address,open,close,0,cafe_num));
             }
         }
         catch (JSONException e)
