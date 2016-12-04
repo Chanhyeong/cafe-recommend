@@ -155,8 +155,6 @@ public class DBManager extends SQLiteOpenHelper {
     public void insert(String _query, SQLiteDatabase db) {
         //insert into 테이블명 values(속성, 속성)
         System.out.println(_query);
-        Log.d("md", "+++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-        Log.d("md", _query);
         db.execSQL("insert into " + _query);
     }
 

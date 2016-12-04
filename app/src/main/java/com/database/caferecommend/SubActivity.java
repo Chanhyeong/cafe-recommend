@@ -48,7 +48,7 @@ public class SubActivity extends AppCompatActivity {
         image=(ImageView)findViewById(R.id.cafeImage);
         ratingBar1=(RatingBar)findViewById(R.id.ratingBar1);
 
-        MyThread myThread=new MyThread();  //thread로 해당 카페의 정보를 얻는다.
+        MyThread myThread = new MyThread();  //thread로 해당 카페의 정보를 얻는다.
         setMenuData();// 메뉴 정보를 setting!
         ListView menu= (ListView)findViewById(R.id.menuList);
         MenuAdapter menuAdapter=new MenuAdapter(SubActivity.this,menuList);
@@ -93,8 +93,6 @@ public class SubActivity extends AppCompatActivity {
         menuList=new ArrayList<MenuData>();
         // 코드 확인용 예제문
         // arrData.add(new CafeData(R.mipmap.ic_launcher,"엔젤리너스","010-1111-2222",0));
-
-        Log.d("mk", "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
 
         try{
             JSONArray jarray = new JSONArray(get);
