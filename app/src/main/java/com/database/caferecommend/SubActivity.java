@@ -15,6 +15,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
 
+import static com.database.caferecommend.R.drawable.angel_a;
+
 public class SubActivity extends AppCompatActivity {
     ArrayList<MenuData> menuList; //menu 정보 받음
     DBManager db=new DBManager(SubActivity.this,"menu",null,1);
@@ -25,6 +27,7 @@ public class SubActivity extends AppCompatActivity {
     TextView close;
     ImageView image;
     RatingBar ratingBar1;
+    String cafeName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +43,30 @@ public class SubActivity extends AppCompatActivity {
         ratingBar1=(RatingBar)findViewById(R.id.ratingBar1);
 
         MyThread myThread=new MyThread();  //thread로 해당 카페의 정보를 얻는다.
+
+
+        //카페 넘버 받아오기
+        Intent intent = getIntent();
+        int cafe_num = (int)intent.getIntExtra("value", 1);
+        ArrayList<CafeData> arr=(ArrayList<CafeData>) intent.getSerializableExtra("CafeData");
+        for(int i=0; i<arr.size(); i++) {
+            if (arr.get(i).getCafe_num() == cafe_num) {
+                call.setText(arr.get(i).getTel());
+
+                cafeName = arr.get(i).getName();
+                image.setImageResource(arr.get(i).getImage());
+
+                name.setText(cafeName);
+                address.setText(arr.get(i).getAddress());
+                open.setText(Integer.toString(arr.get(i).getOpen()));
+                close.setText(Integer.toString(arr.get(i).getClose()));
+                ratingBar1.setRating(2);
+                // arr.get(i).getAvg();
+                //arr.get(i).getImage();
+                break;
+            }
+        }
+
         setMenuData();// 메뉴 정보를 setting!
         ListView menu= (ListView)findViewById(R.id.menuList);
         MenuAdapter menuAdapter=new MenuAdapter(SubActivity.this,menuList);
@@ -56,6 +83,7 @@ public class SubActivity extends AppCompatActivity {
     private class MyThread extends Thread {//thread
         @Override
         public void run() {
+            /*
             //카페 넘버 받아오기
             Intent intent = getIntent();
             int cafe_num = (int)intent.getIntExtra("value", 1);
@@ -63,8 +91,12 @@ public class SubActivity extends AppCompatActivity {
             for(int i=0; i<arr.size(); i++) {
                 if (arr.get(i).getCafe_num() == cafe_num) {
                     call.setText(arr.get(i).getTel());
-                    name.setText(arr.get(i).getAddress());
-                    address.setText(arr.get(i).getName());
+
+                    cafeName = arr.get(i).getName();
+                    image.setImageResource(MainActivity.imageNumber.get(cafeName));
+
+                    name.setText(cafeName);
+                    address.setText(arr.get(i).getAddress());
                     open.setText(arr.get(i).getClose());
                     close.setText(arr.get(i).getOpen());
                     ratingBar1.setRating(2);
@@ -73,7 +105,7 @@ public class SubActivity extends AppCompatActivity {
                     break;
                 }
             }
-
+*/
         }
     }
 
