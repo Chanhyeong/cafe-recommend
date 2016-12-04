@@ -156,6 +156,7 @@ public class DBManager extends SQLiteOpenHelper {
         db.close();
     }
 
+    //카페에 값 추가하는 것
     public void InsertData(String name, String number, int open, int close, String loc, String addr, String charac)
     {
         SQLiteDatabase db = getWritableDatabase();
