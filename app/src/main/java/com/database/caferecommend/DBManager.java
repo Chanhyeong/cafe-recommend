@@ -48,8 +48,8 @@ public class DBManager extends SQLiteOpenHelper {
 
     private final String[][] brandData = {
             {"탐앤탐스", "tom_icon"}, {"카페베네", "cafe_icon"}, {"이디야커피", "ediya_icon"},
-            {"스타벅스", "star_icon"}, {"할리스", "hollys_icon"}, {"엔젤리너스", "angel_icon"},
-            {"봄봄"}, {"빽다방"},  {"쥬씨"}, {"커피나무"}, {"나인어클락"}, {"커피만"}, {"커피볶는수"}
+            {"스타벅스", "star_icon"}, {"할리스커피", "hollys_icon"}, {"엔젤리너스", "angel_icon"},
+            {"봄봄", ""}, {"빽다방", ""},  {"쥬씨", ""}, {"커피나무", ""}, {"나인어클락", ""}, {"커피만",""}, {"커피볶는수", ""}
     };
 
     private final String[][] menuData = {
@@ -118,8 +118,8 @@ public class DBManager extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE IF NOT EXISTS CAFE(CAFE_ID integer primary key autoincrement, NAME text not null, PHONE text, OPEN_TIME integer, END_TIME integer, LOCATE text not null, DETAIL_LOCATE text not null, CATEGORY text not null);");
-        db.execSQL("CREATE TABLE IF NOT EXISTS FRANCHISE(CAFE_NAME text not null, BRAND_IMAGE TEXT);");
-        db.execSQL("CREATE TABLE IF NOT EXISTS MENU(MENU_ID integer primary key autoincrement, MENU_NAME text not null, PRICE integer, IMAGE TEXT, CAFE_NAME text not null," +
+        db.execSQL("CREATE TABLE IF NOT EXISTS FRANCHISE(CAFE_NAME text not null, BRAND_IMAGE text);");
+        db.execSQL("CREATE TABLE IF NOT EXISTS MENU(MENU_ID integer primary key autoincrement, MENU_NAME text not null, PRICE integer, IMAGE text, CAFE_NAME text not null," +
                 "foreign key (CAFE_NAME) references FRANCHISE(CAFE_NAME) on delete SET NULL on update CASCADE);");
         db.execSQL("CREATE TABLE IF NOT EXISTS PICTURE(IMAGE_ID integer primary key autoincrement, IMAGE_ADDR text not null, CAFE_ID integer not null, " +
                 "foreign key (CAFE_ID) references CAFE(CAFE_ID) on delete SET NULL on update CASCADE);");
@@ -130,7 +130,6 @@ public class DBManager extends SQLiteOpenHelper {
 
         for(String[] s: cafeData){
             String query = "CAFE (NAME,PHONE,OPEN_TIME,END_TIME,LOCATE,DETAIL_LOCATE,CATEGORY) " + convertString(s) + ";";
-            //System.out.println(query);
             insert(query, db);
         }
 
@@ -156,6 +155,9 @@ public class DBManager extends SQLiteOpenHelper {
 
     public void insert(String _query, SQLiteDatabase db) {
         //insert into 테이블명 values(속성, 속성)
+        System.out.println(_query);
+        Log.d("md", "+++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+        Log.d("md", _query);
         db.execSQL("insert into " + _query);
     }
 
@@ -170,13 +172,6 @@ public class DBManager extends SQLiteOpenHelper {
         db.execSQL(_query);
         db.close();
 
-    }
-
-    public byte[] getByteImage(String path){
-        Bitmap src= BitmapFactory.decodeFile(path);
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        src.compress(Bitmap.CompressFormat.PNG, 100, baos);
-        return baos.toByteArray();
     }
 
     public void InsertData(String name, String number, String open, String close, String loc, String addr, String charac)
@@ -200,26 +195,42 @@ public class DBManager extends SQLiteOpenHelper {
         //select 속성,속성...from 테이블명;
         Cursor cursor = db.rawQuery("select * from "+ input, null);
         if(input.equals("cafe")) {
-                while (cursor.moveToNext()) {
-                    // 파일전송 포맷 json
-                    str += "{"
-                            + "'number':'"
-                            + cursor.getInt(0)         //카페번호
-                            + "','name':'"
-                            + cursor.getString(1)       //카페이름
-                            + "','phone':'"
-                            + cursor.getString(2)       //전화번호
-                            + "','open':'"
-                            + cursor.getInt(3)         //오픈시간
-                            + "','close':'"
-                            + cursor.getInt(4)           //마감시간
-                            + "','location':'"
-                            + cursor.getString(5)         //지역
-                            + "','address':'"
-                            + cursor.getString(6)         //상세주소
-                            + "','category':'"
-                            + cursor.getString(7)         //카테고리
-                            + "'}";
+            while (cursor.moveToNext()) {
+                // 파일전송 포맷 json
+                str += "{"
+                        + "'number':'"
+                        + cursor.getInt(0)         //카페번호
+                        + "','name':'"
+                        + cursor.getString(1)       //카페이름
+                        + "','phone':'"
+                        + cursor.getString(2)       //전화번호
+                        + "','open':'"
+                        + cursor.getInt(3)         //오픈시간
+                        + "','close':'"
+                        + cursor.getInt(4)           //마감시간
+                        + "','location':'"
+                        + cursor.getString(5)         //지역
+                        + "','address':'"
+                        + cursor.getString(6)         //상세주소
+                        + "','category':'"
+                        + cursor.getString(7)         //카테고리
+                        + "'}";
+                if (cursor.isLast())
+                    ;
+                else
+                    str += " ,";
+            }
+            str += "]";
+        }
+        else if(input.equals("franchise")){
+            while (cursor.moveToNext()) {
+                // 파일전송 포맷 json
+                str += "{"
+                        + "'cafe_name':'"
+                        + cursor.getString(0)         //카페 이름
+                        + "','brand_image':'"
+                        + cursor.getString(1)       //브랜드 이미지
+                        + "'}";
                 if (cursor.isLast())
                     ;
                 else
