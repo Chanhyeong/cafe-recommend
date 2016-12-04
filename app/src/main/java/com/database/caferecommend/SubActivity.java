@@ -42,9 +42,6 @@ public class SubActivity extends AppCompatActivity {
         image=(ImageView)findViewById(R.id.cafeImage);
         ratingBar1=(RatingBar)findViewById(R.id.ratingBar1);
 
-        MyThread myThread=new MyThread();  //thread로 해당 카페의 정보를 얻는다.
-
-
         //카페 넘버 받아오기
         Intent intent = getIntent();
         int cafe_num = (int)intent.getIntExtra("value", 1);
@@ -80,34 +77,6 @@ public class SubActivity extends AppCompatActivity {
             }
         });
     }
-    private class MyThread extends Thread {//thread
-        @Override
-        public void run() {
-            /*
-            //카페 넘버 받아오기
-            Intent intent = getIntent();
-            int cafe_num = (int)intent.getIntExtra("value", 1);
-            ArrayList<CafeData> arr=(ArrayList<CafeData>) intent.getSerializableExtra("CafeData");
-            for(int i=0; i<arr.size(); i++) {
-                if (arr.get(i).getCafe_num() == cafe_num) {
-                    call.setText(arr.get(i).getTel());
-
-                    cafeName = arr.get(i).getName();
-                    image.setImageResource(MainActivity.imageNumber.get(cafeName));
-
-                    name.setText(cafeName);
-                    address.setText(arr.get(i).getAddress());
-                    open.setText(arr.get(i).getClose());
-                    close.setText(arr.get(i).getOpen());
-                    ratingBar1.setRating(2);
-                    // arr.get(i).getAvg();
-                    //arr.get(i).getImage();
-                    break;
-                }
-            }
-*/
-        }
-    }
 
     private void setMenuData(){
         String get = db.PrintData("menu");
@@ -127,9 +96,11 @@ public class SubActivity extends AppCompatActivity {
                 String name = jObject.getString("name");
                 String price = jObject.getString("price");
                 String image = jObject.getString("image");
+                String instantCafeName = jObject.getString("cafename");
 
                 Log.d("mk",i + ": " + name + price);
 
+                if(cafeName.equals(instantCafeName))
                 if(MainActivity.imageNumber.get(image) != null)
                     menuList.add(new MenuData(MainActivity.imageNumber.get(image),name,price));
                 else
