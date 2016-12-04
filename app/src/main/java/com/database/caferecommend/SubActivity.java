@@ -103,9 +103,7 @@ public class SubActivity extends AppCompatActivity {
                 JSONObject jObject = jarray.getJSONObject(i);
                 String name = jObject.getString("name");
                 String price = jObject.getString("price");
-
                 Log.d("mk",i + ": " + name + price);
-
                 menuList.add(new MenuData(R.drawable.angel_a,name,price));
             }
         }
