@@ -3,6 +3,7 @@ package com.database.caferecommend;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -24,7 +25,10 @@ import org.json.JSONObject;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static android.R.attr.dial;
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
@@ -65,9 +69,22 @@ public class MainActivity extends AppCompatActivity {
     EditText texxxt;
     Button search;
     int whatSpin;   //  0 = 이름, 1 = 지역.
+    HashMap<String, Integer> imageNumber = new HashMap<String, Integer>();
+
+    Class c = R.drawable.class;
+    Field[] f = c.getFields();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        for (Field d : f) {
+            try {
+                if(d.get("R.drawable." + d.getName()) != null) {
+                    imageNumber.put(d.getName(), Integer.valueOf(d.get("R.drawable." + d.getName()).toString()));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -183,6 +200,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setData(){
         String get = dbManager.PrintData("cafe");
+        String get2 = dbManager.PrintData("franchise");
         //System.out.println(get);    // for log.
 
         arrData=new ArrayList<CafeData>();
@@ -193,6 +211,16 @@ public class MainActivity extends AppCompatActivity {
 
         try{
             JSONArray jarray = new JSONArray(get);
+            JSONArray jarray2 = new JSONArray(get2);
+            HashMap<String, String> cafeToImage = new HashMap<String, String>();
+
+            for(int i=0; i < jarray2.length(); i++) {
+                JSONObject jObject2 = jarray2.getJSONObject(i);
+                String cafe_name = jObject2.getString("cafe_name");
+                String brand_image = jObject2.getString("brand_image");
+                cafeToImage.put(cafe_name, brand_image);
+                Log.d("mk",i + ": " + cafe_name + brand_image);
+            }
             for(int i=0; i < jarray.length(); i++)
             {
                 JSONObject jObject = jarray.getJSONObject(i);
@@ -203,9 +231,13 @@ public class MainActivity extends AppCompatActivity {
                 int close = jObject.getInt("close");
                 String address=jObject.getString("address");
 
-                Log.d("mk",i + ": " + name + phone);
+                Log.d("mk",i + ": " + name + phone + cafeToImage.get(name) + imageNumber.get(cafeToImage.get(name)));
+
                 //이미지  이름     전화번호     주소      오픈시간    마감시간    평균    카페번호
-                arrData.add(new CafeData(R.mipmap.ic_launcher,name,phone,address,open,close,0,cafe_num));
+                if(imageNumber.get(cafeToImage.get(name)) != null)
+                    arrData.add(new CafeData(imageNumber.get(cafeToImage.get(name)),name,phone,address,open,close,0,cafe_num));
+                else
+                    arrData.add(new CafeData(R.mipmap.ic_launcher,name,phone,address,open,close,0,cafe_num));
             }
         }
         catch (JSONException e)
