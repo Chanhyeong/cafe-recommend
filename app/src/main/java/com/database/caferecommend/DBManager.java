@@ -154,6 +154,19 @@ public class DBManager extends SQLiteOpenHelper {
         db.close();
     }
 
+    public void InsertData(String name, String number, String open, String close, String loc, String addr, String charac)
+    {
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL("insert into CAFE (" +
+                name + "," +
+                number + "," +
+                open + "," +
+                close + "," +
+                loc + "," +
+                addr + ","+
+                charac + ")");
+    }
+
 
     public String PrintData(String input) {
         SQLiteDatabase db = getReadableDatabase();
