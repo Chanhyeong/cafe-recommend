@@ -10,11 +10,9 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 
 public class SubActivity extends AppCompatActivity {
@@ -55,7 +53,7 @@ public class SubActivity extends AppCompatActivity {
             }
         });
     }
-    private class MyThread extends Thread {
+    private class MyThread extends Thread {//thread
         @Override
         public void run() {
             //카페 넘버 받아오기
