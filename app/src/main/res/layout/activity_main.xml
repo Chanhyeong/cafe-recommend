@@ -20,6 +20,7 @@
 
         <Spinner
             android:layout_width="60dp"
+            android:text="검색"
             android:layout_height="wrap_content"
             android:entries="@array/spinner_list"
             android:id="@+id/spinner" />

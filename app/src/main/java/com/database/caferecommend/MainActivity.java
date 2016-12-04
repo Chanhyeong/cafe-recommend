@@ -3,6 +3,7 @@ package com.database.caferecommend;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -24,7 +25,10 @@ import org.json.JSONObject;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static android.R.attr.dial;
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
@@ -65,14 +69,31 @@ public class MainActivity extends AppCompatActivity {
     EditText texxxt;
     Button search;
     int whatSpin;   //  0 = 이름, 1 = 지역.
+    HashMap<String, Integer> imageNumber = new HashMap<String, Integer>();
+
+    Class c = R.drawable.class;
+    Field[] f = c.getFields();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        for (Field d : f) {
+            try {
+                if(d.get("R.drawable." + d.getName()) != null) {
+                    imageNumber.put(d.getName(), Integer.valueOf(d.get("R.drawable." + d.getName()).toString()));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         dbManager=new DBManager(getApplicationContext(),"cafe",null,1);
 
+        /*
+        spinner - 검색할 애들에 대해...
+        여기서 어떤 걸 검색할지 값을 받아옴
+         */
         Spinner spin = (Spinner) findViewById(R.id.spinner);
         spin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
             @Override
@@ -96,6 +117,8 @@ public class MainActivity extends AppCompatActivity {
 
                 //whatSpin 0- 이름. 1-지역
                 String string = texxxt.getText().toString();
+
+                dbManager.getPart(whatSpin, string);
             }
         });
 
@@ -108,8 +131,6 @@ public class MainActivity extends AppCompatActivity {
                 View view = inflater.inflate(R.layout.custom_alert_layout, null);
 
          //여기에 dialog에 들어갈 애들 추가
-                //TextView customTitle = (TextView)view.findViewById(R.id.customtitle);
-                //customTitle.setText("종료하시겠습니까?");
                 //customTitle.setTextColor(Color.BLACK);
                 ImageView customIcon = (ImageView)view.findViewById(R.id.customdialogicon);
 
@@ -120,14 +141,6 @@ public class MainActivity extends AppCompatActivity {
                 final EditText dialog_loc = (EditText)view.findViewById(R.id.dialog_location);
                 final EditText dialog_addr = (EditText)view.findViewById(R.id.dialog_address);
                 final EditText dialog_char = (EditText)view.findViewById(R.id.dialog_char);
-
-                dialog_name.setImeOptions(EditorInfo.IME_ACTION_NEXT);
-                dialog_number.setImeOptions(EditorInfo.IME_ACTION_NEXT);
-                dialog_open.setImeOptions(EditorInfo.IME_ACTION_NEXT);
-                dialog_close.setImeOptions(EditorInfo.IME_ACTION_NEXT);
-                dialog_loc.setImeOptions(EditorInfo.IME_ACTION_NEXT);
-                dialog_addr.setImeOptions(EditorInfo.IME_ACTION_NEXT);
-                dialog_char.setImeOptions(EditorInfo.IME_ACTION_NEXT);
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setView(view);
@@ -149,6 +162,9 @@ public class MainActivity extends AppCompatActivity {
                         {
                             dbManager.InsertData(str_name, str_number, str_open, str_close, str_loc, str_addr, str_char);
                             Log.d("mks...", str_name + str_number);
+
+                            //다시 업로드 하도록 하는 코드 필요!!!!
+                            setData();
                         }
                     }
                 });
@@ -184,6 +200,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setData(){
         String get = dbManager.PrintData("cafe");
+        String get2 = dbManager.PrintData("franchise");
         //System.out.println(get);    // for log.
 
         arrData=new ArrayList<CafeData>();
@@ -194,6 +211,16 @@ public class MainActivity extends AppCompatActivity {
 
         try{
             JSONArray jarray = new JSONArray(get);
+            JSONArray jarray2 = new JSONArray(get2);
+            HashMap<String, String> cafeToImage = new HashMap<String, String>();
+
+            for(int i=0; i < jarray2.length(); i++) {
+                JSONObject jObject2 = jarray2.getJSONObject(i);
+                String cafe_name = jObject2.getString("cafe_name");
+                String brand_image = jObject2.getString("brand_image");
+                cafeToImage.put(cafe_name, brand_image);
+                Log.d("mk",i + ": " + cafe_name + brand_image);
+            }
             for(int i=0; i < jarray.length(); i++)
             {
                 JSONObject jObject = jarray.getJSONObject(i);
@@ -204,9 +231,13 @@ public class MainActivity extends AppCompatActivity {
                 int close = jObject.getInt("close");
                 String address=jObject.getString("address");
 
-                Log.d("mk",i + ": " + name + phone);
+                Log.d("mk",i + ": " + name + phone + cafeToImage.get(name) + imageNumber.get(cafeToImage.get(name)));
+
                 //이미지  이름     전화번호     주소      오픈시간    마감시간    평균    카페번호
-                arrData.add(new CafeData(R.mipmap.ic_launcher,name,phone,address,open,close,0,cafe_num));
+                if(imageNumber.get(cafeToImage.get(name)) != null)
+                    arrData.add(new CafeData(imageNumber.get(cafeToImage.get(name)),name,phone,address,open,close,0,cafe_num));
+                else
+                    arrData.add(new CafeData(R.mipmap.ic_launcher,name,phone,address,open,close,0,cafe_num));
             }
         }
         catch (JSONException e)
