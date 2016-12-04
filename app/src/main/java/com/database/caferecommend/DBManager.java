@@ -20,6 +20,8 @@ import android.os.Bundle;
 import android.util.Log;
 
 
+import static com.database.caferecommend.R.id.open;
+
 /**
  * Created by Administrator on 2016-11-25.
  */
@@ -174,17 +176,18 @@ public class DBManager extends SQLiteOpenHelper {
 
     }
 
-    public void InsertData(String name, String number, String open, String close, String loc, String addr, String charac)
+    //카페에 값 추가하는 것
+    public void InsertData(String name, String number, int open, int close, String loc, String addr, String charac)
     {
         SQLiteDatabase db = getWritableDatabase();
-        db.execSQL("insert into CAFE (" +
-                name + "," +
-                number + "," +
+        db.execSQL("insert into CAFE (NAME,PHONE,OPEN_TIME,END_TIME,LOCATE,DETAIL_LOCATE,CATEGORY) values ('" +
+                name + "','" +
+                number + "'," +
                 open + "," +
-                close + "," +
-                loc + "," +
-                addr + ","+
-                charac + ")");
+                close + ",'" +
+                loc + "','" +
+                addr + "','"+
+                charac + "');");
     }
 
 
@@ -236,7 +239,6 @@ public class DBManager extends SQLiteOpenHelper {
                 else
                     str += " ,";
             }
-            str += "]";
         }
         else if(input.equals("menu")) {
             while (cursor.moveToNext()) {
@@ -258,9 +260,8 @@ public class DBManager extends SQLiteOpenHelper {
                 else
                     str += " ,";
             }
-            str += "]";
         }
-
+        str += "]";
         return str;
     }
 

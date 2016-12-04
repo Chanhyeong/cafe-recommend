@@ -26,7 +26,6 @@
 
         <EditText
             android:id="@+id/dialog_name"
-            android:imeOptions="actionNext"
             android:layout_width="100dp"
             android:layout_height="wrap_content"/>
     </TableRow>
@@ -41,7 +40,6 @@
         <EditText
             android:id="@+id/dialog_number"
             android:layout_width="100dp"
-            android:imeOptions="actionNext"
             android:layout_height="wrap_content"/>
     </TableRow>
 
@@ -54,8 +52,8 @@
 
         <EditText
             android:id="@+id/dialog_open"
-            android:imeOptions="actionNext"
             android:layout_width="100dp"
+            android:text="0"
             android:layout_height="wrap_content"/>
     </TableRow>
 
@@ -69,7 +67,7 @@
         <EditText
             android:id="@+id/dialog_close"
             android:layout_width="100dp"
-            android:imeOptions="actionNext"
+            android:text="24"
             android:layout_height="wrap_content"/>
     </TableRow>
 
@@ -83,7 +81,6 @@
         <EditText
             android:id="@+id/dialog_location"
             android:layout_width="100dp"
-            android:imeOptions="actionNext"
             android:layout_height="wrap_content"/>
     </TableRow>
 
@@ -97,7 +94,6 @@
         <EditText
             android:id="@+id/dialog_address"
             android:layout_width="100dp"
-            android:imeOptions="actionNext"
             android:layout_height="wrap_content"/>
     </TableRow>
 
@@ -110,7 +106,6 @@
 
         <EditText
             android:id="@+id/dialog_char"
-            android:imeOptions="actionNext"
             android:layout_width="100dp"
             android:layout_height="wrap_content"/>
     </TableRow>

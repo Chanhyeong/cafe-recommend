@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,6 +30,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import static android.R.attr.dial;
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 import static android.media.CamcorderProfile.get;
 import static android.os.Build.VERSION_CODES.N;
@@ -59,9 +61,9 @@ Update
 
  */
 public class MainActivity extends AppCompatActivity {
-    ArrayList<CafeData>arrData;
-    MyAdapter myadapter;
-    ListView list;
+    ArrayList<CafeData>arrData;  //각 카페별 데이터를 저장한다.
+    MyAdapter myadapter;         //ListView의 어댑터
+    ListView list;               //각 카페데이터를 보여줌
     DBManager dbManager;
     Button plus;
     EditText texxxt;
@@ -128,21 +130,21 @@ public class MainActivity extends AppCompatActivity {
                 //customTitle.setTextColor(Color.BLACK);
                 ImageView customIcon = (ImageView)view.findViewById(R.id.customdialogicon);
 
-                TextView dialog_name = (TextView)view.findViewById(R.id.dialog_name);
-                TextView dialog_number = (TextView)view.findViewById(R.id.dialog_number);
-                TextView dialog_open = (TextView)view.findViewById(R.id.dialog_open);
-                TextView dialog_close = (TextView)view.findViewById(R.id.dialog_close);
-                TextView dialog_loc = (TextView)view.findViewById(R.id.dialog_location);
-                TextView dialog_addr = (TextView)view.findViewById(R.id.dialog_address);
-                TextView dialog_char = (TextView)view.findViewById(R.id.dialog_char);
+                final EditText dialog_name = (EditText)view.findViewById(R.id.dialog_name);
+                final EditText dialog_number = (EditText)view.findViewById(R.id.dialog_number);
+                final EditText dialog_open = (EditText)view.findViewById(R.id.dialog_open);
+                final EditText dialog_close = (EditText)view.findViewById(R.id.dialog_close);
+                final EditText dialog_loc = (EditText)view.findViewById(R.id.dialog_location);
+                final EditText dialog_addr = (EditText)view.findViewById(R.id.dialog_address);
+                final EditText dialog_char = (EditText)view.findViewById(R.id.dialog_char);
 
-                final String str_name = dialog_name.getText().toString();
-                final String str_number = dialog_number.getText().toString();
-                final String str_open = dialog_open.getText().toString();
-                final String str_close = dialog_close.getText().toString();
-                final String str_loc = dialog_loc.getText().toString();
-                final String str_addr = dialog_addr.getText().toString();
-                final String str_char = dialog_char.getText().toString();
+                dialog_name.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+                dialog_number.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+                dialog_open.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+                dialog_close.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+                dialog_loc.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+                dialog_addr.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+                dialog_char.setImeOptions(EditorInfo.IME_ACTION_NEXT);
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setView(view);
@@ -150,10 +152,20 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
+                        String str_name = dialog_name.getText().toString();
+                        String str_number = dialog_number.getText().toString();
+                        int str_open = Integer.parseInt(dialog_open.getText().toString());
+                        int str_close = Integer.parseInt(dialog_close.getText().toString());
+                        String str_loc = dialog_loc.getText().toString();
+                        String str_addr = dialog_addr.getText().toString();
+                        String str_char = dialog_char.getText().toString();
+
                         // 추가하는 문장
+                        // 옵션 - && str_number != null && str_loc != null && str_addr != null && str_char != null
                         if(str_name != null) // 카페이름을 입력하지 않으면, 추가되지 않도록
                         {
                             dbManager.InsertData(str_name, str_number, str_open, str_close, str_loc, str_addr, str_char);
+                            Log.d("mks...", str_name + str_number);
                         }
                     }
                 });
@@ -183,7 +195,6 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("CafeData",arrData);
                 intent.putExtra("value", push);
                 startActivity(intent);
-
             }
         });
     }
@@ -234,6 +245,5 @@ public class MainActivity extends AppCompatActivity {
         {
             e.printStackTrace();
         }
-
     }
 }
