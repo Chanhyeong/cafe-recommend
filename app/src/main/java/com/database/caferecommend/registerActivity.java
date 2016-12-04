@@ -16,13 +16,6 @@ public class registerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_review);
 
-
-        findViewById(R.id.regBtn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
         findViewById(R.id.regRev).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
