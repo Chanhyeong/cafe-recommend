@@ -115,8 +115,8 @@ public class SubActivity extends AppCompatActivity {
                         String str_price = addPrice.getText().toString();
                         int pos = 0;
                         if (select1.isSelected())pos = 0;
-                       // else if (select2.isSelected())pos = 1;
-                       // else if (select3.isSelected())pos= 2;
+                        // else if (select2.isSelected())pos = 1;
+                        // else if (select3.isSelected())pos= 2;
 
                         // 추가하는 문장
                         if (str_menu != null && str_price != null) // 카페메뉴를 입력하지 않으면, 추가되지 않도록
@@ -164,27 +164,26 @@ public class SubActivity extends AppCompatActivity {
                 mClose.setText(Integer.toString(cafeData.getCloseTime()));
                 mAddress.setText(cafeData.getAddress());
                 mChar.setText(cafeData.getCategory());
+
                 AlertDialog.Builder builder = new AlertDialog.Builder(SubActivity.this);
                 builder.setView(view);
                 builder.setPositiveButton("네", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
                         String str_name = mName.getText().toString();
                         String str_phone = mPhone.getText().toString();
-                        int str_open = Integer.parseInt(mOpen.getText().toString());
-                        int str_close = Integer.parseInt(mClose.getText().toString());
+                        int open = Integer.parseInt(mOpen.getText().toString());
+                        int close = Integer.parseInt(mClose.getText().toString());
                         String str_loc = mlocation.getText().toString();
                         String str_addr = mAddress.getText().toString();
                         String str_char = mChar.getText().toString();
 
-
-
+                        cafeData.changeData(str_name, str_phone, str_addr, str_loc, open, close, str_char);
                         // 추가하는 문장
                         // 옵션 - && str_number != null && str_loc != null && str_addr != null && str_char != null
                         if(str_name != null) // 카페이름을 입력하지 않으면, 추가되지 않도록
                         {
-                            String[] values = {str_name, str_phone, Integer.toString(str_open), Integer.toString(str_close), str_loc, str_addr, str_char};
+                            String[] values = {str_name, str_phone, Integer.toString(open), Integer.toString(close), str_loc, str_addr, str_char};
                             //String query = "CAFE (NAME,PHONE,OPEN_TIME,END_TIME,LOCATE,DETAIL_LOCATE,CATEGORY)" + db.convertString(values);
 
                             //db.update(query);
