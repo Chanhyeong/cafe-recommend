@@ -32,7 +32,10 @@ public class RegisterActivity extends AppCompatActivity {
                 String[] values = { Double.toString(reviewRating), review, Integer.toString(cafeNum)};
                 String query = "REVIEW (SCORE, REVIEW_TEXT, CAFE_ID) " + CommonFunction.dbManager.convertString(values);
                 CommonFunction.dbManager.insert(query);
+                Intent intent=new Intent(getApplicationContext(),Review.class);
+                startActivity(intent);
             }
         });
+
     }
 }
