@@ -106,7 +106,7 @@ public class DBManager extends SQLiteOpenHelper {
                 "foreign key (CAFE_ID) references CAFE(CAFE_ID) on delete SET NULL on update CASCADE);");
         db.execSQL("CREATE TABLE IF NOT EXISTS EVENT(EVENT_ID integer primary key autoincrement, CAFE_NAME text not null, EVENT_DETAIL text not null, " +
                 "foreign key (CAFE_NAME) references FRANCHISE(CAFE_NAME) on delete SET NULL on update CASCADE);");
-        db.execSQL("CREATE TABLE IF NOT EXISTS REVIEW(REVIEW_ID integer primary key autoincrement, SCORE integer, REVIEW_TEXT text not null, CAFE_ID integer not null, " +
+        db.execSQL("CREATE TABLE IF NOT EXISTS REVIEW(REVIEW_ID integer primary key autoincrement, SCORE real, REVIEW_TEXT text not null, CAFE_ID integer not null, " +
                 "foreign key (CAFE_ID) references CAFE(CAFE_ID) on delete SET NULL on update CASCADE);");
 
         for(String[] s: cafeData){
@@ -215,33 +215,56 @@ public class DBManager extends SQLiteOpenHelper {
 
         Cursor cursor = db.rawQuery("select * from cafe where " + select + " LIKE " + "'%"+ input +"%'", null);
 
-            while (cursor.moveToNext()) {
-                // 파일전송 포맷 json
-                str += "{"
-                        + "'number':'"
-                        + cursor.getInt(0)         //카페번호
-                        + "','name':'"
-                        + cursor.getString(1)       //카페이름
-                        + "','phone':'"
-                        + cursor.getString(2)       //전화번호
-                        + "','open':'"
-                        + cursor.getInt(3)         //오픈시간
-                        + "','close':'"
-                        + cursor.getInt(4)           //마감시간
-                        + "','location':'"
-                        + cursor.getString(5)         //지역
-                        + "','address':'"
-                        + cursor.getString(6)         //상세주소
-                        + "','category':'"
-                        + cursor.getString(7)         //카테고리
-                        + "'}";
-                if (cursor.isLast())
-                    ;
-                else
-                    str += " ,";
-            }
-            str += "]";
+        while (cursor.moveToNext()) {
+            // 파일전송 포맷 json
+            str += "{"
+                    + "'number':'"
+                    + cursor.getInt(0)         //카페번호
+                    + "','name':'"
+                    + cursor.getString(1)       //카페이름
+                    + "','phone':'"
+                    + cursor.getString(2)       //전화번호
+                    + "','open':'"
+                    + cursor.getInt(3)         //오픈시간
+                    + "','close':'"
+                    + cursor.getInt(4)           //마감시간
+                    + "','location':'"
+                    + cursor.getString(5)         //지역
+                    + "','address':'"
+                    + cursor.getString(6)         //상세주소
+                    + "','category':'"
+                    + cursor.getString(7)         //카테고리
+                    + "'}";
+            if (cursor.isLast())
+                ;
+            else
+                str += " ,";
+        }
+        str += "]";
 
+        return str;
+    }
+
+    public String getByQuery(String select, String from, String where){
+        SQLiteDatabase db = getReadableDatabase();
+
+        String str = "[";
+
+        Cursor cursor = db.rawQuery("select " + select + " from "+ from + " where " + where, null);
+        while (cursor.moveToNext()) {
+            // 파일전송 포맷 json
+            str += "{"
+                    + "'score':'"
+                    + cursor.getInt(0)         //카페번호
+                    + "','review_text':'"
+                    + cursor.getString(1)       //카페이름
+                    + "'}";
+            if (cursor.isLast())
+                ;
+            else
+                str += " ,";
+        }
+        str += "]";
         return str;
     }
 
@@ -277,7 +300,6 @@ public class DBManager extends SQLiteOpenHelper {
                 else
                     str += " ,";
             }
-            str += "]";
         }
         else if(input.equals("franchise")){
             while (cursor.moveToNext()) {

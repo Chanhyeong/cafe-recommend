@@ -17,8 +17,10 @@ public class CafeData implements Serializable{
     private String name;     //카페이름
     private String tel;      //전화 번호
     private float avg;        //평점
-                        //이미지  이름     전화번호     주소      지역   오픈시간    마감시간    평점    카페번호
-    public CafeData(int image, String name, String tel,String address,String location,int openTime,int closeTime,float avg, int cafeNum){
+    private String category;
+
+    //이미지  이름     전화번호     주소      지역   오픈시간    마감시간    평점    카페번호
+    public CafeData(int image, String name, String tel, String address, String location, int openTime, int closeTime, float avg, int cafeNum, String category){
         this.image = image;
         this.name = name;
         this.tel = tel;
@@ -28,18 +30,43 @@ public class CafeData implements Serializable{
         this.closeTime=closeTime;
         this.avg=avg;
         this.cafeNum = cafeNum;
+        this.category = category;
+    }
+
+    public void changeData(String name, String tel, String address, String location, int openTime, int closeTime, String category){
+        this.name = name;
+        this.tel = tel;
+        this.address = address;
+        this.location = location;
+        this.openTime = openTime;
+        this.closeTime = closeTime;
+        this.avg = avg;
+        this.cafeNum = cafeNum;
+        this.category = category;
     }
 
     public int getCafeNum() {
         return cafeNum;
     }
 
-    public void setCafeNum(int cafeNum) {
-        this.cafeNum = cafeNum;
-    }
-
     public int getImage() {
         return image;
+    }
+
+    public int getOpenTime() {
+        return openTime;
+    }
+
+    public int getCloseTime() {
+        return closeTime;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public String getAddress() {
+        return address;
     }
 
     public String getName() {
@@ -50,25 +77,12 @@ public class CafeData implements Serializable{
         return tel;
     }
 
-    public String getAddress(){
-        return address;
-    }
-
-    public int getOpen(){
-        return openTime;
-    }
-
-    public int getClose(){
-        return closeTime;
-    }
-
-    public float getAvg(){
+    public float getAvg() {
         return avg;
     }
 
-    public String getLocation() {return location;}
-
-
-
+    public String getCategory() {
+        return category;
+    }
 }
 
