@@ -154,7 +154,7 @@ public class SubActivity extends AppCompatActivity {
                 final EditText mPhone = (EditText)view.findViewById(R.id.mPhone);
                 final EditText mOpen = (EditText)view.findViewById(R.id.mOpen);
                 final EditText mClose = (EditText)view.findViewById(R.id.mClose);
-                final EditText mlocation = (EditText)view.findViewById(R.id.mLocation);
+                final EditText mLocation = (EditText)view.findViewById(R.id.mLocation);
                 final EditText mAddress = (EditText)view.findViewById(R.id.mAddress);
                 final EditText mChar = (EditText)view.findViewById(R.id.mChar);
 
@@ -162,6 +162,7 @@ public class SubActivity extends AppCompatActivity {
                 mPhone.setText(cafeData.getTel());
                 mOpen.setText(Integer.toString(cafeData.getOpenTime()));
                 mClose.setText(Integer.toString(cafeData.getCloseTime()));
+                mLocation.setText(cafeData.getLocation());
                 mAddress.setText(cafeData.getAddress());
                 mChar.setText(cafeData.getCategory());
 
@@ -174,19 +175,21 @@ public class SubActivity extends AppCompatActivity {
                         String str_phone = mPhone.getText().toString();
                         int open = Integer.parseInt(mOpen.getText().toString());
                         int close = Integer.parseInt(mClose.getText().toString());
-                        String str_loc = mlocation.getText().toString();
+                        String str_loc = mLocation.getText().toString();
                         String str_addr = mAddress.getText().toString();
-                        String str_char = mChar.getText().toString();
+                        String str_cartegory = mChar.getText().toString();
 
-                        cafeData.changeData(str_name, str_phone, str_addr, str_loc, open, close, str_char);
+                        cafeData.changeData(str_name, str_phone, str_addr, str_loc, open, close, str_cartegory);
                         // 추가하는 문장
-                        // 옵션 - && str_number != null && str_loc != null && str_addr != null && str_char != null
+                        // 옵션 - && str_number != null && str_loc != null && str_addr != null && str_cartegory != null
                         if(str_name != null) // 카페이름을 입력하지 않으면, 추가되지 않도록
                         {
-                            String[] values = {str_name, str_phone, Integer.toString(open), Integer.toString(close), str_loc, str_addr, str_char};
-                            //String query = "UPDATE CAFE (NAME,PHONE,OPEN_TIME,END_TIME,LOCATE,DETAIL_LOCATE,CATEGORY)" + CommonFunction.dbManager.convertString(values);
+                            String[] values = {str_name, str_phone, Integer.toString(open), Integer.toString(close), str_loc, str_addr, str_cartegory};
+                            String query = "UPDATE CAFE SET" + "NAME = '" + str_name + "' PHONE = '" + "' DETAIL_LOCATE = '" + str_loc + "' LOCATE = '" + str_loc +
+                                    "' CATEGORY = " + str_cartegory + "' OPEN_TIME = " + Integer.toString(open) + " CLOSE_TIME = " + Integer.toString(close) + " WHERE CAFE_ID=" + cafeData.getCafeNum();
+                                    
 
-//                            CommonFunction.dbManager.update(query);
+                            CommonFunction.dbManager.update(query);
                             Log.d("mks...", str_name + str_phone);
                             //다시 업로드 하도록 하는 코드 필요!!!!
                             //setData();
@@ -227,7 +230,7 @@ public class SubActivity extends AppCompatActivity {
                         String str_password = password.getText().toString();
 
                         // 추가하는 문장
-                        // 옵션 - && str_number != null && str_loc != null && str_addr != null && str_char != null
+                        // 옵션 - && str_number != null && str_loc != null && str_addr != null && str_cartegory != null
                         if(str_password.equals("admin")) // 카페이름을 입력하지 않으면, 추가되지 않도록
                         {
                             //String query = "CAFE (NAME,PHONE,OPEN_TIME,END_TIME,LOCATE,DETAIL_LOCATE,CATEGORY)" + db.convertString(values);
