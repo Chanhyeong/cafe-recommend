@@ -19,29 +19,33 @@
         android:orientation="horizontal">
 
         <Spinner
-            android:layout_width="60dp"
+            android:layout_width="50dp"
             android:text="검색"
-            android:layout_height="wrap_content"
+            android:background="@drawable/check_icon"
+            android:layout_height="30dp"
             android:entries="@array/spinner_list"
             android:id="@+id/spinner" />
 
 
         <EditText
             android:id="@+id/texxxt"
-            android:layout_width="130dp"
+            android:layout_width="220dp"
             android:layout_height="wrap_content" />
 
         <Button
-            android:text="검색"
+            android:text=""
+            android:background="@drawable/search_icon"
             android:id="@+id/search"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="30dp"
+            android:layout_height="30dp" />
 
         <Button
-            android:text="+"
+            android:text=""
+            android:paddingLeft="5dp"
             android:id="@+id/plus"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content" />
+            android:background="@drawable/plus_icon"
+            android:layout_height="30dp"
+            android:layout_width="30dp" />
 
     </LinearLayout><!-- 첫줄 뷰 -->
     <ListView

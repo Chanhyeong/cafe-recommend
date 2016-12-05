@@ -11,6 +11,9 @@ import android.widget.RatingBar;
  * Created by Administrator on 2016-12-01.
  */
 
+
+
+
 public class RegisterActivity extends AppCompatActivity {
     private RatingBar reviewRatingBar;
 

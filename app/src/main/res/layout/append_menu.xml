@@ -37,7 +37,8 @@
 
         </LinearLayout>
 
-        <RadioGroup android:weightSum="1">
+        <RadioGroup android:weightSum="1"
+            android:id="@+id/radio_group">
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -53,7 +54,6 @@
                 android:layout_width="wrap_content"
                 android:id="@+id/select3"
                 android:layout_height="wrap_content" />
-
 
         </RadioGroup>
     </TableRow>
