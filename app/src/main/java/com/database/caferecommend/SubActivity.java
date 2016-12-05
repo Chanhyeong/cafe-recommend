@@ -70,7 +70,8 @@ public class SubActivity extends AppCompatActivity {
         address.setText(cafeData.getAddress());
         open.setText(Integer.toString(cafeData.getOpenTime()));
         close.setText(Integer.toString(cafeData.getCloseTime()));
-        cafeRatingBar.setRating(cafeData.getAvg());
+        System.out.println(cafeData.getAvg());
+        cafeRatingBar.setRating(cafeData.getAvg() - 1);
         // cafeData.getAvg();
         //cafeData.getImage();
         setMenuData();// 메뉴 정보를 setting!
@@ -90,24 +91,24 @@ public class SubActivity extends AppCompatActivity {
 
 
         findViewById(R.id.appendMenu).setOnClickListener(new OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-                                View view = inflater.inflate(R.layout.append_menu, null);
+            @Override
+            public void onClick(View v) {
+                LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+                View view = inflater.inflate(R.layout.append_menu, null);
 
-                                //여기에 dialog에 들어갈 애들 추가
-                                final String str_img[] = {"stra_a","angel_ame","hollys_cino"};
-                                final EditText addMenu = (EditText) view.findViewById(R.id.addMenu);
-                                final EditText addPrice = (EditText) view.findViewById(R.id.addPrice);
-                                final RadioGroup radioGroup = (RadioGroup) view.findViewById(R.id.radio_group);
-                                AlertDialog.Builder builder = new AlertDialog.Builder(SubActivity.this);
-                                builder.setView(view);
-                                builder.setPositiveButton("네", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
+                //여기에 dialog에 들어갈 애들 추가
+                final String str_img[] = {"stra_a","angel_ame","hollys_cino"};
+                final EditText addMenu = (EditText) view.findViewById(R.id.addMenu);
+                final EditText addPrice = (EditText) view.findViewById(R.id.addPrice);
+                final RadioGroup radioGroup = (RadioGroup) view.findViewById(R.id.radio_group);
+                AlertDialog.Builder builder = new AlertDialog.Builder(SubActivity.this);
+                builder.setView(view);
+                builder.setPositiveButton("네", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
 
-                                        String str_menu = addMenu.getText().toString();
-                                        String str_price = addPrice.getText().toString();
+                        String str_menu = addMenu.getText().toString();
+                        String str_price = addPrice.getText().toString();
 
                         int radioButtonID = radioGroup.getCheckedRadioButtonId();
                         View radioButton = radioGroup.findViewById(radioButtonID);
@@ -121,7 +122,7 @@ public class SubActivity extends AppCompatActivity {
                             CommonFunction.dbManager.insert(query);
                             Log.d("mks...", str_menu + str_price);
 
-  //바로 업로드하는 코드
+                            //바로 업로드하는 코드
                             setMenuData();
                             ListMenu();
 
@@ -184,7 +185,7 @@ public class SubActivity extends AppCompatActivity {
                             String[] values = {str_name, str_phone, Integer.toString(open_), Integer.toString(close_), str_loc, str_addr, str_cartegory};
                             String query = "UPDATE CAFE SET" + " NAME = '" + str_name + "', PHONE = '" + str_phone + "', DETAIL_LOCATE = '" + str_addr + "', LOCATE = '" + str_loc +
                                     "', CATEGORY = '" + str_cartegory + "', OPEN_TIME = " + Integer.toString(open_) + ", END_TIME = " + Integer.toString(close_) + " WHERE CAFE_ID = " + cafeData.getCafeNum() + ";";
-                                    
+
 
                             CommonFunction.dbManager.update(query);
                             Log.d("mks...", str_name + str_phone);
@@ -280,13 +281,8 @@ public class SubActivity extends AppCompatActivity {
                 }
                 ImageView picture = (ImageView)findViewById(R.id.pictureImg);
 
-               /* if(imageName==null){
-                    picture.setImageResource(R.drawable.angel_a);
-                }*/
-                /*else{
-                    System.out.println(CommonFunction.imageNumber.get(imageName));
-                    picture.setImageResource(CommonFunction.imageNumber.get(imageName));
-                }*/
+//                g}
+
                 AlertDialog.Builder builder = new AlertDialog.Builder(SubActivity.this);
                 builder.setView(view);
                 AlertDialog dialog = builder.create();

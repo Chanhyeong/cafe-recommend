@@ -174,8 +174,6 @@ public class DBManager extends SQLiteOpenHelper {
         }
         output += ");";
 
-        System.out.println(output);
-
         return output;
     }
 

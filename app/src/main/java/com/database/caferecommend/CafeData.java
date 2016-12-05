@@ -36,20 +36,18 @@ public class CafeData implements Serializable{
         this.cafeNum = cafeNum;
         this.category = category;
 
-        String get = CommonFunction.dbManager.getByQuery("AVG(SCORE), REVIEW_TEXT", "REVIEW", "CAFE_ID=" + Integer.toString(cafeNum));
+        String get = CommonFunction.dbManager.getByQuery("AVG(SCORE)", "REVIEW", "CAFE_ID=" + Integer.toString(cafeNum));
         float score = 0;
         try{
             JSONArray jarray = new JSONArray(get);
             for(int i=0; i < jarray.length(); i++)
             {
                 JSONObject jObject = jarray.getJSONObject(i);
-                System.out.println(jObject.getDouble("avg"));
                 score = (float)jObject.getDouble("avg");
-                System.out.println(this.name + " " + score);
             }
 
-            score = (float)(Math.round((double)score - 0.5) + 0.5);
-            System.out.println(score);
+            score = (float)(Math.round(score- 0.5)) + (float)0.5;
+            avg = score;
         }
         catch (JSONException e)
         {
