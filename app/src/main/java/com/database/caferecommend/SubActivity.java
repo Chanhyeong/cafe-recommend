@@ -178,7 +178,8 @@ public class SubActivity extends AppCompatActivity {
                         String str_cartegory = mChar.getText().toString();
 
                         cafeData.changeData(str_name, str_phone, str_addr, str_loc, open_, close_, str_cartegory);
-                        // 추가하는 문장
+
+                        // 추가하는 문장!
                         // 옵션 - && str_number != null && str_loc != null && str_addr != null && str_cartegory != null
                         if(str_name != null) // 카페이름을 입력하지 않으면, 추가되지 않도록
                         {
@@ -215,8 +216,6 @@ public class SubActivity extends AppCompatActivity {
 
             }
         });
-
-
 
         findViewById(R.id.deleteCafe).setOnClickListener(new OnClickListener() {
             @Override
