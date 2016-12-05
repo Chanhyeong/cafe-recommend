@@ -19,12 +19,12 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_review);
-        final int cafeNum = (int) intent.getIntExtra("cafeNum", 1);
 
         reviewRatingBar = (RatingBar)findViewById(R.id.reviewRatingBar);
         findViewById(R.id.regRev).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int cafeNum = (int) intent.getIntExtra("cafeNum", 1);
                 EditText editText=(EditText) findViewById(R.id.revEdit);
                 double reviewRating = (double)reviewRatingBar.getRating();
                 String review = editText.getText().toString();
