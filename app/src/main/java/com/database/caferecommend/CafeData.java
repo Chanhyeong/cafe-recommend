@@ -12,16 +12,18 @@ public class CafeData implements Serializable{
     private int image;      //이미지
     private int openTime;   //오픈시간
     private int closeTime;  //마감시간
+    private String location;  //지역
     private String address;  //주소
     private String name;     //카페이름
     private String tel;      //전화 번호
-    private int avg;        //평점
-                        //이미지  이름     전화번호     주소      오픈시간    마감시간    평점    카페번호
-    public CafeData(int image, String name, String tel,String address,int openTime,int closeTime,int avg, int cafe_num){
+    private float avg;        //평점
+                        //이미지  이름     전화번호     주소      지역   오픈시간    마감시간    평점    카페번호
+    public CafeData(int image, String name, String tel,String address,String location,int openTime,int closeTime,float avg, int cafe_num){
         this.image = image;
         this.name = name;
         this.tel = tel;
         this.address=address;
+        this.location=location;
         this.openTime=openTime;
         this.closeTime=closeTime;
         this.avg=avg;
@@ -60,9 +62,11 @@ public class CafeData implements Serializable{
         return closeTime;
     }
 
-    public int getAvg(){
+    public float getAvg(){
         return avg;
     }
+
+    public String getLocation(){return location;}
 
 
 

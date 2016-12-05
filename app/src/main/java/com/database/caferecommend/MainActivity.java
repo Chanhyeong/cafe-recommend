@@ -141,17 +141,18 @@ public class MainActivity extends AppCompatActivity {
                         int cafe_num = jObject.getInt("number");
                         String name = jObject.getString("name");
                         String phone = jObject.getString("phone");
+                        String location=jObject.getString("location");
                         int open = jObject.getInt("open");
                         int close = jObject.getInt("close");
                         String address=jObject.getString("address");
 
                         Log.d("mk",i + ": " + name + phone + cafeToImage.get(name) + imageNumber.get(cafeToImage.get(name)));
 
-                        //이미지  이름     전화번호     주소      오픈시간    마감시간    평균    카페번호
+                        //이미지  이름     전화번호     주소   지역   오픈시간    마감시간    평균    카페번호
                         if(imageNumber.get(cafeToImage.get(name)) != null)
-                            arrData.add(new CafeData(imageNumber.get(cafeToImage.get(name)),name,phone,address,open,close,0,cafe_num));
+                            arrData.add(new CafeData(imageNumber.get(cafeToImage.get(name)),location,name,phone,address,open,close,0,cafe_num));
                         else
-                            arrData.add(new CafeData(R.mipmap.ic_launcher,name,phone,address,open,close,0,cafe_num));
+                            arrData.add(new CafeData(R.mipmap.ic_launcher,name,location,phone,address,open,close,0,cafe_num));
                     }
                 }
                 catch (JSONException e)
@@ -278,17 +279,18 @@ public class MainActivity extends AppCompatActivity {
                 int cafe_num = jObject.getInt("number");
                 String name = jObject.getString("name");
                 String phone = jObject.getString("phone");
+                String location=jObject.getString("location");
                 int open = jObject.getInt("open");
                 int close = jObject.getInt("close");
                 String address=jObject.getString("address");
 
                 Log.d("mk",i + ": " + name + phone + cafeToImage.get(name) + imageNumber.get(cafeToImage.get(name)));
 
-                //이미지  이름     전화번호     주소      오픈시간    마감시간    평균    카페번호
+                //이미지  이름     전화번호     주소   지역     오픈시간    마감시간    평균    카페번호
                 if(imageNumber.get(cafeToImage.get(name)) != null)
-                    arrData.add(new CafeData(imageNumber.get(cafeToImage.get(name)),name,phone,address,open,close,0,cafe_num));
+                    arrData.add(new CafeData(imageNumber.get(cafeToImage.get(name)),name,phone,address,location,open,close,4,cafe_num));
                 else
-                    arrData.add(new CafeData(R.mipmap.ic_launcher,name,phone,address,open,close,0,cafe_num));
+                    arrData.add(new CafeData(R.mipmap.ic_launcher,name,phone,address,location,open,close,5,cafe_num));
             }
         }
         catch (JSONException e)
