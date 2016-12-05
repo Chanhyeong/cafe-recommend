@@ -226,7 +226,10 @@ public class SubActivity extends AppCompatActivity {
                         {
                             String query = "delete from CAFE where CAFE_ID="+number;
                             CommonFunction.dbManager.delete(query);
-
+                            Intent deleteOut = new Intent();
+                            deleteOut.putExtra("delete", "ok");
+                            SubActivity.this.setResult(RESULT_OK, deleteOut);
+                            finish();
                         }
                     }
                 });
