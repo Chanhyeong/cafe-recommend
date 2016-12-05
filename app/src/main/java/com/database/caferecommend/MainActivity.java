@@ -55,6 +55,8 @@ public class MainActivity extends AppCompatActivity {
     EditText texxxt;
     Button search;
     int whatSpin;   //  0 = 이름, 1 = 지역, 2 = 특성
+    HashMap<String, String> cafeToImage = new HashMap<String, String>();    // 이미지랑 카페 네임이랑 매칭하는 해시맵
+
     /*
     현재는 public static형태로 다른 class에서 사용이 가능하지만,
     새로운 클래스를 만들어 범용으로 사용하는 것에 대한 정의를 새로 해줄 필요가 있어보임
@@ -108,7 +110,6 @@ public class MainActivity extends AppCompatActivity {
 
                 try{
                     JSONArray jarray = new JSONArray(part);
-                    HashMap<String, String> cafeToImage = new HashMap<String, String>();
 
                     for(int i=0; i < jarray.length(); i++)
                     {
@@ -238,7 +239,6 @@ public class MainActivity extends AppCompatActivity {
         try{
             JSONArray jarray = new JSONArray(get);
             JSONArray jarray2 = new JSONArray(get2);
-            HashMap<String, String> cafeToImage = new HashMap<String, String>();
 
             for(int i=0; i < jarray2.length(); i++) {
                 JSONObject jObject2 = jarray2.getJSONObject(i);
