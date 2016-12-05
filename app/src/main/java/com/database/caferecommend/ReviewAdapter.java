@@ -44,12 +44,11 @@ public class ReviewAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.activity_reviewlist, parent, false);
         }
 
+        RatingBar reviewRating= (RatingBar)convertView.findViewById(R.id.revRating);
+        reviewRating.setRating(reviewData.get(position).getScore().floatValue());
 
         TextView reviewText = (TextView)convertView.findViewById(R.id.reviewText);
         reviewText.setText(reviewData.get(position).getReviewText());
-
-        RatingBar reviewRating= (RatingBar) convertView.findViewById(R.id.revRating);
-        reviewRating.setRating(reviewData.get(position).getScore().floatValue());
 
         return convertView;
     }

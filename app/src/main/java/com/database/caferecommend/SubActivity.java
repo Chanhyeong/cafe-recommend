@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
 import static com.database.caferecommend.R.drawable.angel_a;
+import static com.database.caferecommend.R.drawable.angel_ame;
 import static com.database.caferecommend.R.id.select1;
 import static com.database.caferecommend.R.id.select3;
 
@@ -170,27 +171,36 @@ public class SubActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         String str_name = mName.getText().toString();
                         String str_phone = mPhone.getText().toString();
-                        int open = Integer.parseInt(mOpen.getText().toString());
-                        int close = Integer.parseInt(mClose.getText().toString());
+                        int open_ = Integer.parseInt(mOpen.getText().toString());
+                        int close_ = Integer.parseInt(mClose.getText().toString());
                         String str_loc = mLocation.getText().toString();
                         String str_addr = mAddress.getText().toString();
                         String str_cartegory = mChar.getText().toString();
 
-                        cafeData.changeData(str_name, str_phone, str_addr, str_loc, open, close, str_cartegory);
+                        cafeData.changeData(str_name, str_phone, str_addr, str_loc, open_, close_, str_cartegory);
                         // 추가하는 문장
                         // 옵션 - && str_number != null && str_loc != null && str_addr != null && str_cartegory != null
                         if(str_name != null) // 카페이름을 입력하지 않으면, 추가되지 않도록
                         {
-                            String[] values = {str_name, str_phone, Integer.toString(open), Integer.toString(close), str_loc, str_addr, str_cartegory};
+                            String[] values = {str_name, str_phone, Integer.toString(open_), Integer.toString(close_), str_loc, str_addr, str_cartegory};
                             String query = "UPDATE CAFE SET" + " NAME = '" + str_name + "', PHONE = '" + str_phone + "', DETAIL_LOCATE = '" + str_addr + "', LOCATE = '" + str_loc +
-                                    "', CATEGORY = '" + str_cartegory + "', OPEN_TIME = " + Integer.toString(open) + ", END_TIME = " + Integer.toString(close) + " WHERE CAFE_ID = " + cafeData.getCafeNum() + ";";
+                                    "', CATEGORY = '" + str_cartegory + "', OPEN_TIME = " + Integer.toString(open_) + ", END_TIME = " + Integer.toString(close_) + " WHERE CAFE_ID = " + cafeData.getCafeNum() + ";";
                                     
 
                             CommonFunction.dbManager.update(query);
                             Log.d("mks...", str_name + str_phone);
+
                             //다시 업로드 하도록 하는 코드 필요!!!!
-                            //setMenuData();
-                            //listMake();
+                            name.setText(str_name);
+                            call.setText(str_phone);
+                            address.setText(str_addr);
+                            open.setText(Integer.toString(open_));
+                            close.setText(Integer.toString(close_));
+
+                            // main에서 바로 올라가도록!!
+                            Intent edit = new Intent();
+                            edit.putExtra("delete", "ok");
+                            SubActivity.this.setResult(RESULT_OK, edit);
                         }
                     }
                 });
@@ -244,6 +254,42 @@ public class SubActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                     }
                 });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
+
+        findViewById(R.id.cafePicture).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LayoutInflater inflater = (LayoutInflater)getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+                View view = inflater.inflate(R.layout.activity_picture, null);
+                String get = CommonFunction.dbManager.getByQuery("IMAGE_NAME", "PICTURE", "CAFE_ID=" + cafeData.getCafeNum());
+                System.out.println("get"+get);
+                String imageName=null;
+                try{
+                    JSONArray jarray = new JSONArray(get);
+                    for(int i=0; i < jarray.length(); i++)
+                    {
+                        JSONObject jObject = jarray.getJSONObject(i);
+                        imageName = jObject.getString("imageName");
+                    }
+                }
+                catch (JSONException e)
+                {
+                    e.printStackTrace();
+                }
+                ImageView picture = (ImageView)findViewById(R.id.pictureImg);
+
+               /* if(imageName==null){
+                    picture.setImageResource(R.drawable.angel_a);
+                }*/
+                /*else{
+                    System.out.println(CommonFunction.imageNumber.get(imageName));
+                    picture.setImageResource(CommonFunction.imageNumber.get(imageName));
+                }*/
+                AlertDialog.Builder builder = new AlertDialog.Builder(SubActivity.this);
+                builder.setView(view);
                 AlertDialog dialog = builder.create();
                 dialog.show();
             }

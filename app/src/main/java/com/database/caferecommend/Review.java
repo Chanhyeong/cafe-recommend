@@ -46,8 +46,8 @@ public class Review extends AppCompatActivity {
         });
     }
     private void setReview(int cafeNum){
-        String get = CommonFunction.dbManager.getByQuery("SCORE, REVIEW_TEXT", "REVIEW", "CAFE_ID=" + Integer.toString(cafeNum));
-        //System.out.println(get);    // for log.
+        String get = CommonFunction.dbManager.getByQuery("SCORE, REVIEW_TEXT", "REVIEW", "CAFE_ID="+Integer.toString(cafeNum));
+        System.out.println("ㄴㄴ"+get + cafeNum);    // for log.
         revList=new ArrayList<ReviewData>();
 
         try{
@@ -57,6 +57,7 @@ public class Review extends AppCompatActivity {
                 JSONObject jObject = jarray.getJSONObject(i);
                 Double score = jObject.getDouble("score");
                 String review_text= jObject.getString("review_text");
+
                 ReviewData reviewData=new ReviewData(score,review_text);
                 revList.add(i,reviewData);
             }
