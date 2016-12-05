@@ -28,13 +28,14 @@ public class Review extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.review_activity);
 
-        setReview();
+        Intent intent = getIntent();
+        final int cafeNum = (int) intent.getExtras().getInt("cafeNum");
+
+        setReview(cafeNum);
         ListView listview=(ListView)findViewById(R.id.revList);
         ReviewAdapter reviewAdapter=new ReviewAdapter(this,revList);
         listview.setAdapter(reviewAdapter);
 
-        Intent intent = getIntent();
-        final int cafeNum = (int) intent.getExtras().getInt("cafeNum");
         findViewById(R.id.revWrite).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -44,8 +45,8 @@ public class Review extends AppCompatActivity {
             }
         });
     }
-    private void setReview(){
-        String get = CommonFunction.dbManager.PrintData("");
+    private void setReview(int cafeNum){
+        String get = CommonFunction.dbManager.getByQuery("SCORE, REVIEW_TEXT", "REVIEW", "CAFE_ID=" + Integer.toString(cafeNum));
         //System.out.println(get);    // for log.
         revList=new ArrayList<ReviewData>();
 

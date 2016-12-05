@@ -36,6 +36,7 @@ public class RegisterActivity extends AppCompatActivity {
                 String query = "REVIEW (SCORE, REVIEW_TEXT, CAFE_ID) " + CommonFunction.dbManager.convertString(values);
                 CommonFunction.dbManager.insert(query);
                 Intent intent=new Intent(getApplicationContext(),Review.class);
+                intent.putExtra("cafeNum", cafeNum);
                 startActivity(intent);
             }
         });

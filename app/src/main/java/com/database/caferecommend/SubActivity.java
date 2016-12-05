@@ -59,6 +59,8 @@ public class SubActivity extends AppCompatActivity {
 
         image.setImageResource(cafeData.getImage());
 
+        cafeName = cafeData.getName();
+
         name.setText(cafeData.getName());
         address.setText(cafeData.getAddress());
         open.setText(Integer.toString(cafeData.getOpenTime()));
