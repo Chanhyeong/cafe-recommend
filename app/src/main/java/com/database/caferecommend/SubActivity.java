@@ -45,7 +45,7 @@ public class SubActivity extends AppCompatActivity {
         open = (TextView) findViewById(R.id.open);
         close = (TextView) findViewById(R.id.close);
         image = (ImageView) findViewById(R.id.cafeImage);
-        cafeRatingBar = (RatingBar) findViewById(R.id.ratingBar1);
+        cafeRatingBar = (RatingBar) findViewById(R.id.cafeRatingBar);
 
         //카페 넘버 받아오기
         Intent intent = getIntent();
