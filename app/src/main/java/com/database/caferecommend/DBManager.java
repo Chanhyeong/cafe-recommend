@@ -1,27 +1,11 @@
 package com.database.caferecommend;
 
-import android.content.ContentValues;
+
 import android.content.Context;
 import android.database.Cursor;
-import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
-import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
-
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.os.Environment;
-import java.io.ByteArrayOutputStream;
-
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
-
-
-import static android.R.id.input;
-import static com.database.caferecommend.R.id.open;
 
 /**
  * Created by Administrator on 2016-11-25.
@@ -261,21 +245,6 @@ public class DBManager extends SQLiteOpenHelper {
 
         return str;
     }
-
-    //카페에 값 추가하는 것
-    public void InsertData(String name, String number, int open, int close, String loc, String addr, String charac)
-    {
-        SQLiteDatabase db = getWritableDatabase();
-        db.execSQL("insert into CAFE (NAME,PHONE,OPEN_TIME,END_TIME,LOCATE,DETAIL_LOCATE,CATEGORY) values ('" +
-                name + "','" +
-                number + "'," +
-                open + "," +
-                close + ",'" +
-                loc + "','" +
-                addr + "','"+
-                charac + "');");
-    }
-
 
     public String PrintData(String input) {
         SQLiteDatabase db = getReadableDatabase();

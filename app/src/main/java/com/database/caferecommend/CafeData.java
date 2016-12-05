@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 public class CafeData implements Serializable{
 
-    private int cafe_num;   //카페번호
+    private int cafeNum;   //카페번호
     private int image;      //이미지
     private int openTime;   //오픈시간
     private int closeTime;  //마감시간
@@ -18,7 +18,7 @@ public class CafeData implements Serializable{
     private String tel;      //전화 번호
     private float avg;        //평점
                         //이미지  이름     전화번호     주소      지역   오픈시간    마감시간    평점    카페번호
-    public CafeData(int image, String name, String tel,String address,String location,int openTime,int closeTime,float avg, int cafe_num){
+    public CafeData(int image, String name, String tel,String address,String location,int openTime,int closeTime,float avg, int cafeNum){
         this.image = image;
         this.name = name;
         this.tel = tel;
@@ -27,15 +27,15 @@ public class CafeData implements Serializable{
         this.openTime=openTime;
         this.closeTime=closeTime;
         this.avg=avg;
-        this.cafe_num = cafe_num;
+        this.cafeNum = cafeNum;
     }
 
-    public int getCafe_num() {
-        return cafe_num;
+    public int getCafeNum() {
+        return cafeNum;
     }
 
-    public void setCafe_num(int cafe_num) {
-        this.cafe_num = cafe_num;
+    public void setCafeNum(int cafeNum) {
+        this.cafeNum = cafeNum;
     }
 
     public int getImage() {
@@ -66,7 +66,7 @@ public class CafeData implements Serializable{
         return avg;
     }
 
-    public String getLocation(){return location;}
+    public String getLocation() {return location;}
 
 
 

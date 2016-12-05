@@ -16,7 +16,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".SubActivity"></activity>
-        <activity android:name=".registerActivity"></activity>
+        <activity android:name=".RegisterActivity"></activity>
         <activity android:name=".Review"></activity>
 
     </application>
