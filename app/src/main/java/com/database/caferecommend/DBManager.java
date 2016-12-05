@@ -262,21 +262,6 @@ public class DBManager extends SQLiteOpenHelper {
         return str;
     }
 
-    //카페에 값 추가하는 것
-    public void InsertData(String name, String number, int open, int close, String loc, String addr, String charac)
-    {
-        SQLiteDatabase db = getWritableDatabase();
-        db.execSQL("insert into CAFE (NAME,PHONE,OPEN_TIME,END_TIME,LOCATE,DETAIL_LOCATE,CATEGORY) values ('" +
-                name + "','" +
-                number + "'," +
-                open + "," +
-                close + ",'" +
-                loc + "','" +
-                addr + "','"+
-                charac + "');");
-    }
-
-
     public String PrintData(String input) {
         SQLiteDatabase db = getReadableDatabase();
         String str = "[";
