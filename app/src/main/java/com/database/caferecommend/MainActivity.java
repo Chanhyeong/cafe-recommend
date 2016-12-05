@@ -121,15 +121,15 @@ public class MainActivity extends AppCompatActivity {
                         int open = jObject.getInt("open");
                         int close = jObject.getInt("close");
                         String address=jObject.getString("address");
+                        String category = jObject.getString("category");
 
                         Log.d("mk",i + ": " + name + phone + cafeToImage.get(name) + CommonFunction.imageNumber.get(cafeToImage.get(name)));
 
                         //이미지  이름     전화번호     주소   지역   오픈시간    마감시간    평균    카페번호
                         if(CommonFunction.imageNumber.get(cafeToImage.get(name)) != null)
-                            arrData.add(new CafeData(CommonFunction.imageNumber.get(cafeToImage.get(name)),name,phone,address,location,open,close,4,cafe_num));
-
+                            arrData.add(new CafeData(CommonFunction.imageNumber.get(cafeToImage.get(name)),name,phone,address,location,open,close,4,cafe_num, category));
                         else
-                            arrData.add(new CafeData(R.mipmap.ic_launcher,name,phone,address, location,open,close,0,cafe_num));
+                            arrData.add(new CafeData(R.mipmap.ic_launcher,name,phone,address, location,open,close,0,cafe_num, category));
                     }
                 }
                 catch (JSONException e)
@@ -258,14 +258,15 @@ public class MainActivity extends AppCompatActivity {
                 int open = jObject.getInt("open");
                 int close = jObject.getInt("close");
                 String address=jObject.getString("address");
+                String category = jObject.getString("category");
 
                 Log.d("mk",i + ": " + name + phone + cafeToImage.get(name) + CommonFunction.imageNumber.get(cafeToImage.get(name)));
 
                 //이미지  이름     전화번호     주소   지역     오픈시간    마감시간    평균    카페번호
                 if(CommonFunction.imageNumber.get(cafeToImage.get(name)) != null)
-                    arrData.add(new CafeData(CommonFunction.imageNumber.get(cafeToImage.get(name)),name,phone,address,location,open,close,4,cafe_num));
+                    arrData.add(new CafeData(CommonFunction.imageNumber.get(cafeToImage.get(name)),name,phone,address,location,open,close,4,cafe_num, category));
                 else
-                    arrData.add(new CafeData(R.mipmap.ic_launcher,name,phone,address,location,open,close,5,cafe_num));
+                    arrData.add(new CafeData(R.mipmap.ic_launcher,name,phone,address,location,open,close,5,cafe_num, category));
             }
         }
         catch (JSONException e)

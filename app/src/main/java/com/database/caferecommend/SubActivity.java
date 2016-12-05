@@ -57,13 +57,12 @@ public class SubActivity extends AppCompatActivity {
 
         call.setText(cafeData.getTel());
 
-        cafeName = cafeData.getName();
         image.setImageResource(cafeData.getImage());
 
-        name.setText(cafeName);
+        name.setText(cafeData.getName());
         address.setText(cafeData.getAddress());
-        open.setText(Integer.toString(cafeData.getOpen()));
-        close.setText(Integer.toString(cafeData.getClose()));
+        open.setText(Integer.toString(cafeData.getOpenTime()));
+        close.setText(Integer.toString(cafeData.getCloseTime()));
         cafeRatingBar.setRating(2);
         // cafeData.getAvg();
         //cafeData.getImage();
@@ -157,6 +156,12 @@ public class SubActivity extends AppCompatActivity {
                 final EditText mAddress = (EditText)view.findViewById(R.id.mAddress);
                 final EditText mChar = (EditText)view.findViewById(R.id.mChar);
 
+                mName.setText(cafeData.getName());
+                mPhone.setText(cafeData.getTel());
+                mOpen.setText(Integer.toString(cafeData.getOpenTime()));
+                mClose.setText(Integer.toString(cafeData.getCloseTime()));
+                mAddress.setText(cafeData.getAddress());
+                mChar.setText(cafeData.getCategory());
                 AlertDialog.Builder builder = new AlertDialog.Builder(SubActivity.this);
                 builder.setView(view);
                 builder.setPositiveButton("네", new DialogInterface.OnClickListener() {
@@ -170,6 +175,8 @@ public class SubActivity extends AppCompatActivity {
                         String str_loc = mlocation.getText().toString();
                         String str_addr = mAddress.getText().toString();
                         String str_char = mChar.getText().toString();
+
+
 
                         // 추가하는 문장
                         // 옵션 - && str_number != null && str_loc != null && str_addr != null && str_char != null
