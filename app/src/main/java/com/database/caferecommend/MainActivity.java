@@ -1,9 +1,13 @@
 package com.database.caferecommend;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,14 +18,20 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import static android.R.string.ok;
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
 
 /*
 Select
@@ -56,6 +66,12 @@ public class MainActivity extends AppCompatActivity {
     Button search;
     int whatSpin;   //  0 = 이름, 1 = 지역, 2 = 특성
     HashMap<String, String> cafeToImage = new HashMap<String, String>();    // 이미지랑 카페 네임이랑 매칭하는 해시맵
+    Bitmap image_bitmap;
+    AlertDialog dialog; // dialog..
+
+    //이미지 받는데 쓰는애들
+    final int REQ_CODE_SELECT_IMAGE = 100; // 이미지 받을때 쓴다.
+    final int SUB_ACTIVITY = 10;    // 서브 액티비티에 대해.
 
     /*
     현재는 public static형태로 다른 class에서 사용이 가능하지만,
@@ -64,6 +80,61 @@ public class MainActivity extends AppCompatActivity {
 
     Class c = R.drawable.class;
     Field[] f = c.getFields();
+
+
+//activityResult  #####################################################################3
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        //Toast.makeText(getBaseContext(), "resultCode : "+resultCode,Toast.LENGTH_SHORT).show();
+        //for check
+
+        if(requestCode == REQ_CODE_SELECT_IMAGE)
+        {
+            if(resultCode== Activity.RESULT_OK)
+            {
+                try {
+                    //Uri에서 이미지 이름을 얻어온다.
+                    //String name_Str = getImageNameToUri(data.getData());
+
+                    //이미지 데이터를 비트맵으로 받아온다.
+
+                    BitmapFactory.Options options = new BitmapFactory.Options();
+                    options.inSampleSize = 4;
+
+                    image_bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
+
+                    //배치해놓은 ImageView에 set
+                    //flagImage.setImageBitmap(image_bitmap);
+                    makedialog(image_bitmap);
+                    //Toast.makeText(getBaseContext(), "name_Str : "+name_Str , Toast.LENGTH_SHORT).show();
+
+                } catch (FileNotFoundException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }
+        else if(requestCode == SUB_ACTIVITY){
+
+            if(resultCode == RESULT_OK && data!= null){
+
+                String result = data.getStringExtra("delete");
+
+                if(result.equals("ok"))
+                {
+                    setData();
+                    listMake();
+                }
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,9 +198,9 @@ public class MainActivity extends AppCompatActivity {
 
                         //이미지  이름     전화번호     주소   지역   오픈시간    마감시간    평균    카페번호
                         if(CommonFunction.imageNumber.get(cafeToImage.get(name)) != null)
-                            arrData.add(new CafeData(CommonFunction.imageNumber.get(cafeToImage.get(name)),name,phone,address,location,open,close,4,cafe_num, category));
+                            arrData.add(new CafeData(CommonFunction.imageNumber.get(cafeToImage.get(name)),name,phone,address,location,open,close, cafe_num, category));
                         else
-                            arrData.add(new CafeData(R.mipmap.ic_launcher,name,phone,address, location,open,close,0,cafe_num, category));
+                            arrData.add(new CafeData(R.mipmap.ic_launcher,name,phone,address, location,open,close, cafe_num, category));
                     }
                 }
                 catch (JSONException e)
@@ -144,64 +215,10 @@ public class MainActivity extends AppCompatActivity {
 
         plus = (Button) findViewById(R.id.plus);
         plus.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
-
-                LayoutInflater inflater = (LayoutInflater)getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-                View view = inflater.inflate(R.layout.custom_alert_layout, null);
-
-                //여기에 dialog에 들어갈 애들 추가
-                //customTitle.setTextColor(Color.BLACK);
-                ImageView customIcon = (ImageView)view.findViewById(R.id.customdialogicon);
-
-                final EditText dialog_name = (EditText)view.findViewById(R.id.dialog_name);
-                final EditText dialog_number = (EditText)view.findViewById(R.id.dialog_number);
-                final EditText dialog_open = (EditText)view.findViewById(R.id.dialog_open);
-                final EditText dialog_close = (EditText)view.findViewById(R.id.dialog_close);
-                final EditText dialog_loc = (EditText)view.findViewById(R.id.dialog_location);
-                final EditText dialog_addr = (EditText)view.findViewById(R.id.dialog_address);
-                final EditText dialog_char = (EditText)view.findViewById(R.id.dialog_char);
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                builder.setView(view);
-                builder.setPositiveButton("네", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        String str_name = dialog_name.getText().toString();
-                        String str_number = dialog_number.getText().toString();
-                        int str_open = Integer.parseInt(dialog_open.getText().toString());
-                        int str_close = Integer.parseInt(dialog_close.getText().toString());
-                        String str_loc = dialog_loc.getText().toString();
-                        String str_addr = dialog_addr.getText().toString();
-                        String str_char = dialog_char.getText().toString();
-
-                        // 추가하는 문장
-                        // 옵션 - && str_number != null && str_loc != null && str_addr != null && str_char != null
-                        if(str_name != null) // 카페이름을 입력하지 않으면, 추가되지 않도록
-                        {
-                            String[] values = {str_name, str_number, Integer.toString(str_open), Integer.toString(str_close), str_loc, str_addr, str_char};
-                            String query = "CAFE (NAME,PHONE,OPEN_TIME,END_TIME,LOCATE,DETAIL_LOCATE,CATEGORY)" + CommonFunction.dbManager.convertString(values);
-
-                            CommonFunction.dbManager.insert(query);
-                            Log.d("mks...", str_name + str_number);
-
-                            //다시 업로드 하도록 하는 코드 필요!!!!
-                            setData();
-                            listMake();
-                        }
-                    }
-                });
-                builder.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                });
-                AlertDialog dialog = builder.create();
-                dialog.show();
-
-
+                makedialog(null);
             }
         });
 
@@ -209,6 +226,90 @@ public class MainActivity extends AppCompatActivity {
         list=(ListView)findViewById(R.id.list);
         listMake();
     }
+
+    public void makedialog(Bitmap bitmap)
+    {
+        LayoutInflater inflater = (LayoutInflater)getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.custom_alert_layout, null);
+
+
+        //여기에 dialog에 들어갈 애들 추가
+        //customTitle.setTextColor(Color.BLACK);
+        final ImageView customIcon = (ImageView)view.findViewById(R.id.customdialogicon);
+        final EditText dialog_name = (EditText)view.findViewById(R.id.dialog_name);
+        final EditText dialog_number = (EditText)view.findViewById(R.id.dialog_number);
+        final EditText dialog_open = (EditText)view.findViewById(R.id.dialog_open);
+        final EditText dialog_close = (EditText)view.findViewById(R.id.dialog_close);
+        final EditText dialog_loc = (EditText)view.findViewById(R.id.dialog_location);
+        final EditText dialog_addr = (EditText)view.findViewById(R.id.dialog_address);
+        final EditText dialog_char = (EditText)view.findViewById(R.id.dialog_char);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+
+        Toast.makeText(getApplicationContext(), "start!!!",Toast.LENGTH_SHORT).show();
+        //코드 실행 확인용
+
+        if(bitmap == null)
+            ;//Toast.makeText(getApplicationContext(), "null!!!!!!",Toast.LENGTH_SHORT).show();  //확인용
+        else
+        {//Bitmap image_bitmap에서 가져와야한다.
+            customIcon.setImageBitmap(bitmap);
+            bitmap = null;
+            //Toast.makeText(getApplicationContext(), "여러분 달려봅시다",Toast.LENGTH_SHORT).show();
+            //확인용
+        }
+
+        //########################################################################### 사진 가져오기
+        customIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+                intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent, REQ_CODE_SELECT_IMAGE);
+                dialog.dismiss();
+            }
+        });
+
+        builder.setView(view);
+        builder.setPositiveButton("네", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                String str_name = dialog_name.getText().toString();
+                String str_number = dialog_number.getText().toString();
+                int str_open = Integer.parseInt(dialog_open.getText().toString());
+                int str_close = Integer.parseInt(dialog_close.getText().toString());
+                String str_loc = dialog_loc.getText().toString();
+                String str_addr = dialog_addr.getText().toString();
+                String str_char = dialog_char.getText().toString();
+
+                // 추가하는 문장
+                // 옵션 - && str_number != null && str_loc != null && str_addr != null && str_char != null
+                if(str_name != null) // 카페이름을 입력하지 않으면, 추가되지 않도록
+                {
+                    String[] values = {str_name, str_number, Integer.toString(str_open), Integer.toString(str_close), str_loc, str_addr, str_char};
+                    String query = "CAFE (NAME,PHONE,OPEN_TIME,END_TIME,LOCATE,DETAIL_LOCATE,CATEGORY)" + CommonFunction.dbManager.convertString(values);
+
+                    CommonFunction.dbManager.insert(query);
+                    Log.d("mks...", str_name + str_number);
+
+                    //다시 업로드 하도록 하는 코드 필요!!!!
+                    setData();
+                    listMake();
+                }
+            }
+        });
+        builder.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        dialog = builder.create();
+        dialog.show();
+    }//--------------------------------------------------------------end of makedialog
+
 
     public void listMake()
     {
@@ -220,8 +321,11 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 int cafeNum = arrData.get(position).getCafeNum();
                 Intent intent=new Intent(MainActivity.this,SubActivity.class);
-                intent.putExtra("CafeData",arrData.get(cafeNum - 1));
-                startActivity(intent);
+                intent.putExtra("CafeData",arrData.get(position));
+
+                Log.d("mk -test position :", Integer.toString(position));
+
+                startActivityForResult(intent, SUB_ACTIVITY);
             }
         });
     }
@@ -235,7 +339,7 @@ public class MainActivity extends AppCompatActivity {
         // 코드 확인용 예제문
         // arrData.add(new CafeData(R.mipmap.ic_launcher,"엔젤리너스","010-1111-2222",0));
 
-        Log.d("mk", "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+        //Log.d("mk", "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
 
         try{
             JSONArray jarray = new JSONArray(get);
@@ -246,7 +350,8 @@ public class MainActivity extends AppCompatActivity {
                 String cafe_name = jObject2.getString("cafe_name");
                 String brand_image = jObject2.getString("brand_image");
                 cafeToImage.put(cafe_name, brand_image);
-                Log.d("mk",i + ": " + cafe_name + brand_image);
+                //Log.d("mk",i + ": " + cafe_name + brand_image);
+                //출력확인용 log
             }
             for(int i=0; i < jarray.length(); i++)
             {
@@ -260,13 +365,14 @@ public class MainActivity extends AppCompatActivity {
                 String address=jObject.getString("address");
                 String category = jObject.getString("category");
 
-                Log.d("mk",i + ": " + name + phone + cafeToImage.get(name) + CommonFunction.imageNumber.get(cafeToImage.get(name)));
+               //Log.d("mk",i + ": " + name + phone + cafeToImage.get(name) + CommonFunction.imageNumber.get(cafeToImage.get(name)));
+                //출력확인용 로그
 
                 //이미지  이름     전화번호     주소   지역     오픈시간    마감시간    평균    카페번호
                 if(CommonFunction.imageNumber.get(cafeToImage.get(name)) != null)
-                    arrData.add(new CafeData(CommonFunction.imageNumber.get(cafeToImage.get(name)),name,phone,address,location,open,close,4,cafe_num, category));
+                    arrData.add(new CafeData(CommonFunction.imageNumber.get(cafeToImage.get(name)),name,phone,address,location,open,close, cafe_num, category));
                 else
-                    arrData.add(new CafeData(R.mipmap.ic_launcher,name,phone,address,location,open,close,5,cafe_num, category));
+                    arrData.add(new CafeData(R.mipmap.ic_launcher,name,phone,address,location,open,close, cafe_num, category));
             }
         }
         catch (JSONException e)
