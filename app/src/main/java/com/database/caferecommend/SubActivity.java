@@ -120,7 +120,7 @@ public class SubActivity extends AppCompatActivity {
                         // 추가하는 문장
                         if (str_menu != null && str_price != null) // 카페메뉴를 입력하지 않으면, 추가되지 않도록
                         {
-                            String[] values = {str_menu, str_price,str_img[pos]};
+                            String[] values = {str_menu, str_price};
                             String query = "MENU (NAME_NAME,PRICE,IMAGE)" + CommonFunction.dbManager.convertString(values);
                             CommonFunction.dbManager.insert(query);
 
