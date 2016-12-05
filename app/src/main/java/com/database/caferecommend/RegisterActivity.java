@@ -13,18 +13,18 @@ import android.widget.RatingBar;
 
 public class RegisterActivity extends AppCompatActivity {
     private RatingBar reviewRatingBar;
-    private Intent intent = getIntent();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_review);
 
+        Intent intent = getIntent();
+        final int cafeNum = (int) intent.getExtras().getInt("cafeNum");
         reviewRatingBar = (RatingBar)findViewById(R.id.reviewRatingBar);
         findViewById(R.id.regRev).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int cafeNum = (int) intent.getIntExtra("cafeNum", 1);
                 EditText editText=(EditText) findViewById(R.id.revEdit);
                 double reviewRating = (double)reviewRatingBar.getRating();
                 String review = editText.getText().toString();

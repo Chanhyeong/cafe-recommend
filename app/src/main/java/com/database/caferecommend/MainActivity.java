@@ -219,7 +219,7 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 int cafeNum = arrData.get(position).getCafeNum();
                 Intent intent=new Intent(MainActivity.this,SubActivity.class);
-                intent.putExtra("CafeData",arrData.get(cafeNum));
+                intent.putExtra("CafeData",arrData.get(cafeNum - 1));
                 startActivity(intent);
             }
         });
