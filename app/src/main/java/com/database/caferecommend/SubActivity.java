@@ -69,7 +69,7 @@ public class SubActivity extends AppCompatActivity {
         address.setText(cafeData.getAddress());
         open.setText(Integer.toString(cafeData.getOpenTime()));
         close.setText(Integer.toString(cafeData.getCloseTime()));
-        cafeRatingBar.setRating(2);
+        cafeRatingBar.setRating(cafeData.getAvg());
         // cafeData.getAvg();
         //cafeData.getImage();
         setMenuData();// 메뉴 정보를 setting!
@@ -179,8 +179,8 @@ public class SubActivity extends AppCompatActivity {
                         if(str_name != null) // 카페이름을 입력하지 않으면, 추가되지 않도록
                         {
                             String[] values = {str_name, str_phone, Integer.toString(open), Integer.toString(close), str_loc, str_addr, str_cartegory};
-                            String query = "UPDATE CAFE SET" + "NAME = '" + str_name + "' PHONE = '" + "' DETAIL_LOCATE = '" + str_loc + "' LOCATE = '" + str_loc +
-                                    "' CATEGORY = " + str_cartegory + "' OPEN_TIME = " + Integer.toString(open) + " CLOSE_TIME = " + Integer.toString(close) + " WHERE CAFE_ID=" + cafeData.getCafeNum();
+                            String query = "UPDATE CAFE SET" + " NAME = '" + str_name + "', PHONE = '" + str_phone + "', DETAIL_LOCATE = '" + str_addr + "', LOCATE = '" + str_loc +
+                                    "', CATEGORY = '" + str_cartegory + "', OPEN_TIME = " + Integer.toString(open) + ", END_TIME = " + Integer.toString(close) + " WHERE CAFE_ID = " + cafeData.getCafeNum() + ";";
                                     
 
                             CommonFunction.dbManager.update(query);

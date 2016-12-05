@@ -1,6 +1,11 @@
 package com.database.caferecommend;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * Created by Administrator on 2016-11-25.
@@ -20,7 +25,7 @@ public class CafeData implements Serializable{
     private String category;
 
     //이미지  이름     전화번호     주소      지역   오픈시간    마감시간    평점    카페번호
-    public CafeData(int image, String name, String tel, String address, String location, int openTime, int closeTime, float avg, int cafeNum, String category){
+    public CafeData(int image, String name, String tel, String address, String location, int openTime, int closeTime, int cafeNum, String category){
         this.image = image;
         this.name = name;
         this.tel = tel;
@@ -28,9 +33,28 @@ public class CafeData implements Serializable{
         this.location=location;
         this.openTime=openTime;
         this.closeTime=closeTime;
-        this.avg=avg;
         this.cafeNum = cafeNum;
         this.category = category;
+
+        String get = CommonFunction.dbManager.getByQuery("AVG(SCORE), REVIEW_TEXT", "REVIEW", "CAFE_ID=" + Integer.toString(cafeNum));
+        float score = 0;
+        try{
+            JSONArray jarray = new JSONArray(get);
+            for(int i=0; i < jarray.length(); i++)
+            {
+                JSONObject jObject = jarray.getJSONObject(i);
+                System.out.println(jObject.getDouble("avg"));
+                score = (float)jObject.getDouble("avg");
+                System.out.println(this.name + " " + score);
+            }
+
+            score = (float)(Math.round((double)score - 0.5) + 0.5);
+            System.out.println(score);
+        }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     public void changeData(String name, String tel, String address, String location, int openTime, int closeTime, String category){
@@ -40,8 +64,6 @@ public class CafeData implements Serializable{
         this.location = location;
         this.openTime = openTime;
         this.closeTime = closeTime;
-        this.avg = avg;
-        this.cafeNum = cafeNum;
         this.category = category;
     }
 
