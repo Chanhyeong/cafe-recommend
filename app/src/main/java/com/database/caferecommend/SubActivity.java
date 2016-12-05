@@ -23,6 +23,7 @@ import java.util.ArrayList;
 
 import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
 import static com.database.caferecommend.R.drawable.angel_a;
+import static com.database.caferecommend.R.drawable.angel_ame;
 import static com.database.caferecommend.R.id.select3;
 
 public class SubActivity extends AppCompatActivity {
@@ -247,7 +248,44 @@ public class SubActivity extends AppCompatActivity {
                 dialog.show();
             }
         });
+
+        findViewById(R.id.cafePicture).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LayoutInflater inflater = (LayoutInflater)getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+                View view = inflater.inflate(R.layout.activity_picture, null);
+                String get = CommonFunction.dbManager.getByQuery("IMAGE_NAME", "PICTURE", "CAFE_ID=" + cafeData.getCafeNum());
+                System.out.println("get"+get);
+                String imageName=null;
+                try{
+                    JSONArray jarray = new JSONArray(get);
+                    for(int i=0; i < jarray.length(); i++)
+                    {
+                        JSONObject jObject = jarray.getJSONObject(i);
+                        imageName = jObject.getString("imageName");
+                    }
+                }
+                catch (JSONException e)
+                {
+                    e.printStackTrace();
+                }
+                ImageView picture = (ImageView)findViewById(R.id.pictureImg);
+
+                if(imageName==null){
+                    picture.setImageResource(CommonFunction.imageNumber.get(angel_ame));
+                }
+                /*else{
+                    System.out.println(CommonFunction.imageNumber.get(imageName));
+                    picture.setImageResource(CommonFunction.imageNumber.get(imageName));
+                }*/
+                AlertDialog.Builder builder = new AlertDialog.Builder(SubActivity.this);
+                builder.setView(view);
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
     }
+
 
     private void setMenuData(){
         String get = CommonFunction.dbManager.PrintData("menu");

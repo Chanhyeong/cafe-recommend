@@ -42,12 +42,11 @@ public class Review extends AppCompatActivity {
                 Intent intent=new Intent(getApplicationContext(),RegisterActivity.class);
                 intent.putExtra("cafeNum", cafeNum);
                 startActivity(intent);
-                onDestroy();
             }
         });
     }
     private void setReview(int cafeNum){
-        String get = CommonFunction.dbManager.getByQuery("SCORE, REVIEW_TEXT", "REVIEW", "");
+        String get = CommonFunction.dbManager.getByQuery("SCORE, REVIEW_TEXT", "REVIEW", "CAFE_ID="+Integer.toString(cafeNum));
         System.out.println("ㄴㄴ"+get + cafeNum);    // for log.
         revList=new ArrayList<ReviewData>();
 

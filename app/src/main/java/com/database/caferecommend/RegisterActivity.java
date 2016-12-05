@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.RatingBar;
 
+import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
+
 /**
  * Created by Administrator on 2016-12-01.
  */
@@ -38,8 +40,9 @@ public class RegisterActivity extends AppCompatActivity {
                 CommonFunction.dbManager.insert(query);
                 Intent intent=new Intent(getApplicationContext(),Review.class);
                 intent.putExtra("cafeNum", cafeNum);
+                intent.addFlags(FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
-                onDestroy();
+
             }
         });
 
