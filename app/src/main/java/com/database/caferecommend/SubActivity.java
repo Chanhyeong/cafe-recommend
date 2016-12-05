@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import org.json.JSONArray;
@@ -20,11 +21,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
 
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
 import static com.database.caferecommend.R.drawable.angel_a;
+import static com.database.caferecommend.R.id.select3;
 
 public class SubActivity extends AppCompatActivity {
     ArrayList<MenuData> menuList; //menu 정보 받음
-    DBManager db=new DBManager(SubActivity.this,"menu",null,1);
     TextView call;
     TextView name;
     TextView address;
@@ -55,13 +57,14 @@ public class SubActivity extends AppCompatActivity {
 
         call.setText(cafeData.getTel());
 
-        cafeName = cafeData.getName();
         image.setImageResource(cafeData.getImage());
 
-        name.setText(cafeName);
+        cafeName = cafeData.getName();
+
+        name.setText(cafeData.getName());
         address.setText(cafeData.getAddress());
-        open.setText(Integer.toString(cafeData.getOpen()));
-        close.setText(Integer.toString(cafeData.getClose()));
+        open.setText(Integer.toString(cafeData.getOpenTime()));
+        close.setText(Integer.toString(cafeData.getCloseTime()));
         cafeRatingBar.setRating(2);
         // cafeData.getAvg();
         //cafeData.getImage();
@@ -91,8 +94,14 @@ public class SubActivity extends AppCompatActivity {
 
                 //여기에 dialog에 들어갈 애들 추가
                 final RadioButton select1 = (RadioButton) findViewById(R.id.select1);
-                final RadioButton select2 = (RadioButton) findViewById(R.id.select2);
-                final RadioButton select3 = (RadioButton) findViewById(R.id.select3);
+                System.out.println("hihihihi111");
+                final RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radio_group);
+                int radioButtonID = radioGroup.getCheckedRadioButtonId();
+                System.out.println("hihihihi2222");
+                RadioButton radioButton = (RadioButton) radioGroup.findViewById(radioButtonID);
+                String selectedtext = (String) radioButton.getText();
+                System.out.println("hihihihi3333" +selectedtext);
+
                 final EditText addMenu = (EditText) view.findViewById(R.id.addMenu);
                 final EditText addPrice = (EditText) view.findViewById(R.id.addPrice);
 
@@ -104,21 +113,19 @@ public class SubActivity extends AppCompatActivity {
 
                         String str_menu = addMenu.getText().toString();
                         String str_price = addPrice.getText().toString();
+                        int pos = 0;
+                        if (select1.isSelected())pos = 0;
+                        // else if (select2.isSelected())pos = 1;
+                        // else if (select3.isSelected())pos= 2;
 
-                        if (select1.isSelected()) {
-                        } else if (select2.isSelected()) {
-                        } else if (select3.isSelected()) {
-                        }
                         // 추가하는 문장
                         if (str_menu != null && str_price != null) // 카페메뉴를 입력하지 않으면, 추가되지 않도록
                         {
                             String[] values = {str_menu, str_price};
-                            //String query = "MENU (NAME,PRICE)" + db.convertString(values);
-                            //db.update(query);
+                            String query = "MENU (NAME_NAME,PRICE,IMAGE)" + CommonFunction.dbManager.convertString(values);
+                            CommonFunction.dbManager.insert(query);
+
                             Log.d("mks...", str_menu + str_price);
-                            //다시 업로드 하도록 하는 코드 필요!!!!
-                            //setData();
-                            //listMake();
                         }
                     }
                 });
@@ -151,28 +158,35 @@ public class SubActivity extends AppCompatActivity {
                 final EditText mAddress = (EditText)view.findViewById(R.id.mAddress);
                 final EditText mChar = (EditText)view.findViewById(R.id.mChar);
 
+                mName.setText(cafeData.getName());
+                mPhone.setText(cafeData.getTel());
+                mOpen.setText(Integer.toString(cafeData.getOpenTime()));
+                mClose.setText(Integer.toString(cafeData.getCloseTime()));
+                mAddress.setText(cafeData.getAddress());
+                mChar.setText(cafeData.getCategory());
+
                 AlertDialog.Builder builder = new AlertDialog.Builder(SubActivity.this);
                 builder.setView(view);
                 builder.setPositiveButton("네", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
                         String str_name = mName.getText().toString();
                         String str_phone = mPhone.getText().toString();
-                        int str_open = Integer.parseInt(mOpen.getText().toString());
-                        int str_close = Integer.parseInt(mClose.getText().toString());
+                        int open = Integer.parseInt(mOpen.getText().toString());
+                        int close = Integer.parseInt(mClose.getText().toString());
                         String str_loc = mlocation.getText().toString();
                         String str_addr = mAddress.getText().toString();
                         String str_char = mChar.getText().toString();
 
+                        cafeData.changeData(str_name, str_phone, str_addr, str_loc, open, close, str_char);
                         // 추가하는 문장
                         // 옵션 - && str_number != null && str_loc != null && str_addr != null && str_char != null
                         if(str_name != null) // 카페이름을 입력하지 않으면, 추가되지 않도록
                         {
-                            String[] values = {str_name, str_phone, Integer.toString(str_open), Integer.toString(str_close), str_loc, str_addr, str_char};
-                            //String query = "CAFE (NAME,PHONE,OPEN_TIME,END_TIME,LOCATE,DETAIL_LOCATE,CATEGORY)" + db.convertString(values);
+                            String[] values = {str_name, str_phone, Integer.toString(open), Integer.toString(close), str_loc, str_addr, str_char};
+                            //String query = "UPDATE CAFE (NAME,PHONE,OPEN_TIME,END_TIME,LOCATE,DETAIL_LOCATE,CATEGORY)" + CommonFunction.dbManager.convertString(values);
 
-                            //db.update(query);
+//                            CommonFunction.dbManager.update(query);
                             Log.d("mks...", str_name + str_phone);
                             //다시 업로드 하도록 하는 코드 필요!!!!
                             //setData();
@@ -236,7 +250,7 @@ public class SubActivity extends AppCompatActivity {
     }
 
     private void setMenuData(){
-        String get = db.PrintData("menu");
+        String get = CommonFunction.dbManager.PrintData("menu");
         //System.out.println(get);    // for log.
 
         menuList=new ArrayList<MenuData>();
