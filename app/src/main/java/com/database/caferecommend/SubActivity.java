@@ -68,6 +68,7 @@ public class SubActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(getApplicationContext(),Review.class);
+                System.out.println("++++++++++++++++++++++++" + cafeData.getCafeNum());
                 intent.putExtra("cafeNum", cafeData.getCafeNum());
                 startActivity(intent);
             }

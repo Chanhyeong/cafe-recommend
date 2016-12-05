@@ -17,7 +17,7 @@ public class Review extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.review_activity);
 
-        final int cafeNum = (int)intent.getSerializableExtra("cafeNum");
+        final int cafeNum = (Integer)intent.getIntExtra("cafeNum", 1);
 
         findViewById(R.id.revWrite).setOnClickListener(new View.OnClickListener() {
             @Override
