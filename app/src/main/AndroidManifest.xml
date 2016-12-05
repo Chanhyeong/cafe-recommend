@@ -15,10 +15,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SubActivity"></activity>
+        <activity android:name=".SubActivity" />
+        <activity android:name=".Review" />
         <activity android:name=".RegisterActivity"></activity>
-        <activity android:name=".Review"></activity>
-
     </application>
 
 </manifest>
