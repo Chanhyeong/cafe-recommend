@@ -281,7 +281,13 @@ public class SubActivity extends AppCompatActivity {
                 }
                 ImageView picture = (ImageView)findViewById(R.id.pictureImg);
 
-//                g}
+//                if(imageName==null) {
+//                    picture.setImageResource(R.drawable.angel_a);
+//                }
+//                else{
+//                    System.out.println(CommonFunction.imageNumber.get(imageName));
+//                    picture.setImageResource(CommonFunction.imageNumber.get(imageName));
+//                }
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(SubActivity.this);
                 builder.setView(view);
