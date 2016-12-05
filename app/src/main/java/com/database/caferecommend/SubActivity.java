@@ -71,7 +71,7 @@ public class SubActivity extends AppCompatActivity {
         open.setText(Integer.toString(cafeData.getOpenTime()));
         close.setText(Integer.toString(cafeData.getCloseTime()));
         System.out.println(cafeData.getAvg());
-        cafeRatingBar.setRating(cafeData.getAvg() - 1);
+        cafeRatingBar.setRating(cafeData.getAvg());
         // cafeData.getAvg();
         //cafeData.getImage();
         setMenuData();// 메뉴 정보를 setting!
@@ -264,7 +264,7 @@ public class SubActivity extends AppCompatActivity {
             public void onClick(View v) {
                 LayoutInflater inflater = (LayoutInflater)getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
                 View view = inflater.inflate(R.layout.activity_picture, null);
-                String get = CommonFunction.dbManager.getByQuery("IMAGE_NAME", "PICTURE", "CAFE_ID=" + cafeData.getCafeNum());
+                String get = CommonFunction.dbManager.getByQuery("IMAGE_NAME", "PICTURE", "CAFE_ID=" + Integer.toString(cafeData.getCafeNum()));
                 System.out.println("get"+get);
                 String imageName=null;
                 try{
@@ -279,15 +279,15 @@ public class SubActivity extends AppCompatActivity {
                 {
                     e.printStackTrace();
                 }
-                ImageView picture = (ImageView)findViewById(R.id.pictureImg);
+                ImageView picture = (ImageView)view.findViewById(R.id.pictureImg);
 
-//                if(imageName==null) {
-//                    picture.setImageResource(R.drawable.angel_a);
-//                }
-//                else{
-//                    System.out.println(CommonFunction.imageNumber.get(imageName));
-//                    picture.setImageResource(CommonFunction.imageNumber.get(imageName));
-//                }
+                if(imageName==null) {
+                    picture.setImageResource(R.drawable.sample_in);
+                }
+                else{
+                    System.out.println(CommonFunction.imageNumber.get(imageName));
+                    picture.setImageResource(CommonFunction.imageNumber.get(imageName));
+                }
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(SubActivity.this);
                 builder.setView(view);
