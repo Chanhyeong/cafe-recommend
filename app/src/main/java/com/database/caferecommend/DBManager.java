@@ -106,7 +106,7 @@ public class DBManager extends SQLiteOpenHelper {
                 "foreign key (CAFE_ID) references CAFE(CAFE_ID) on delete SET NULL on update CASCADE);");
         db.execSQL("CREATE TABLE IF NOT EXISTS EVENT(EVENT_ID integer primary key autoincrement, CAFE_NAME text not null, EVENT_DETAIL text not null, " +
                 "foreign key (CAFE_NAME) references FRANCHISE(CAFE_NAME) on delete SET NULL on update CASCADE);");
-        db.execSQL("CREATE TABLE IF NOT EXISTS REVIEW(REVIEW_ID integer primary key autoincrement, SCORE integer, REVIEW_TEXT text not null, CAFE_ID integer not null, " +
+        db.execSQL("CREATE TABLE IF NOT EXISTS REVIEW(REVIEW_ID integer primary key autoincrement, SCORE real, REVIEW_TEXT text not null, CAFE_ID integer not null, " +
                 "foreign key (CAFE_ID) references CAFE(CAFE_ID) on delete SET NULL on update CASCADE);");
 
         for(String[] s: cafeData){
@@ -246,6 +246,31 @@ public class DBManager extends SQLiteOpenHelper {
         return str;
     }
 
+    public String getByQuery(String select, String from, String where){
+        SQLiteDatabase db = getReadableDatabase();
+
+        String str = "[";
+
+        Cursor cursor = db.rawQuery("select " + select + " from "+ from + " where " + where, null);
+        if(from.equals("cafe")) {
+            while (cursor.moveToNext()) {
+                // 파일전송 포맷 json
+                str += "{"
+                        + "'score':'"
+                        + cursor.getInt(0)         //카페번호
+                        + "','review_text':'"
+                        + cursor.getString(1)       //카페이름
+                        + "'}";
+                if (cursor.isLast())
+                    ;
+                else
+                    str += " ,";
+            }
+        }
+        str += "]";
+        return str;
+    }
+
     public String PrintData(String input) {
         SQLiteDatabase db = getReadableDatabase();
         String str = "[";
@@ -278,7 +303,6 @@ public class DBManager extends SQLiteOpenHelper {
                 else
                     str += " ,";
             }
-            str += "]";
         }
         else if(input.equals("franchise")){
             while (cursor.moveToNext()) {
