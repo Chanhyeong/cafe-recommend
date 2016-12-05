@@ -126,9 +126,10 @@ public class MainActivity extends AppCompatActivity {
 
                         //이미지  이름     전화번호     주소   지역   오픈시간    마감시간    평균    카페번호
                         if(CommonFunction.imageNumber.get(cafeToImage.get(name)) != null)
-                            arrData.add(new CafeData(CommonFunction.imageNumber.get(cafeToImage.get(name)),location,name,phone,address,open,close,0,cafe_num));
+                            arrData.add(new CafeData(CommonFunction.imageNumber.get(cafeToImage.get(name)),name,phone,address,location,open,close,4,cafe_num));
+
                         else
-                            arrData.add(new CafeData(R.mipmap.ic_launcher,name,location,phone,address,open,close,0,cafe_num));
+                            arrData.add(new CafeData(R.mipmap.ic_launcher,name,phone,address, location,open,close,0,cafe_num));
                     }
                 }
                 catch (JSONException e)
@@ -219,7 +220,7 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 int cafeNum = arrData.get(position).getCafeNum();
                 Intent intent=new Intent(MainActivity.this,SubActivity.class);
-                intent.putExtra("CafeData",arrData.get(cafeNum));
+                intent.putExtra("CafeData",arrData.get(cafeNum - 1));
                 startActivity(intent);
             }
         });
