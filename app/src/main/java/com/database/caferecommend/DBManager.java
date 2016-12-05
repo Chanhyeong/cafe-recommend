@@ -184,12 +184,6 @@ public class DBManager extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void update(String _query) {
-        SQLiteDatabase db = getWritableDatabase();
-        db.execSQL(_query);
-        db.close();
-    }
-
     public void delete(String _query) {
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL(_query);
@@ -266,6 +260,12 @@ public class DBManager extends SQLiteOpenHelper {
         }
         str += "]";
         return str;
+    }
+
+    public void update(String _query) {
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL(_query);
+        db.close();
     }
 
     public String PrintData(String input) {

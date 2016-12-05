@@ -178,9 +178,9 @@ public class SubActivity extends AppCompatActivity {
                         if(str_name != null) // 카페이름을 입력하지 않으면, 추가되지 않도록
                         {
                             String[] values = {str_name, str_phone, Integer.toString(open), Integer.toString(close), str_loc, str_addr, str_char};
-                            //String query = "CAFE (NAME,PHONE,OPEN_TIME,END_TIME,LOCATE,DETAIL_LOCATE,CATEGORY)" + db.convertString(values);
+                            //String query = "UPDATE CAFE (NAME,PHONE,OPEN_TIME,END_TIME,LOCATE,DETAIL_LOCATE,CATEGORY)" + CommonFunction.dbManager.convertString(values);
 
-                            //db.update(query);
+//                            CommonFunction.dbManager.update(query);
                             Log.d("mks...", str_name + str_phone);
                             //다시 업로드 하도록 하는 코드 필요!!!!
                             //setMenuData();
