@@ -57,8 +57,8 @@ public class MyAdapter extends BaseAdapter {
         TextView tel = (TextView)convertView.findViewById(R.id.tel);
         tel.setText(arrData.get(position).getTel());
 
-        TextView location = (TextView)convertView.findViewById(R.id.location);
-        location.setText(arrData.get(position).getAddress());
+        TextView address = (TextView)convertView.findViewById(R.id.address1);
+        address.setText(arrData.get(position).getAddress());
 
 
         RatingBar avg = (RatingBar) convertView.findViewById(R.id.avg);
