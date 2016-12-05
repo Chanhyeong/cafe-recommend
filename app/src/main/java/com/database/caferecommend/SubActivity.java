@@ -39,35 +39,8 @@ public class SubActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sub);
 
-        call = (TextView) findViewById(R.id.call);
-        name = (TextView) findViewById(R.id.cafeName);
-        address = (TextView) findViewById(R.id.address);
-        open = (TextView) findViewById(R.id.open);
-        close = (TextView) findViewById(R.id.close);
-        image = (ImageView) findViewById(R.id.cafeImage);
-        cafeRatingBar = (RatingBar) findViewById(R.id.ratingBar1);
-
         //카페 넘버 받아오기
         Intent intent = getIntent();
-        int cafe_num = (int) intent.getIntExtra("value", 1);
-        ArrayList<CafeData> arr = (ArrayList<CafeData>) intent.getSerializableExtra("CafeData");
-        for (int i = 0; i < arr.size(); i++) {
-            if (arr.get(i).getCafeNum() == cafe_num) {
-                call.setText(arr.get(i).getTel());
-
-                cafeName = arr.get(i).getName();
-                image.setImageResource(arr.get(i).getImage());
-
-                name.setText(cafeName);
-                address.setText(arr.get(i).getAddress());
-                open.setText(Integer.toString(arr.get(i).getOpen()));
-                close.setText(Integer.toString(arr.get(i).getClose()));
-                cafeRatingBar.setRating(2);
-                // arr.get(i).getAvg();
-                //arr.get(i).getImage();
-                break;
-            }
-        }
 
         call=(TextView)findViewById(R.id.call);
         name=(TextView)findViewById(R.id.cafeName);
@@ -131,7 +104,6 @@ public class SubActivity extends AppCompatActivity {
 
                         String str_menu = addMenu.getText().toString();
                         String str_price = addPrice.getText().toString();
-
 
                         if (select1.isSelected()) {
                         } else if (select2.isSelected()) {

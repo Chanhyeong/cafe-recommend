@@ -261,7 +261,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("mk",i + ": " + name + phone + cafeToImage.get(name) + CommonFunction.imageNumber.get(cafeToImage.get(name)));
 
                 //이미지  이름     전화번호     주소   지역     오픈시간    마감시간    평균    카페번호
-                if(CommonFunction.imageNumber.get(cafeToImage.get(name)) !=g null)
+                if(CommonFunction.imageNumber.get(cafeToImage.get(name)) != null)
                     arrData.add(new CafeData(CommonFunction.imageNumber.get(cafeToImage.get(name)),name,phone,address,location,open,close,4,cafe_num));
                 else
                     arrData.add(new CafeData(R.mipmap.ic_launcher,name,phone,address,location,open,close,5,cafe_num));
