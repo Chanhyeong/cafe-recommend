@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
@@ -28,6 +29,9 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import static android.R.string.ok;
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
 
 /*
 Select
@@ -67,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
 
     //이미지 받는데 쓰는애들
     final int REQ_CODE_SELECT_IMAGE = 100; // 이미지 받을때 쓴다.
-    ImageView flagImage;
+    final int SUB_ACTIVITY = 10;    // 서브 액티비티에 대해.
 
     /*
     현재는 public static형태로 다른 class에서 사용이 가능하지만,
@@ -95,6 +99,9 @@ public class MainActivity extends AppCompatActivity {
 
                     //이미지 데이터를 비트맵으로 받아온다.
 
+                    BitmapFactory.Options options = new BitmapFactory.Options();
+                    options.inSampleSize = 4;
+
                     image_bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
 
                     //배치해놓은 ImageView에 set
@@ -111,6 +118,19 @@ public class MainActivity extends AppCompatActivity {
                 } catch (Exception e)
                 {
                     e.printStackTrace();
+                }
+            }
+        }
+        else if(requestCode == SUB_ACTIVITY){
+
+            if(resultCode == RESULT_OK && data!= null){
+
+                String result = data.getStringExtra("delete");
+
+                if(result.equals("ok"))
+                {
+                    setData();
+                    listMake();
                 }
             }
         }
@@ -234,7 +254,6 @@ public class MainActivity extends AppCompatActivity {
         else
         {//Bitmap image_bitmap에서 가져와야한다.
             customIcon.setImageBitmap(bitmap);
-            bitmap.recycle();
             bitmap = null;
             //Toast.makeText(getApplicationContext(), "여러분 달려봅시다",Toast.LENGTH_SHORT).show();
             //확인용
@@ -302,8 +321,11 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 int cafeNum = arrData.get(position).getCafeNum();
                 Intent intent=new Intent(MainActivity.this,SubActivity.class);
-                intent.putExtra("CafeData",arrData.get(cafeNum - 1));
-                startActivity(intent);
+                intent.putExtra("CafeData",arrData.get(position));
+
+                Log.d("mk -test position :", Integer.toString(position));
+
+                startActivityForResult(intent, SUB_ACTIVITY);
             }
         });
     }
@@ -317,7 +339,7 @@ public class MainActivity extends AppCompatActivity {
         // 코드 확인용 예제문
         // arrData.add(new CafeData(R.mipmap.ic_launcher,"엔젤리너스","010-1111-2222",0));
 
-        Log.d("mk", "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+        //Log.d("mk", "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
 
         try{
             JSONArray jarray = new JSONArray(get);
@@ -328,7 +350,8 @@ public class MainActivity extends AppCompatActivity {
                 String cafe_name = jObject2.getString("cafe_name");
                 String brand_image = jObject2.getString("brand_image");
                 cafeToImage.put(cafe_name, brand_image);
-                Log.d("mk",i + ": " + cafe_name + brand_image);
+                //Log.d("mk",i + ": " + cafe_name + brand_image);
+                //출력확인용 log
             }
             for(int i=0; i < jarray.length(); i++)
             {
@@ -342,7 +365,8 @@ public class MainActivity extends AppCompatActivity {
                 String address=jObject.getString("address");
                 String category = jObject.getString("category");
 
-                Log.d("mk",i + ": " + name + phone + cafeToImage.get(name) + CommonFunction.imageNumber.get(cafeToImage.get(name)));
+               //Log.d("mk",i + ": " + name + phone + cafeToImage.get(name) + CommonFunction.imageNumber.get(cafeToImage.get(name)));
+                //출력확인용 로그
 
                 //이미지  이름     전화번호     주소   지역     오픈시간    마감시간    평균    카페번호
                 if(CommonFunction.imageNumber.get(cafeToImage.get(name)) != null)
