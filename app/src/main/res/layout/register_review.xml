@@ -24,11 +24,21 @@
 
 
     </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="아래에 후기를 입력하세요."
+        android:textColor="@color/colorAccent"
+        android:textSize="15pt"
+        android:layout_marginTop="10pt"
+        />
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorAccent"
         android:layout_marginTop="20pt"
+        android:hint="후기 입력란"
         android:id="@+id/revEdit"
-        android:text="후기 쓰는 곳"/>
+       />
 
 </LinearLayout>
