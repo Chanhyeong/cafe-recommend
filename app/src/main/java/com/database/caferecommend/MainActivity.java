@@ -60,6 +60,9 @@ public class MainActivity extends AppCompatActivity {
     새로운 클래스를 만들어 범용으로 사용하는 것에 대한 정의를 새로 해줄 필요가 있어보임
     */
 
+    Class c = R.drawable.class;
+    Field[] f = c.getFields();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
                     for(int i=0; i < jarray.length(); i++)
                     {
                         JSONObject jObject = jarray.getJSONObject(i);
-                        int cafeNum = jObject.getInt("number");
+                        int cafe_num = jObject.getInt("number");
                         String name = jObject.getString("name");
                         String phone = jObject.getString("phone");
                         String location=jObject.getString("location");
@@ -122,9 +125,9 @@ public class MainActivity extends AppCompatActivity {
 
                         //이미지  이름     전화번호     주소   지역   오픈시간    마감시간    평균    카페번호
                         if(CommonFunction.imageNumber.get(cafeToImage.get(name)) != null)
-                            arrData.add(new CafeData(CommonFunction.imageNumber.get(cafeToImage.get(name)),location,name,phone,address,open,close,0,cafeNum));
+                            arrData.add(new CafeData(CommonFunction.imageNumber.get(cafeToImage.get(name)),location,name,phone,address,open,close,0,cafe_num));
                         else
-                            arrData.add(new CafeData(R.mipmap.ic_launcher,name,location,phone,address,open,close,0,cafeNum));
+                            arrData.add(new CafeData(R.mipmap.ic_launcher,name,location,phone,address,open,close,0,cafe_num));
                     }
                 }
                 catch (JSONException e)
@@ -247,7 +250,7 @@ public class MainActivity extends AppCompatActivity {
             for(int i=0; i < jarray.length(); i++)
             {
                 JSONObject jObject = jarray.getJSONObject(i);
-                int cafeNum = jObject.getInt("number");
+                int cafe_num = jObject.getInt("number");
                 String name = jObject.getString("name");
                 String phone = jObject.getString("phone");
                 String location=jObject.getString("location");
@@ -259,9 +262,9 @@ public class MainActivity extends AppCompatActivity {
 
                 //이미지  이름     전화번호     주소   지역     오픈시간    마감시간    평균    카페번호
                 if(CommonFunction.imageNumber.get(cafeToImage.get(name)) != null)
-                    arrData.add(new CafeData(CommonFunction.imageNumber.get(cafeToImage.get(name)),name,phone,address,location,open,close,4,cafeNum));
+                    arrData.add(new CafeData(CommonFunction.imageNumber.get(cafeToImage.get(name)),name,phone,address,location,open,close,4,cafe_num));
                 else
-                    arrData.add(new CafeData(R.mipmap.ic_launcher,name,phone,address,location,open,close,5,cafeNum));
+                    arrData.add(new CafeData(R.mipmap.ic_launcher,name,phone,address,location,open,close,5,cafe_num));
             }
         }
         catch (JSONException e)
