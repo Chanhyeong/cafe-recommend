@@ -69,7 +69,8 @@ public class SubActivity extends AppCompatActivity {
         address.setText(cafeData.getAddress());
         open.setText(Integer.toString(cafeData.getOpenTime()));
         close.setText(Integer.toString(cafeData.getCloseTime()));
-        cafeRatingBar.setRating(cafeData.getAvg());
+        System.out.println(cafeData.getAvg());
+        cafeRatingBar.setRating(cafeData.getAvg() - 1);
         // cafeData.getAvg();
         //cafeData.getImage();
         setMenuData();// 메뉴 정보를 setting!
