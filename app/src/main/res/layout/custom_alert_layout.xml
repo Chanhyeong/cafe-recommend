@@ -14,7 +14,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:text="카페번호를 저장하실건가요?"/>
+            android:text="카페정보를 저장하실건가요?"/>
     </TableRow>
 
     <TableRow>
