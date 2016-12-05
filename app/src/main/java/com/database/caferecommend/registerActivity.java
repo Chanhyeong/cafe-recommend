@@ -19,7 +19,7 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_review);
-        final int cafeNum = (int)intent.getIntExtra("cafeNum", 1);
+        final int cafeNum = (int) intent.getIntExtra("cafeNum", 1);
 
         reviewRatingBar = (RatingBar)findViewById(R.id.reviewRatingBar);
         findViewById(R.id.regRev).setOnClickListener(new View.OnClickListener() {
