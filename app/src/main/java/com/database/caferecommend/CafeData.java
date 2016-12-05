@@ -33,8 +33,7 @@ public class CafeData implements Serializable{
         this.category = category;
     }
 
-    public void changeData(int image, String name, String tel, String address, String location, int openTime, int closeTime, float avg, int cafeNum, String category){
-        this.image = image;
+    public void changeData(String name, String tel, String address, String location, int openTime, int closeTime, String category){
         this.name = name;
         this.tel = tel;
         this.address = address;

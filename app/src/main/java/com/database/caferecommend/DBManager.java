@@ -184,12 +184,6 @@ public class DBManager extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void update(String _query) {
-        SQLiteDatabase db = getWritableDatabase();
-        db.execSQL(_query);
-        db.close();
-    }
-
     public void delete(String _query) {
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL(_query);
@@ -216,32 +210,32 @@ public class DBManager extends SQLiteOpenHelper {
 
         Cursor cursor = db.rawQuery("select * from cafe where " + select + " LIKE " + "'%"+ input +"%'", null);
 
-            while (cursor.moveToNext()) {
-                // 파일전송 포맷 json
-                str += "{"
-                        + "'number':'"
-                        + cursor.getInt(0)         //카페번호
-                        + "','name':'"
-                        + cursor.getString(1)       //카페이름
-                        + "','phone':'"
-                        + cursor.getString(2)       //전화번호
-                        + "','open':'"
-                        + cursor.getInt(3)         //오픈시간
-                        + "','close':'"
-                        + cursor.getInt(4)           //마감시간
-                        + "','location':'"
-                        + cursor.getString(5)         //지역
-                        + "','address':'"
-                        + cursor.getString(6)         //상세주소
-                        + "','category':'"
-                        + cursor.getString(7)         //카테고리
-                        + "'}";
-                if (cursor.isLast())
-                    ;
-                else
-                    str += " ,";
-            }
-            str += "]";
+        while (cursor.moveToNext()) {
+            // 파일전송 포맷 json
+            str += "{"
+                    + "'number':'"
+                    + cursor.getInt(0)         //카페번호
+                    + "','name':'"
+                    + cursor.getString(1)       //카페이름
+                    + "','phone':'"
+                    + cursor.getString(2)       //전화번호
+                    + "','open':'"
+                    + cursor.getInt(3)         //오픈시간
+                    + "','close':'"
+                    + cursor.getInt(4)           //마감시간
+                    + "','location':'"
+                    + cursor.getString(5)         //지역
+                    + "','address':'"
+                    + cursor.getString(6)         //상세주소
+                    + "','category':'"
+                    + cursor.getString(7)         //카테고리
+                    + "'}";
+            if (cursor.isLast())
+                ;
+            else
+                str += " ,";
+        }
+        str += "]";
 
         return str;
     }
@@ -252,23 +246,27 @@ public class DBManager extends SQLiteOpenHelper {
         String str = "[";
 
         Cursor cursor = db.rawQuery("select " + select + " from "+ from + " where " + where, null);
-        if(from.equals("cafe")) {
-            while (cursor.moveToNext()) {
-                // 파일전송 포맷 json
-                str += "{"
-                        + "'score':'"
-                        + cursor.getInt(0)         //카페번호
-                        + "','review_text':'"
-                        + cursor.getString(1)       //카페이름
-                        + "'}";
-                if (cursor.isLast())
-                    ;
-                else
-                    str += " ,";
-            }
+        while (cursor.moveToNext()) {
+            // 파일전송 포맷 json
+            str += "{"
+                    + "'score':'"
+                    + cursor.getInt(0)         //카페번호
+                    + "','review_text':'"
+                    + cursor.getString(1)       //카페이름
+                    + "'}";
+            if (cursor.isLast())
+                ;
+            else
+                str += " ,";
         }
         str += "]";
         return str;
+    }
+
+    public void update(String _query) {
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL(_query);
+        db.close();
     }
 
     public String PrintData(String input) {
