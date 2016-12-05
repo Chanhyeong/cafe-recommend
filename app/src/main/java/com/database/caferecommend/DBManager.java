@@ -259,18 +259,33 @@ public class DBManager extends SQLiteOpenHelper {
         String str = "[";
 
         Cursor cursor = db.rawQuery("select " + select + " from "+ from + " where " + where, null);
-        while (cursor.moveToNext()) {
-            // 파일전송 포맷 json
-            str += "{"
-                    + "'score':'"
-                    + cursor.getInt(0)         //카페번호
-                    + "','review_text':'"
-                    + cursor.getString(1)       //카페이름
-                    + "'}";
-            if (cursor.isLast())
-                ;
-            else
-                str += " ,";
+        if(select.equalsIgnoreCase("avg(SCORE)")){
+            while (cursor.moveToNext()) {
+                // 파일전송 포맷 json
+                str += "{"
+                        + "'avg':'"
+                        + cursor.getDouble(0)         //카페번호
+                        + "'}";
+                if (cursor.isLast())
+                    ;
+                else
+                    str += " ,";
+            }
+        }
+        else {
+            while (cursor.moveToNext()) {
+                // 파일전송 포맷 json
+                str += "{"
+                        + "'score':'"
+                        + cursor.getInt(0)         //카페번호
+                        + "','review_text':'"
+                        + cursor.getString(1)       //카페이름
+                        + "'}";
+                if (cursor.isLast())
+                    ;
+                else
+                    str += " ,";
+            }
         }
         str += "]";
         return str;
