@@ -17,11 +17,10 @@ public class Review extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.review_activity);
 
-        final int cafeNum = (Integer)intent.getIntExtra("cafeNum", 1);
-
         findViewById(R.id.revWrite).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int cafeNum = (Integer)intent.getIntExtra("cafeNum", 1);
                 Intent intent=new Intent(getApplicationContext(),RegisterActivity.class);
                 intent.putExtra("cafeNum", cafeNum);
                 startActivity(intent);
