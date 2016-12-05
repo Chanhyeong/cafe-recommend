@@ -20,6 +20,7 @@ public class CommonFunction {
             try {
                 if(d.get("R.drawable." + d.getName()) != null) {
                     imageNumber.put(d.getName(), Integer.valueOf(d.get("R.drawable." + d.getName()).toString()));
+                    System.out.println(Integer.valueOf(d.get("R.drawable." + d.getName()).toString()));
                 }
             } catch (Exception e) {
                 e.printStackTrace();
