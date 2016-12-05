@@ -26,7 +26,7 @@ public class SubActivity extends AppCompatActivity {
     TextView open;
     TextView close;
     ImageView image;
-    RatingBar ratingBar1;
+    RatingBar cafeRatingBar;
     String cafeName;
 
     @Override
@@ -40,29 +40,24 @@ public class SubActivity extends AppCompatActivity {
         open=(TextView)findViewById(R.id.open);
         close=(TextView)findViewById(R.id.close);
         image=(ImageView)findViewById(R.id.cafeImage);
-        ratingBar1=(RatingBar)findViewById(R.id.ratingBar1);
+        cafeRatingBar=(RatingBar)findViewById(R.id.cafeRatingBar);
 
         //카페 넘버 받아오기
         Intent intent = getIntent();
-        int cafe_num = (int)intent.getIntExtra("value", 1);
-        ArrayList<CafeData> arr=(ArrayList<CafeData>) intent.getSerializableExtra("CafeData");
-        for(int i=0; i<arr.size(); i++) {
-            if (arr.get(i).getCafe_num() == cafe_num) {
-                call.setText(arr.get(i).getTel());
+        final CafeData cafeData = (CafeData)intent.getSerializableExtra("CafeData");
 
-                cafeName = arr.get(i).getName();
-                image.setImageResource(arr.get(i).getImage());
+        call.setText(cafeData.getTel());
 
-                name.setText(cafeName);
-                address.setText(arr.get(i).getAddress());
-                open.setText(Integer.toString(arr.get(i).getOpen()));
-                close.setText(Integer.toString(arr.get(i).getClose()));
-                ratingBar1.setRating(2);
-                // arr.get(i).getAvg();
-                //arr.get(i).getImage();
-                break;
-            }
-        }
+        cafeName = cafeData.getName();
+        image.setImageResource(cafeData.getImage());
+
+        name.setText(cafeName);
+        address.setText(cafeData.getAddress());
+        open.setText(Integer.toString(cafeData.getOpen()));
+        close.setText(Integer.toString(cafeData.getClose()));
+        cafeRatingBar.setRating(2);
+        // cafeData.getAvg();
+        //cafeData.getImage();
 
         setMenuData();// 메뉴 정보를 setting!
         ListView menu= (ListView)findViewById(R.id.menuList);
@@ -73,6 +68,7 @@ public class SubActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(getApplicationContext(),Review.class);
+                intent.putExtra("cafeNum", cafeData.getCafeNum());
                 startActivity(intent);
             }
         });
@@ -99,8 +95,8 @@ public class SubActivity extends AppCompatActivity {
                 Log.d("mk",i + ": " + name + price);
 
                 if(cafeName.equals(instantCafeName)) {
-                    if (MainActivity.imageNumber.get(image) != null)
-                        menuList.add(new MenuData(MainActivity.imageNumber.get(image), name, price));
+                    if (CommonFunction.imageNumber.get(image) != null)
+                        menuList.add(new MenuData(CommonFunction.imageNumber.get(image), name, price));
                     else
                         menuList.add(new MenuData(R.mipmap.ic_launcher, name, price));
                 }
