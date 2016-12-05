@@ -194,7 +194,6 @@ public class DBManager extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL(_query);
         db.close();
-
     }
 
     //부분적으로 가져오는 것

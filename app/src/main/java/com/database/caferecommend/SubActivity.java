@@ -21,8 +21,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
 
+import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
 import static com.database.caferecommend.R.drawable.angel_a;
+import static com.database.caferecommend.R.id.select1;
 import static com.database.caferecommend.R.id.select3;
 
 public class SubActivity extends AppCompatActivity {
@@ -33,6 +35,7 @@ public class SubActivity extends AppCompatActivity {
     TextView open;
     TextView close;
     ImageView image;
+    int number;
     RatingBar cafeRatingBar;
     String cafeName;
 
@@ -54,7 +57,7 @@ public class SubActivity extends AppCompatActivity {
 
         //카페 넘버 받아오기
         final CafeData cafeData = (CafeData)intent.getSerializableExtra("CafeData");
-
+        number = cafeData.getCafeNum();
         call.setText(cafeData.getTel());
 
         cafeName = cafeData.getName();
@@ -92,18 +95,10 @@ public class SubActivity extends AppCompatActivity {
                 View view = inflater.inflate(R.layout.append_menu, null);
 
                 //여기에 dialog에 들어갈 애들 추가
-                final RadioButton select1 = (RadioButton) findViewById(R.id.select1);
-                System.out.println("hihihihi111");
-                final RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radio_group);
-                int radioButtonID = radioGroup.getCheckedRadioButtonId();
-                System.out.println("hihihihi2222");
-                RadioButton radioButton = (RadioButton) radioGroup.findViewById(radioButtonID);
-                String selectedtext = (String) radioButton.getText();
-                System.out.println("hihihihi3333" +selectedtext);
-
+                final String str_img[] = {"stra_a","angel_ame","hollys_cino"};
                 final EditText addMenu = (EditText) view.findViewById(R.id.addMenu);
                 final EditText addPrice = (EditText) view.findViewById(R.id.addPrice);
-
+                final RadioGroup radioGroup = (RadioGroup) view.findViewById(R.id.radio_group);
                 AlertDialog.Builder builder = new AlertDialog.Builder(SubActivity.this);
                 builder.setView(view);
                 builder.setPositiveButton("네", new DialogInterface.OnClickListener() {
@@ -112,18 +107,15 @@ public class SubActivity extends AppCompatActivity {
 
                         String str_menu = addMenu.getText().toString();
                         String str_price = addPrice.getText().toString();
-                        int pos = 0;
-                        if (select1.isSelected())pos = 0;
-                       // else if (select2.isSelected())pos = 1;
-                       // else if (select3.isSelected())pos= 2;
-
+                        int radioButtonID = radioGroup.getCheckedRadioButtonId();
+                        View radioButton = radioGroup.findViewById(radioButtonID);
+                        int idx = radioGroup.indexOfChild(radioButton);
                         // 추가하는 문장
                         if (str_menu != null && str_price != null) // 카페메뉴를 입력하지 않으면, 추가되지 않도록
                         {
-                            String[] values = {str_menu, str_price};
-                            String query = "MENU (NAME_NAME,PRICE,IMAGE)" + CommonFunction.dbManager.convertString(values);
+                            String[] values = {str_menu, str_price,name.getText().toString(),str_img[idx]};
+                            String query = "MENU (MENU_NAME,PRICE,CAFE_NAME,IMAGE)" + CommonFunction.dbManager.convertString(values);
                             CommonFunction.dbManager.insert(query);
-
                             Log.d("mks...", str_menu + str_price);
                         }
                     }
@@ -138,8 +130,6 @@ public class SubActivity extends AppCompatActivity {
             }
 
         });
-
-
 
         findViewById(R.id.modificationCafe).setOnClickListener(new OnClickListener() {
             @Override
@@ -222,11 +212,9 @@ public class SubActivity extends AppCompatActivity {
                         // 옵션 - && str_number != null && str_loc != null && str_addr != null && str_char != null
                         if(str_password.equals("admin")) // 카페이름을 입력하지 않으면, 추가되지 않도록
                         {
-                            //String query = "CAFE (NAME,PHONE,OPEN_TIME,END_TIME,LOCATE,DETAIL_LOCATE,CATEGORY)" + db.convertString(values);
-                            //db.delete(query);
-                            //다시 업로드 하도록 하는 코드 필요!!!!
-                            //setData();
-                            //listMake();
+                            String query = "delete from CAFE where CAFE_ID="+number;
+                            CommonFunction.dbManager.delete(query);
+
                         }
                     }
                 });
