@@ -281,7 +281,7 @@ public class SubActivity extends AppCompatActivity {
                 }
                 ImageView picture = (ImageView)view.findViewById(R.id.pictureImg);
 
-                if(imageName==null) {
+                if(imageName==null) {   //아무것도 없을때 샘플코드 올리는
                     picture.setImageResource(R.drawable.sample_in);
                 }
                 else{
