@@ -73,9 +73,7 @@ public class SubActivity extends AppCompatActivity {
         // cafeData.getAvg();
         //cafeData.getImage();
         setMenuData();// 메뉴 정보를 setting!
-        ListView menu = (ListView) findViewById(R.id.menuList);
-        MenuAdapter menuAdapter = new MenuAdapter(SubActivity.this, menuList);
-        menu.setAdapter(menuAdapter);
+        ListMenu();
 
         findViewById(R.id.revBtn).setOnClickListener(new OnClickListener() {
             @Override
@@ -121,7 +119,11 @@ public class SubActivity extends AppCompatActivity {
                             String query = "MENU (MENU_NAME,PRICE,CAFE_NAME,IMAGE)" + CommonFunction.dbManager.convertString(values);
                             CommonFunction.dbManager.insert(query);
                             Log.d("mks...", str_menu + str_price);
+
+  //바로 업로드하는 코드
                             setMenuData();
+                            ListMenu();
+
                         }
                     }
                 });
@@ -242,6 +244,13 @@ public class SubActivity extends AppCompatActivity {
                 dialog.show();
             }
         });
+    }
+
+    public void ListMenu()
+    {
+        ListView menu = (ListView) findViewById(R.id.menuList);
+        MenuAdapter menuAdapter = new MenuAdapter(SubActivity.this, menuList);
+        menu.setAdapter(menuAdapter);
     }
 
     private void setMenuData(){
