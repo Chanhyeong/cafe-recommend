@@ -15,6 +15,9 @@ import java.util.ArrayList;
  * Created by Administrator on 2016-12-04.
  */
 
+//사용자가 남긴 후기를 보여줄때 여러 뷰를 사용하므로 어댑터가 필요하다.
+//각 Row의 구성은  평점을 별로 보여주는 RatingBar 와 사용자들이 남긴 후기이다.
+
 public class ReviewAdapter extends BaseAdapter {
     private Context context;
     private ArrayList<ReviewData> reviewData;

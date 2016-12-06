@@ -34,6 +34,9 @@ import static android.R.string.ok;
 import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
 
 /*
+
+사용하는 SQL 문
+
 Select
  - select * from 테이블명;
     테이블의 모든 속성과 값을 가져온다.
@@ -59,11 +62,11 @@ Update
  */
 public class MainActivity extends AppCompatActivity {
     ArrayList<CafeData>arrData;  //각 카페별 데이터를 저장한다.
-    MyAdapter myadapter;         //ListView의 어댑터
-    ListView list;               //각 카페데이터를 보여줌
-    Button plus;
-    EditText texxxt;
-    Button search;
+    MyAdapter myadapter;         //메인 엑티비티의 ListView의 어댑터
+    ListView list;               //각 카페데이터를 보여준다.
+    Button plus;                //카페를 추가할 때 사용한다.
+    EditText texxxt;            //검색하고자 하는 정보를 입력
+    Button search;              //검색버튼
     int whatSpin;   //  0 = 이름, 1 = 지역, 2 = 특성
     HashMap<String, String> cafeToImage = new HashMap<String, String>();    // 이미지랑 카페 네임이랑 매칭하는 해시맵
     Bitmap image_bitmap;
@@ -176,9 +179,6 @@ public class MainActivity extends AppCompatActivity {
                 //선택한거 보여주기
 
                 arrData=new ArrayList<CafeData>();
-                // 코드 확인용 예제문
-                // arrData.add(new CafeData(R.mipmap.ic_launcher,"엔젤리너스","010-1111-2222",0));
-
                 try{
                     JSONArray jarray = new JSONArray(part);
 
@@ -196,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
 
                         Log.d("mk",i + ": " + name + phone + cafeToImage.get(name) + CommonFunction.imageNumber.get(cafeToImage.get(name)));
 
-                        //이미지  이름     전화번호     주소   지역   오픈시간    마감시간    평균    카페번호
+                        //이미지  이름     전화번호     주소   지역   오픈시간    마감시간    평균    카페번호 카테고리
                         if(CommonFunction.imageNumber.get(cafeToImage.get(name)) != null)
                             arrData.add(new CafeData(CommonFunction.imageNumber.get(cafeToImage.get(name)),name,phone,address,location,open,close, cafe_num, category));
                         else
@@ -232,9 +232,6 @@ public class MainActivity extends AppCompatActivity {
         LayoutInflater inflater = (LayoutInflater)getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.custom_alert_layout, null);
 
-
-        //여기에 dialog에 들어갈 애들 추가
-        //customTitle.setTextColor(Color.BLACK);
         final ImageView customIcon = (ImageView)view.findViewById(R.id.customdialogicon);
         final EditText dialog_name = (EditText)view.findViewById(R.id.dialog_name);
         final EditText dialog_number = (EditText)view.findViewById(R.id.dialog_number);
@@ -246,17 +243,12 @@ public class MainActivity extends AppCompatActivity {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
 
-        Toast.makeText(getApplicationContext(), "start!!!",Toast.LENGTH_SHORT).show();
-        //코드 실행 확인용
-
         if(bitmap == null)
             ;//Toast.makeText(getApplicationContext(), "null!!!!!!",Toast.LENGTH_SHORT).show();  //확인용
         else
         {//Bitmap image_bitmap에서 가져와야한다.
             customIcon.setImageBitmap(bitmap);
             bitmap = null;
-            //Toast.makeText(getApplicationContext(), "여러분 달려봅시다",Toast.LENGTH_SHORT).show();
-            //확인용
         }
 
         //########################################################################### 사진 가져오기
@@ -274,7 +266,7 @@ public class MainActivity extends AppCompatActivity {
         builder.setView(view);
         builder.setPositiveButton("네", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(DialogInterface dialog, int which) { //사용자가 '네'를 눌렀을때 카페를 추가
 
                 String str_name = dialog_name.getText().toString();
                 String str_number = dialog_number.getText().toString();
@@ -307,11 +299,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         dialog = builder.create();
-        dialog.show();
+        dialog.show();   //dialog를 보여준다.
     }//--------------------------------------------------------------end of makedialog
 
 
-    public void listMake()
+    public void listMake()  //메인엑티비티에 카페들의 정보를 나타냄
     {
         myadapter=new MyAdapter(this,arrData);
         list.setAdapter(myadapter);
@@ -321,7 +313,7 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 int cafeNum = arrData.get(position).getCafeNum();
                 Intent intent=new Intent(MainActivity.this,SubActivity.class);
-                intent.putExtra("CafeData",arrData.get(position));
+                intent.putExtra("CafeData",arrData.get(position));  //SubAcrivity에  카페 정보를 보내  사용자가 선택한 카페의 상세 정보를 나타낸다.
 
                 Log.d("mk -test position :", Integer.toString(position));
 
@@ -330,28 +322,20 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void setData(){
-        String get = CommonFunction.dbManager.PrintData("cafe");
+    private void setData(){     //카페 정보를 쿼리문을 통해 받아 arrData에 저장장
+       String get = CommonFunction.dbManager.PrintData("cafe");
         String get2 = CommonFunction.dbManager.PrintData("franchise");
-        //System.out.println(get);    // for log.
 
         arrData=new ArrayList<CafeData>();
-        // 코드 확인용 예제문
-        // arrData.add(new CafeData(R.mipmap.ic_launcher,"엔젤리너스","010-1111-2222",0));
-
-        //Log.d("mk", "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
-
         try{
-            JSONArray jarray = new JSONArray(get);
-            JSONArray jarray2 = new JSONArray(get2);
+            JSONArray jarray = new JSONArray(get);     //cafe에 대한 정보를 select문을 써서 json형식으로 받아온다.
+            JSONArray jarray2 = new JSONArray(get2);  //franchise에 대한 정보를 select문을 써서 json형식으로 받아온다.
 
             for(int i=0; i < jarray2.length(); i++) {
                 JSONObject jObject2 = jarray2.getJSONObject(i);
                 String cafe_name = jObject2.getString("cafe_name");
                 String brand_image = jObject2.getString("brand_image");
                 cafeToImage.put(cafe_name, brand_image);
-                //Log.d("mk",i + ": " + cafe_name + brand_image);
-                //출력확인용 log
             }
             for(int i=0; i < jarray.length(); i++)
             {
@@ -365,10 +349,7 @@ public class MainActivity extends AppCompatActivity {
                 String address=jObject.getString("address");
                 String category = jObject.getString("category");
 
-               //Log.d("mk",i + ": " + name + phone + cafeToImage.get(name) + CommonFunction.imageNumber.get(cafeToImage.get(name)));
-                //출력확인용 로그
-
-                //이미지  이름     전화번호     주소   지역     오픈시간    마감시간    평균    카페번호
+                //이미지  이름     전화번호     주소   지역     오픈시간    마감시간    평균    카페번호       카테고리
                 if(CommonFunction.imageNumber.get(cafeToImage.get(name)) != null)
                     arrData.add(new CafeData(CommonFunction.imageNumber.get(cafeToImage.get(name)),name,phone,address,location,open,close, cafe_num, category));
                 else

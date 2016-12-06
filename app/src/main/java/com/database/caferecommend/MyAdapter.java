@@ -18,6 +18,11 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+
+/*
+activity_main의 카페리스트를 나타내기위해 listView를 사용하는데 여러 뷰를 사용하므로 커스텀뷰가 필요해 따로 어댑터를 만들어야 한다.
+리스트의 1 Row는  카페 로고, 이름, 전화번호, 주소. 평점정보를 나타낸다.
+ */
 public class MyAdapter extends BaseAdapter {
 
     private Context context;

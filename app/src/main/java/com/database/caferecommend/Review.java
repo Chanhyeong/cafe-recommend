@@ -21,6 +21,8 @@ import java.util.List;
  * Created by Administrator on 2016-11-30.
  */
 
+// 사용자에게 다른 카페이용자가  카페에  남긴 후기 정보를 보여준다.
+
 public class Review extends AppCompatActivity {
     ArrayList<ReviewData> revList;
     @Override
@@ -30,7 +32,7 @@ public class Review extends AppCompatActivity {
 
         Intent intent = getIntent();
         final int cafeNum = (int) intent.getExtras().getInt("cafeNum");
-
+        //기본키인 카페번호를 통해 각 카페의 리뷰데이터를 세팅한다.
         setReview(cafeNum);
         ListView listview=(ListView)findViewById(R.id.revList);
         ReviewAdapter reviewAdapter=new ReviewAdapter(this,revList);
@@ -39,6 +41,7 @@ public class Review extends AppCompatActivity {
         findViewById(R.id.revWrite).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //리뷰를 등록하고 싶다면 이 버튼을 눌러 리뷰를 남길 수 있다.
                 Intent intent=new Intent(getApplicationContext(),RegisterActivity.class);
                 intent.putExtra("cafeNum", cafeNum);
                 startActivity(intent);
@@ -59,7 +62,7 @@ public class Review extends AppCompatActivity {
                 String review_text= jObject.getString("review_text");
 
                 ReviewData reviewData=new ReviewData(score,review_text);
-                revList.add(i,reviewData);
+                revList.add(i,reviewData);//revList에 데이터를 세팅
             }
         }
         catch (JSONException e)
