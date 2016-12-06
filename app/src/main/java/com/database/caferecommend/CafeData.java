@@ -36,6 +36,7 @@ public class CafeData implements Serializable{
         this.cafeNum = cafeNum;
         this.category = category;
 
+        // 데이터베이스에서 카페별로 평점을 계산하여 이 객체의 avg에 할당하는 코드
         String get = CommonFunction.dbManager.getByQuery("AVG(SCORE)", "REVIEW", "CAFE_ID=" + Integer.toString(cafeNum));
         float score = 0;
         try{

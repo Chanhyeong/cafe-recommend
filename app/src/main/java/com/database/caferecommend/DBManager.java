@@ -11,6 +11,8 @@ import android.database.sqlite.SQLiteOpenHelper;
  * Created by Administrator on 2016-11-25.
  */
 public class DBManager extends SQLiteOpenHelper {
+
+    /* -------------------------------------- Database에 들어갈 기본 데이터 -------------------------------------- */
     private final String[][] cafeData = {
             {"할리스커피", "031-211-2884", "8", "23", "경기", "경기 수원시 영통구 중부대로 258", "일반"},
             {"커피볶는수", "010-6460-0602", "9", "22", "경기", "경기 수원시 팔달구 우만동 62-1", "일반"},
@@ -109,7 +111,9 @@ public class DBManager extends SQLiteOpenHelper {
             {"4", "좌석이 매우 편해요", "1"},  {"2", "좌석이 너무 불편해요", "4"},
             {"5", "커피 탄 냄새도 없고 좋아요", "7"}, {"4", "팀프하기 좋음	", "2"}
     };
+    /* -------------------------------------- Database에 들어갈 기본 데이터 -------------------------------------- */
 
+    // Database create 및 기본 Data 추가
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE IF NOT EXISTS CAFE(CAFE_ID integer primary key autoincrement, NAME text not null, PHONE text, OPEN_TIME integer, END_TIME integer, LOCATE text not null, DETAIL_LOCATE text not null, CATEGORY text not null);");
@@ -183,15 +187,11 @@ public class DBManager extends SQLiteOpenHelper {
     }
 
     public void insert(String _query, SQLiteDatabase db) {
-        //insert into 테이블명 values(속성, 속성)
-        System.out.println(_query);
         db.execSQL("insert into " + _query);
     }
 
     public void insert(String _query) {
         SQLiteDatabase db = getWritableDatabase();
-        //insert into 테이블명 values(속성, 속성)
-        System.out.println(_query);
         db.execSQL("insert into " + _query);
         db.close();
     }
@@ -251,14 +251,13 @@ public class DBManager extends SQLiteOpenHelper {
         return str;
     }
 
+    // select, from, where을 직접받아 결과를 JSON으로 출력하는 코드,
+    // SQL에 따라 출력문이 달라지는 것은 if .. else로 구현하였으며 select에 따라 값이 달라지는 것은 미구현
     public String getByQuery(String select, String from, String where){
         SQLiteDatabase db = getReadableDatabase();
-
-        String str = "[";
-
         Cursor cursor = db.rawQuery("select " + select + " from "+ from + " where " + where, null);
 
-
+        String str = "[";
 
         if(select.equalsIgnoreCase("avg(SCORE)")){
             while (cursor.moveToNext()) {
@@ -308,11 +307,11 @@ public class DBManager extends SQLiteOpenHelper {
         db.close();
     }
 
+    // 선택한 Table의 전체 값을 가져오는 함수
     public String PrintData(String input) {
         SQLiteDatabase db = getReadableDatabase();
         String str = "[";
-        //select * from 테이블명;
-        //select 속성,속성...from 테이블명;
+
         Cursor cursor = db.rawQuery("select * from "+ input, null);
         if(input.equals("cafe")) {
             while (cursor.moveToNext()) {

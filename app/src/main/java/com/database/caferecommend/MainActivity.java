@@ -286,7 +286,7 @@ public class MainActivity extends AppCompatActivity {
                     CommonFunction.dbManager.insert(query);
                     Log.d("mks...", str_name + str_number);
 
-                    //다시 업로드 하도록 하는 코드 필요!!!!
+                    //다시 업로드 하도록 하는 코드
                     setData();
                     listMake();
                 }
