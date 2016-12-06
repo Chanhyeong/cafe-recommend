@@ -294,11 +294,8 @@ public class DBManager extends SQLiteOpenHelper {
                 str += "{"
                         + "'imageName':'"
                         + cursor.getString(0)         //카페번호
-                        + "'}";
-                if (cursor.isLast())
-                    ;
-                else
-                    str += " ,";
+                        + "'};";
+                break;
             }
         }
         str += "]";

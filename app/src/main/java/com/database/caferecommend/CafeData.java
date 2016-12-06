@@ -22,9 +22,9 @@ public class CafeData implements Serializable{
     private String name;     //카페이름
     private String tel;      //전화 번호
     private float avg;        //평점
-    private String category;
+    private String category;  //카테고리 정보
 
-    //이미지  이름     전화번호     주소      지역   오픈시간    마감시간    평점    카페번호
+    //이미지  이름     전화번호     주소      지역   오픈시간    마감시간    평점    카페번호 카테고리
     public CafeData(int image, String name, String tel, String address, String location, int openTime, int closeTime, int cafeNum, String category){
         this.image = image;
         this.name = name;

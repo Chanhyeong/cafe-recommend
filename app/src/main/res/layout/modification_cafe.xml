@@ -23,7 +23,7 @@
         <EditText
             android:inputType="text"
             android:id="@+id/mName"
-            android:layout_width="100dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </TableRow>
 
@@ -37,7 +37,7 @@
         <EditText
             android:inputType="text"
             android:id="@+id/mPhone"
-            android:layout_width="100dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </TableRow>
 
@@ -50,7 +50,7 @@
 
         <EditText
             android:id="@+id/mOpen"
-            android:layout_width="100dp"
+            android:layout_width="match_parent"
             android:text="0"
             android:inputType="text"
             android:layout_height="wrap_content"/>
@@ -58,14 +58,14 @@
 
     <TableRow>
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:text="마감시간: "/>
 
         <EditText
             android:id="@+id/mClose"
-            android:layout_width="100dp"
+            android:layout_width="match_parent"
             android:inputType="text"
             android:text="24"
             android:layout_height="wrap_content"/>
@@ -81,7 +81,7 @@
         <EditText
             android:id="@+id/mLocation"
             android:inputType="text"
-            android:layout_width="100dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </TableRow>
 
@@ -94,7 +94,7 @@
 
         <EditText
             android:id="@+id/mAddress"
-            android:layout_width="100dp"
+            android:layout_width="match_parent"
             android:inputType="text"
             android:layout_height="wrap_content"/>
     </TableRow>
@@ -108,7 +108,7 @@
 
         <EditText
             android:id="@+id/mChar"
-            android:layout_width="100dp"
+            android:layout_width="match_parent"
             android:inputType="text"
             android:text="없음"
             android:layout_height="wrap_content"/>
