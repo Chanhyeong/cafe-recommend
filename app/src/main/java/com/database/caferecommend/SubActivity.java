@@ -22,13 +22,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
 
-import static android.content.Context.LAYOUT_INFLATER_SERVICE;
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
-import static com.database.caferecommend.R.drawable.angel_a;
-import static com.database.caferecommend.R.drawable.angel_ame;
-import static com.database.caferecommend.R.id.select1;
-import static com.database.caferecommend.R.id.select3;
-
 public class SubActivity extends AppCompatActivity {
     ArrayList<MenuData> menuList; //menu 정보 받음
     TextView call;
@@ -46,9 +39,12 @@ public class SubActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sub);
 
-        //카페 넘버 받아오기
+        //Main Activity로부터 카페정보 받아옴
+        //Get cafe information from MainActivity
         Intent intent = getIntent();
 
+        // TextView 추가
+        // Add TextView
         call=(TextView)findViewById(R.id.call);
         name=(TextView)findViewById(R.id.cafeName);
         address=(TextView)findViewById(R.id.address);
@@ -57,7 +53,6 @@ public class SubActivity extends AppCompatActivity {
         image=(ImageView)findViewById(R.id.cafeImage);
         cafeRatingBar=(RatingBar)findViewById(R.id.cafeRatingBar);
 
-        //카페 넘버 받아오기
         final CafeData cafeData = (CafeData)intent.getSerializableExtra("CafeData");
         number = cafeData.getCafeNum();
         call.setText(cafeData.getTel());
@@ -66,43 +61,50 @@ public class SubActivity extends AppCompatActivity {
 
         cafeName = cafeData.getName();
 
+        // TextView의 값 설정
+        // Set value to each TextView
         name.setText(cafeData.getName());
         address.setText(cafeData.getAddress());
         open.setText(Integer.toString(cafeData.getOpenTime()));
         close.setText(Integer.toString(cafeData.getCloseTime()));
         System.out.println(cafeData.getAvg());
         cafeRatingBar.setRating(cafeData.getAvg());
-        // cafeData.getAvg();
-        //cafeData.getImage();
         setMenuData();// 메뉴 정보를 setting!
         ListMenu();
 
+        // Review로 넘어가는 버튼
+        // Button that performs switching to Review
         findViewById(R.id.revBtn).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent intent=new Intent(getApplicationContext(),Review.class);
-                System.out.println("++++++++++++++++++++++++" + cafeData.getCafeNum());
+                // 후기를 등록할 때 사용할 카페 번호를 넘겨 줌
+                // Put cafeNum which is used when users write review about cafe
                 intent.putExtra("cafeNum", cafeData.getCafeNum());
                 startActivity(intent);
             }
         });
 
-
-
+        // 카페 별 Menu를 추가하는 버튼
+        // Button that performs appending menu of cafe
         findViewById(R.id.appendMenu).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
                 View view = inflater.inflate(R.layout.append_menu, null);
 
-                //여기에 dialog에 들어갈 애들 추가
                 final String str_img[] = {"stra_a","angel_ame","hollys_cino"};
+
+                // EditText 추가
+                // Add Edit Text
                 final EditText addMenu = (EditText) view.findViewById(R.id.addMenu);
                 final EditText addPrice = (EditText) view.findViewById(R.id.addPrice);
                 final RadioGroup radioGroup = (RadioGroup) view.findViewById(R.id.radio_group);
                 AlertDialog.Builder builder = new AlertDialog.Builder(SubActivity.this);
                 builder.setView(view);
+
+                // 사용자가 정보 입력 후 '네'버튼을 누를 경우
+                // If users touch 'yes' after they entered information
                 builder.setPositiveButton("네", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -114,18 +116,18 @@ public class SubActivity extends AppCompatActivity {
                         View radioButton = radioGroup.findViewById(radioButtonID);
                         int idx = radioGroup.indexOfChild(radioButton);
 
-                        // 추가하는 문장
+                        // 입력한 정보를 디비에 추가
+                        // Insert new information into database
                         if (str_menu != null && str_price != null) // 카페메뉴를 입력하지 않으면, 추가되지 않도록
                         {
                             String[] values = {str_menu, str_price,name.getText().toString(),str_img[idx]};
                             String query = "MENU (MENU_NAME,PRICE,CAFE_NAME,IMAGE)" + CommonFunction.dbManager.convertString(values);
                             CommonFunction.dbManager.insert(query);
-                            Log.d("mks...", str_menu + str_price);
 
-                            //바로 업로드하는 코드
+                            // 추가된 정보를 새로 띄워줌
+                            // Refresh information that are added.
                             setMenuData();
                             ListMenu();
-
                         }
                     }
                 });
@@ -146,8 +148,8 @@ public class SubActivity extends AppCompatActivity {
                 LayoutInflater inflater = (LayoutInflater)getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
                 View view = inflater.inflate(R.layout.modification_cafe, null);
 
-                //여기에 dialog에 들어갈 애들 추가
-                //customTitle.setTextColor(Color.BLACK);
+                // EditText 추가
+                // Add EditText
                 final EditText mName = (EditText)view.findViewById(R.id.mName);
                 final EditText mPhone = (EditText)view.findViewById(R.id.mPhone);
                 final EditText mOpen = (EditText)view.findViewById(R.id.mOpen);
@@ -179,9 +181,9 @@ public class SubActivity extends AppCompatActivity {
 
                         cafeData.changeData(str_name, str_phone, str_addr, str_loc, open_, close_, str_cartegory);
 
-                        // 추가하는 문장!!!
-                        // 옵션 - && str_number != null && str_loc != null && str_addr != null && str_cartegory != null
-                        if(str_name != null) // 카페이름을 입력하지 않으면, 추가되지 않도록
+                        // 카페이름을 입력하지 않으면, 추가되지 않도록 함
+                        // If there is not a cafe name, it will not be added.
+                        if(str_name != null)
                         {
                             String[] values = {str_name, str_phone, Integer.toString(open_), Integer.toString(close_), str_loc, str_addr, str_cartegory};
                             String query = "UPDATE CAFE SET" + " NAME = '" + str_name + "', PHONE = '" + str_phone + "', DETAIL_LOCATE = '" + str_addr + "', LOCATE = '" + str_loc +
@@ -191,14 +193,14 @@ public class SubActivity extends AppCompatActivity {
                             CommonFunction.dbManager.update(query);
                             Log.d("mks...", str_name + str_phone);
 
-                            //다시 업로드 하도록 하는 코드 필요!!!!
                             name.setText(str_name);
                             call.setText(str_phone);
                             address.setText(str_addr);
                             open.setText(Integer.toString(open_));
                             close.setText(Integer.toString(close_));
 
-                            // main에서 바로 올라가도록!!
+                            // 변경한 내용이 바로 적용되도록 함
+                            // Adjust changes instantly
                             Intent edit = new Intent();
                             edit.putExtra("delete", "ok");
                             SubActivity.this.setResult(RESULT_OK, edit);
@@ -212,8 +214,6 @@ public class SubActivity extends AppCompatActivity {
                 });
                 AlertDialog dialog = builder.create();
                 dialog.show();
-
-
             }
         });
 
@@ -235,9 +235,9 @@ public class SubActivity extends AppCompatActivity {
 
                         String str_password = password.getText().toString();
 
-                        // 추가하는 문장
-                        // 옵션 - && str_number != null && str_loc != null && str_addr != null && str_cartegory != null
-                        if(str_password.equals("admin")) // 카페이름을 입력하지 않으면, 추가되지 않도록
+                        // 관리자 비밀번호를 입력하지 않으면 삭제되지 않도록 함
+                        // If the user didn't enter the admin password, he cannot delete the cafe information.
+                        if(str_password.equals("admin"))
                         {
                             String query = "delete from CAFE where CAFE_ID="+number;
                             CommonFunction.dbManager.delete(query);
@@ -280,7 +280,9 @@ public class SubActivity extends AppCompatActivity {
                 }
                 ImageView picture = (ImageView)view.findViewById(R.id.pictureImg);
 
-                if(imageName==null) {   //아무것도 없을때 샘플코드 올리는
+                // 이미지 파일 이름이 데이터베이스에 없으면 기본 이미지 출력
+                // If there is not a file name of image, default images will be printed
+                if(imageName==null) {
                     picture.setImageResource(R.drawable.sample_in);
                 }
                 else{
@@ -308,8 +310,6 @@ public class SubActivity extends AppCompatActivity {
         //System.out.println(get);    // for log.
 
         menuList=new ArrayList<MenuData>();
-        // 코드 확인용 예제문
-        // arrData.add(new CafeData(R.mipmap.ic_launcher,"엔젤리너스","010-1111-2222",0));
 
         try{
             JSONArray jarray = new JSONArray(get);
